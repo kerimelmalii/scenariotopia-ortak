@@ -1,0 +1,1190 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Scenariotopia: cebinizdeki senaryo atölyesi. Senaryonuzu yazın, ekibinizle eş zamanlı çalışın.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111114'/%3E%3Crect x='19' y='8' width='3' height='16' rx='1' fill='%238496E8'/%3E%3Ctext x='7' y='23' font-family='Arial' font-weight='700' font-size='17' fill='white'%3ES%3C/text%3E%3C/svg%3E">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Scenariotopia</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+/* Yerleşim: sakin tek kabuk. Beyaz zemin, gri kutu, kutunun içinde beyaz kart; senaryo kâğıdı ortada, Courier ile. */
+:root{
+  --bg:#FFFFFF;--tone:#F4F4F6;--tone2:#E9E9EE;--card:#FFFFFF;--paper:#FFFFFF;
+  --ink:#111114;--mute:#6F6F7A;--faint:#A3A3AD;--line:#DEDEE4;
+  --dot:#1F2F6B;--good:#1E7A4C;--bad:#B3261E;
+  --th1:#1F2F6B;--th2:#8A5A2B;--th3:#3F7265;--th4:#7A4668;--th5:#6F6F7A;
+  --u1:#1F2F6B;--u2:#A33A2B;--u3:#1E6B52;--u4:#7A3E8F;--u5:#A8590A;--u6:#0F6A8A;--u7:#8A2F55;--u8:#5A6B12;
+  --sans:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'Courier Prime','Courier New',Courier,monospace;
+  --r-s:14px;--r-m:22px;--r-l:32px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111114;--tone:#1A1A1F;--tone2:#26262D;--card:#111114;--paper:#15151A;
+  --ink:#F3F3F5;--mute:#9C9CA8;--faint:#6A6A75;--line:#303038;
+  --dot:#8496E8;--good:#5CC08C;--bad:#F08A80;
+  --th1:#8496E8;--th2:#C99A6B;--th3:#7DB5A6;--th4:#C08AAE;--th5:#9C9CA8;--u1:#9AABF0;--u2:#F08E7E;--u3:#6FCFA6;--u4:#D29BE6;--u5:#F2B062;--u6:#6CC7E8;--u7:#F08BB5;--u8:#C3D46A;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111114;--tone:#1A1A1F;--tone2:#26262D;--card:#111114;--paper:#15151A;
+  --ink:#F3F3F5;--mute:#9C9CA8;--faint:#6A6A75;--line:#303038;
+  --dot:#8496E8;--good:#5CC08C;--bad:#F08A80;
+  --th1:#8496E8;--th2:#C99A6B;--th3:#7DB5A6;--th4:#C08AAE;--th5:#9C9CA8;--u1:#9AABF0;--u2:#F08E7E;--u3:#6FCFA6;--u4:#D29BE6;--u5:#F2B062;--u6:#6CC7E8;--u7:#F08BB5;--u8:#C3D46A;color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.wrap{max-width:1200px;margin:0 auto;padding-block:20px 72px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:36px}
+
+/* üst bar */
+.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{font-weight:700;font-size:19px;letter-spacing:-.03em;display:flex;align-items:baseline;gap:6px;margin-right:auto}
+.brand i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--dot);margin-left:1px}
+.brand span{font-weight:500;color:var(--mute)}
+.tabs{display:flex;gap:4px;background:var(--tone);border-radius:999px;padding:4px;max-width:100%;overflow-x:auto}
+.tabs button{border:0;background:transparent;border-radius:999px;padding:8px 16px;font-weight:600;font-size:14px;color:var(--mute);cursor:pointer;white-space:nowrap}
+.tabs button[aria-current="true"]{background:var(--card);color:var(--ink)}
+.top-r{display:flex;align-items:center;gap:10px}
+.status{font-size:13px;color:var(--mute)}
+.lang{border:0;background:var(--tone);border-radius:999px;padding:8px 14px;font-weight:600;font-size:13px;cursor:pointer}
+.lang b{font-weight:700}.lang span{color:var(--faint)}
+
+/* başlık: ilk satır gri, ikinci satır siyah */
+.head{display:flex;flex-direction:column;gap:6px}
+.head h1{margin:0;font-size:clamp(28px,4.4vw,44px);line-height:1.08;letter-spacing:-.035em;font-weight:600;text-wrap:balance}
+.head h1 em{font-style:normal;color:var(--faint);display:block}
+.head p{margin:6px 0 0;color:var(--mute);max-width:62ch}
+.title-in{font:inherit;letter-spacing:inherit;border:0;background:transparent;padding:0;width:100%;color:var(--ink);border-radius:8px}
+.title-in:hover{background:var(--tone)}
+
+.btn{border:0;border-radius:999px;padding:10px 18px;font-weight:600;font-size:14px;cursor:pointer;background:var(--tone2);color:var(--ink);white-space:nowrap}
+.btn.pri{background:var(--ink);color:var(--bg)}
+.btn.line{background:transparent;box-shadow:inset 0 0 0 1px var(--line)}
+.btn.sm{padding:6px 12px;font-size:13px}
+.btn:disabled{opacity:.45;cursor:default}
+.box{background:var(--tone);border-radius:var(--r-l);padding:22px}
+.inner{background:var(--card);border-radius:var(--r-m);padding:18px}
+.muted{color:var(--mute)}.small{font-size:13px}
+.badge{display:inline-flex;align-items:center;gap:6px;background:var(--tone);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:600;color:var(--mute)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.stack{display:flex;flex-direction:column;gap:14px}
+textarea,.field{width:100%;border:0;background:var(--tone);border-radius:var(--r-s);padding:12px 14px;resize:vertical;min-height:44px;line-height:1.5}
+.inner textarea,.inner .field{background:var(--tone)}
+.box>textarea,.box>.field{background:var(--card)}
+select{border:0;background:var(--tone);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:600;max-width:100%}
+label.lab{font-size:13px;font-weight:600;color:var(--mute);display:block;margin-bottom:6px}
+h2{font-size:20px;letter-spacing:-.02em;font-weight:600;margin:0}
+h3{font-size:16px;font-weight:600;margin:0;letter-spacing:-.01em}
+
+/* senaryo görünümü */
+.script-grid{display:grid;grid-template-columns:260px minmax(0,1fr);gap:14px;align-items:start}
+.side{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);max-height:calc(100vh - 40px);overflow:auto}
+.scene-list{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:4px;counter-reset:sc}
+.scene-list button{counter-increment:sc;width:100%;text-align:left;border:0;background:transparent;border-radius:var(--r-s);padding:9px 10px;cursor:pointer;display:flex;gap:10px;font-size:13px;font-weight:600;line-height:1.35}
+.scene-list button::before{content:counter(sc);color:var(--faint);font-variant-numeric:tabular-nums;min-width:16px}
+.scene-list button:hover{background:var(--card)}
+.stats{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.stats div{display:flex;flex-direction:column}
+.stats b{font-size:22px;font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1.1}
+.stats span{font-size:12px;color:var(--mute)}
+.toolbar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 8px);z-index:5;background:var(--tone);border-radius:999px;padding:5px;display:flex;gap:4px;overflow-x:auto;align-items:center}
+.toolbar button{border:0;background:transparent;border-radius:999px;padding:7px 13px;font-size:13px;font-weight:600;color:var(--mute);cursor:pointer;white-space:nowrap}
+.toolbar button[aria-pressed="true"]{background:var(--card);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.toolbar .sp{flex:1;min-width:8px}
+.paper-box{padding:14px}
+.paper{background:var(--paper);border-radius:var(--r-m);padding:clamp(22px,6vw,64px) clamp(16px,7vw,72px);font-family:var(--mono);font-size:16px;line-height:1.35;min-height:60vh;max-width:820px;margin:0 auto}
+.b{outline:0;white-space:pre-wrap;overflow-wrap:anywhere;min-height:1.35em;margin-top:1.35em}
+.b:first-child{margin-top:0}
+.b:empty::before{content:attr(data-ph);color:var(--faint)}
+.b-scene{font-weight:700;text-transform:uppercase;margin-top:2.1em}
+.b-char{margin-left:38%;text-transform:uppercase}
+.b-dialog{margin-left:17%;margin-right:19%;margin-top:0}
+.b-paren{margin-left:28%;margin-right:26%;margin-top:0}
+.b-trans{text-align:right;text-transform:uppercase}
+.hint{font-size:13px;color:var(--mute);text-align:center;margin:12px 0 2px}
+.flash{animation:fl 1.2s ease}
+@keyframes fl{0%{background:var(--tone2)}100%{background:transparent}}
+
+/* kart tahtası */
+.threads{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.th{display:flex;align-items:center;gap:8px;background:var(--tone);border-radius:999px;padding:5px 6px 5px 12px}
+.th input{border:0;background:transparent;font-weight:600;font-size:13px;width:15ch;padding:2px}
+.th button{border:0;background:transparent;color:var(--faint);cursor:pointer;border-radius:50%;width:22px;height:22px;line-height:1}
+.dotc{width:9px;height:9px;border-radius:50%;flex:none;display:inline-block}
+.act{display:flex;flex-direction:column;gap:12px}
+.act-h{display:flex;align-items:baseline;gap:10px}
+.act-h span{color:var(--mute);font-size:13px}
+.beats{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.beat{background:var(--tone);border-radius:var(--r-m);padding:14px;display:flex;flex-direction:column;gap:10px;min-height:110px;min-width:0}
+.beat.over{box-shadow:inset 0 0 0 1.5px var(--ink)}
+.beat-h{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.beat-h b{font-weight:600;font-size:14px}
+.beat-h span{font-size:12px;color:var(--mute);white-space:nowrap;font-variant-numeric:tabular-nums}
+.beat .add{align-self:flex-start;border:0;background:transparent;color:var(--mute);font-size:13px;font-weight:600;cursor:pointer;padding:4px 2px;border-radius:8px;margin-top:auto}
+.card{background:var(--card);border-radius:var(--r-s);padding:12px;display:flex;flex-direction:column;gap:8px;cursor:grab;transition:transform .15s ease}
+.card:hover{transform:translateY(-1px)}
+.card-top{display:flex;gap:8px;font-family:var(--mono);font-size:13px;font-weight:700;text-transform:uppercase;line-height:1.3}
+.card-top span:first-child{color:var(--faint);font-variant-numeric:tabular-nums}
+.card textarea{font-size:13px;padding:8px 10px;min-height:54px;border-radius:10px}
+.card select{font-size:12px;padding:5px 9px;min-width:0;flex:1 1 90px}
+.card .mini{border:0;background:var(--tone);border-radius:999px;font-size:12px;font-weight:600;padding:5px 10px;cursor:pointer}
+.note{background:var(--tone);border-radius:var(--r-m);padding:14px 18px;font-size:14px}
+.note ul{margin:6px 0 0;padding-left:18px}
+
+/* hafıza */
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:start}
+.char-h{display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap}
+.char-h b{font-family:var(--mono);font-size:15px}
+.qa{display:flex;flex-direction:column;gap:10px}
+.q{font-weight:600}
+.a{white-space:pre-wrap;color:var(--ink)}
+.issue{display:flex;flex-direction:column;gap:6px}
+.issue .k{font-size:12px;font-weight:600;color:var(--mute)}
+
+/* akademi */
+.aca{display:grid;grid-template-columns:280px minmax(0,1fr);gap:14px;align-items:start}
+.lessons{display:flex;flex-direction:column;gap:4px;list-style:none;margin:12px 0 0;padding:0;counter-reset:ls}
+.lessons button{counter-increment:ls;width:100%;text-align:left;border:0;background:transparent;border-radius:var(--r-s);padding:11px 12px;cursor:pointer;font-weight:600;display:flex;gap:10px;align-items:center}
+.lessons button::before{content:counter(ls);color:var(--faint);font-variant-numeric:tabular-nums}
+.lessons button[aria-current="true"]{background:var(--card);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.lessons .ok{margin-left:auto;color:var(--good);font-size:13px}
+.prose p{margin:0 0 14px;max-width:64ch;font-size:16px;line-height:1.65}
+.big{font-size:56px;font-weight:600;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.big small{font-size:16px;color:var(--mute);font-weight:500;letter-spacing:0;margin-left:6px}
+.done-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:14px}
+.foot{color:var(--mute);font-size:13px;max-width:78ch}
+
+@media (max-width:860px){
+  .script-grid,.two,.aca{grid-template-columns:minmax(0,1fr)}
+  .side{position:static;max-height:none}
+  .paper{font-size:14px}
+  .b-char{margin-left:30%}.b-dialog{margin-left:10%;margin-right:8%}.b-paren{margin-left:20%;margin-right:14%}
+  .box{padding:16px;border-radius:26px}
+}
+
+/* tanıtım sitesi */
+.site{gap:112px}
+.site-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.site-top .links{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.linkbtn{border:0;background:transparent;border-radius:999px;padding:9px 14px;font-weight:600;font-size:14px;color:var(--mute);cursor:pointer}
+.linkbtn:hover{color:var(--ink)}
+.hero{display:flex;flex-direction:column;gap:40px;animation:rise .5s ease both}
+@keyframes rise{from{opacity:.0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.hero h1{margin:0;font-size:clamp(38px,7.2vw,84px);line-height:1.02;letter-spacing:-.045em;font-weight:600;text-wrap:balance}
+.hero h1 em{font-style:normal;color:var(--faint);display:block}
+.hero p.lead{margin:0;font-size:clamp(16px,1.6vw,19px);color:var(--mute);max-width:58ch}
+.hero .btn,.cta .btn{padding:14px 26px;font-size:15px}
+.illu{background:var(--tone);border-radius:40px;padding:clamp(12px,2.4vw,28px);min-width:0}
+.illu svg{display:block;width:100%;height:auto}
+.feat{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(24px,5vw,72px);align-items:center}
+.feat:nth-of-type(even) .ftext{order:2}
+.ftext{display:flex;flex-direction:column;gap:14px}
+.ftext .k{font-size:14px;font-weight:600;color:var(--mute)}
+.ftext h2,.sec-h h2{font-size:clamp(26px,3.4vw,40px);line-height:1.1;letter-spacing:-.035em;font-weight:600;margin:0;text-wrap:balance}
+.ftext p{margin:0;color:var(--mute);font-size:17px;line-height:1.6;max-width:44ch}
+.feats{display:flex;flex-direction:column;gap:112px}
+.sec-h{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.sec-h h2 em{font-style:normal;color:var(--faint);display:block}
+.tri{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.tri .box{display:flex;flex-direction:column;gap:10px;padding:28px}
+.tri h3{font-size:19px;letter-spacing:-.02em}
+.tri p{margin:0;color:var(--mute)}
+.cta{background:var(--tone);border-radius:40px;padding:clamp(36px,7vw,84px) clamp(22px,5vw,64px);display:flex;flex-direction:column;gap:22px;align-items:flex-start}
+.cta h2{margin:0;font-size:clamp(30px,5vw,60px);line-height:1.04;letter-spacing:-.04em;font-weight:600;text-wrap:balance}
+.cta h2 em{font-style:normal;color:var(--faint);display:block}
+.site-foot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:var(--mute);font-size:13px;border-top:1px solid var(--line);padding-top:22px}
+/* üyelik */
+.auth{display:grid;grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:clamp(24px,5vw,72px);align-items:center}
+.auth form{display:flex;flex-direction:column;gap:16px}
+.auth h1{margin:0 0 6px;font-size:clamp(30px,4.4vw,44px);line-height:1.06;letter-spacing:-.04em;font-weight:600}
+.auth h1 em{font-style:normal;color:var(--faint);display:block}
+.auth input{width:100%;border:0;background:var(--tone);border-radius:var(--r-s);padding:14px 16px;font-size:16px}
+.auth input:focus-visible{outline:0;box-shadow:inset 0 0 0 1.5px var(--ink)}
+.auth .err{color:var(--bad);font-size:14px;font-weight:600}
+.auth .btn{padding:14px 22px;font-size:15px}
+.userchip{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600}
+.userchip i{font-style:normal;width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-size:13px}
+@media (max-width:860px){
+  .site{gap:72px}.feats{gap:72px}
+  .feat,.auth{grid-template-columns:minmax(0,1fr)}
+  .feat:nth-of-type(even) .ftext{order:0}
+  .tri{grid-template-columns:minmax(0,1fr)}
+  .illu,.cta{border-radius:28px}
+  .auth .illu{display:none}
+}
+
+/* ortak yazım */
+.brand{border:0;background:none;padding:0;color:var(--ink);font-family:inherit;cursor:pointer}
+.b{position:relative}
+.paper.colored .b[data-a]{color:var(--ac)}
+.b.locked{outline:1.5px dashed var(--lc);outline-offset:5px;border-radius:3px;cursor:not-allowed}
+.b.locked::after{content:attr(data-who);position:absolute;right:0;top:-1.55em;font-family:var(--sans);font-size:11px;font-weight:700;line-height:1.5;color:var(--bg);background:var(--lc);padding:0 8px;border-radius:999px;white-space:nowrap;text-transform:none;letter-spacing:0}
+.avs{display:flex;align-items:center;padding-left:6px}
+.av{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:var(--bg);background:var(--ac,var(--ink));font-size:12px;font-weight:700;margin-left:-6px;border:2px solid var(--bg);flex:none}
+.legend{display:flex;gap:6px 14px;flex-wrap:wrap;align-items:center;font-size:13px;font-weight:600}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:9px;height:9px;border-radius:50%;background:var(--ac)}
+.online{width:8px;height:8px;border-radius:50%;background:var(--good);display:inline-block}
+.plist{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.pcard{text-align:left;border:0;background:var(--tone);border-radius:var(--r-l);padding:22px;cursor:pointer;display:flex;flex-direction:column;gap:8px;font:inherit;color:inherit;min-height:132px;transition:transform .15s ease}
+.pcard:hover{transform:translateY(-1px)}
+.pcard b{font-size:19px;font-weight:600;letter-spacing:-.02em}
+.pcard .k{font-size:12px;font-weight:600;color:var(--mute)}
+.pcard.local{background:transparent;box-shadow:inset 0 0 0 1px var(--line)}
+.sw{width:30px;height:30px;border-radius:50%;border:0;cursor:pointer}
+.sw[aria-pressed="true"]{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ink)}
+.box .field,.box select{background:var(--card)}
+input.field{font-size:16px;padding:12px 14px}
+.err{color:var(--bad);font-size:14px;font-weight:600}
+.okmsg{color:var(--good);font-size:14px;font-weight:600}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:600;font-size:14px;z-index:60;max-width:calc(100vw - 32px)}
+.ro-note{font-size:13px;font-weight:600;color:var(--mute)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap" id="app"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+(function(){
+'use strict';
+
+/* ---------- metinler ---------- */
+const L={
+  tab_script:['Senaryo','Script'],tab_board:['Kartlar','Cards'],tab_memory:['Hafıza','Memory'],tab_academy:['Akademi','Academy'],tab_week:['Bu hafta','This week'],
+  st_saved:['Kaydedildi','Saved'],st_saving:['Kaydediliyor…','Saving…'],st_local:['Yalnızca bu tarayıcıda kayıtlı','Saved in this browser only'],st_big:['Senaryo çok büyük, yalnızca tarayıcıda kayıtlı','Script too large, saved in this browser only'],
+  script_k:['Senaryonuz','Your script'],title_ph:['Başlıksız senaryo','Untitled script'],
+  sample:['Örnek proje','Sample project'],sample_note:['Bu sayfalar bir örnektir. Üzerine yazabilir ya da boş bir projeyle başlayabilirsiniz.','These pages are an example. Write over them or start from a blank project.'],
+  blank:['Boş projeyle başlayın','Start a blank project'],blank_sure:['Tüm sahneler silinecek. Emin misiniz?','All scenes will be removed. Are you sure?'],yes_clear:['Evet, temizle','Yes, clear it'],cancel:['Vazgeç','Cancel'],
+  scenes:['Sahneler','Scenes'],no_scenes:['Henüz sahne yok. Bir satıra İÇ. ya da DIŞ. yazarak başlayın.','No scenes yet. Start a line with INT. or EXT.'],
+  s_pages:['yaklaşık sayfa','approx. pages'],s_scenes:['sahne','scenes'],s_words:['kelime','words'],
+  t_scene:['Sahne','Scene'],t_action:['Aksiyon','Action'],t_char:['Karakter','Character'],t_dialog:['Diyalog','Dialogue'],t_paren:['Parantez','Parenthetical'],t_trans:['Geçiş','Transition'],
+  ph_scene:['İÇ. MEKÂN - GÜN','INT. LOCATION - DAY'],ph_action:['Görünen ve duyulan her şey.','What we see and hear.'],ph_char:['KARAKTER','CHARACTER'],ph_dialog:['Replik','Line'],ph_paren:['(ton ya da eylem)','(tone or action)'],ph_trans:['KESME:','CUT TO:'],
+  hint:['Enter sonraki öğeye geçer. Tab öğe türünü değiştirir.','Enter moves to the next element. Tab changes the element type.'],
+  exp:['Fountain olarak indir','Download as Fountain'],copy:['Kopyala','Copy'],copied:['Kopyalandı','Copied'],copy_fail:['Kopyalanamadı','Could not copy'],exp_none:['İndirme bu görünümde kullanılamıyor. Kopyala düğmesini kullanın.','Download is not available in this view. Use Copy instead.'],
+  board_k:['Kart tahtası','Card board'],board_h:['Yapıyı bir bakışta görün.','See the structure at a glance.'],board_p:['Her sahne bir karttır. Kartı bir vuruşa sürükleyin ya da karttaki listeden seçin. Sayfa aralıkları yol göstericidir, kural değildir.','Every scene is a card. Drag a card onto a beat or pick one from the list on the card. Page ranges are a guide, not a rule.'],
+  st_three:['Üç perde','Three acts'],st_stc:['15 vuruş','15 beats'],st_circle:['Hikâye çemberi','Story circle'],
+  threads:['Hikâye hatları','Storylines'],add_thread:['Hat ekle','Add storyline'],th_new:['Yeni hat','New storyline'],no_thread:['Hat yok','No storyline'],
+  unassigned:['Atanmamış sahneler','Unassigned scenes'],unassigned_h:['Henüz bir vuruşa yerleştirilmedi','Not placed on a beat yet'],
+  add_card:['Sahne ekle','Add scene'],sum_ph:['Bu sahnede ne olur, kim değişir?','What happens here, and who changes?'],open:['Senaryoda aç','Open in script'],up:['Yukarı','Up'],down:['Aşağı','Down'],beat_none:['Vuruş seçin','Pick a beat'],
+  act:['Perde','Act'],gaps:['Tahtanın söyledikleri','What the board shows'],gap_line:['“{t}” hattı {a}. perdede hiç görünmüyor.','“{t}” never appears in act {a}.'],gap_un:['{n} sahne henüz bir vuruşa yerleştirilmedi.','{n} scenes are not placed on a beat yet.'],gap_ok:['Her hat her perdede en az bir kez görünüyor.','Every storyline appears at least once in every act.'],gap_empty:['Kartlara hat atadığınızda eksik kalan perdeler burada görünür.','Assign storylines to cards and missing acts will show up here.'],
+  mem_k:['Hikâye hafızası','Story memory'],mem_h:['Senaryonuz kendini hatırlasın.','A script that remembers itself.'],mem_p:['Karakterler senaryodan otomatik çıkarılır. Notlarınız, soru sorduğunuzda ve tutarlılık kontrolünde senaryoyla birlikte okunur.','Characters are picked up from the script. Your notes are read together with the script when you ask a question or run a check.'],
+  chars:['Karakterler','Characters'],no_chars:['Senaryoda henüz konuşan karakter yok.','No speaking characters in the script yet.'],lines:['replik','lines'],first:['ilk sahne','first scene'],
+  want:['Ne istiyor?','What do they want?'],knows:['Ne biliyor, ne saklıyor?','What do they know or hide?'],cnote:['Notlar','Notes'],
+  facts:['Dünyanın kuralları','Rules of the world'],facts_ph:['Değişmemesi gereken bilgiler: tarihler, yaşlar, mekânlar, geçmiş olaylar.','Facts that must not change: dates, ages, places, past events.'],
+  ask:['Senaryonuza sorun','Ask your script'],ask_ph:['Örneğin: Defne ipoteği ilk ne zaman öğreniyor?','For example: When does Defne first learn about the mortgage?'],ask_btn:['Sor','Ask'],stop:['Durdur','Stop'],thinking:['Düşünüyor…','Thinking…'],
+  check:['Tutarlılık kontrolü','Consistency check'],check_p:['Senaryoyu ve notlarınızı okuyup olası çelişkileri öneri olarak listeler. Son karar sizindir.','Reads the script and your notes and lists possible contradictions as suggestions. The decision is yours.'],check_btn:['Kontrol et','Run check'],
+  check_none:['Çelişki bulunamadı. Bu, senaryonun hatasız olduğu anlamına gelmez.','No contradictions found. That does not mean the script is free of errors.'],dismiss:['Yoksay','Dismiss'],goto:['Sahneye git','Go to scene'],
+  ai_none:['Yapay zekâ özellikleri bu görünümde kullanılamıyor.','AI features are not available in this view.'],ai_denied:['Yapay zekâ kullanımına izin verilmedi. Sayfayı yeniden açtığınızda tekrar deneyebilirsiniz.','AI use was not allowed. You can try again after reopening the page.'],ai_rate:['Çok fazla istek var. Biraz sonra yeniden deneyin.','Too many requests. Try again in a moment.'],ai_fail:['Yanıt alınamadı. Yeniden deneyin.','No answer came back. Try again.'],ai_long:['Senaryo bu özellik için çok uzun.','The script is too long for this feature.'],ai_empty:['Önce senaryoya birkaç sahne yazın.','Write a few scenes first.'],
+  ai_note:['Bu özellikleri kullandığınızda senaryonuz yanıt üretmek için Claude’a gönderilir.','When you use these features, your script is sent to Claude to produce the answer.'],
+  aca_k:['Akademi','Academy'],aca_h:['Öğrenin, hemen yazın.','Learn, then write straight away.'],aca_p:['Altı kısa ders. Her ders bir alıştırmayla biter; alıştırmanız burada saklanır.','Six short lessons. Each ends with an exercise, and your exercise is kept here.'],
+  lessons:['Dersler','Lessons'],exercise:['Alıştırma','Exercise'],ex_ph:['Buraya yazın.','Write here.'],mark:['Tamamlandı olarak işaretle','Mark as done'],unmark:['Tamamlandı işaretini kaldır','Mark as not done'],fb:['Geri bildirim isteyin','Ask for feedback'],done:['tamamlandı','done'],of:['ders','lessons'],
+  week_k:['Bu hafta','This week'],week_h:['Haftada bir sahne, düzenli kalem.','One scene a week keeps the pen moving.'],week_p:['Her pazartesi yeni bir yazma görevi açılır. Uzunluk değil, düzen önemlidir.','A new writing task opens every Monday. Regularity matters more than length.'],
+  week_n:['hafta','week'],task:['Haftanın görevi','This week’s task'],task_ph:['Görevinizi buraya yazın.','Write your task here.'],w_done:['Görevi tamamladım','I finished the task'],w_undo:['Tamamlandı işaretini kaldır','Mark as not done'],
+  history:['Tamamlanan haftalar','Finished weeks'],no_history:['Tamamladığınız haftalar burada listelenir.','Weeks you finish will be listed here.'],
+  bul:['Haftalık bülten','Weekly bulletin'],bul_concept:['Haftanın kavramı','Concept of the week'],bul_calls:['Yarışmalar ve çağrılar','Competitions and calls'],bul_calls_p:['Bu bölüm, editör onayından geçen duyurularla doldurulur. Bu prototipte henüz duyuru yok ve e-posta gönderimi yapılmıyor.','This section is filled with announcements approved by an editor. This prototype has none yet and sends no email.'],read_lesson:['Dersi açın','Open the lesson'],
+
+  th_dark:['Koyu tema','Dark theme'],th_light:['Açık tema','Light theme'],
+  nav_features:['Özellikler','Features'],nav_principles:['İlkeler','Principles'],login:['Giriş yapın','Log in'],start:['Ücretsiz başlayın','Start for free'],logout:['Çıkış yapın','Log out'],
+  hero_1:['Cebinizdeki','The screenwriting workshop'],hero_2:['senaryo atölyesi.','in your pocket.'],
+  hero_p:['Scenariotopia’da senaryonuzu yazar, yapısını kartlarla görür, hikâyenize soru sorar ve her hafta kaleminizi geliştirirsiniz. Hepsi tek yerde.','In Scenariotopia you write your script, see its structure on cards, ask your story questions and sharpen your writing every week. All in one place.'],
+  hero_see:['Nasıl çalıştığını görün','See how it works'],hero_note:['Erken erişim prototipi. Türkçe ve İngilizce.','Early-access prototype. Turkish and English.'],
+  hero_alt:['Scenariotopia çalışma alanının çizimi: sahne listesi, senaryo sayfası, sahne kartları ve hikâye hafızası','Drawing of the Scenariotopia workspace: scene list, script page, scene cards and story memory'],
+  f1_k:['Yazım stüdyosu','Writing studio'],f1_h:['Biçim kendiliğinden, kalem sizde.','Format takes care of itself. The pen stays with you.'],f1_p:['Sahne başlığı, aksiyon, karakter, diyalog. Enter ve Tab ile ilerlersiniz; sayfa düzenini editör kurar.','Scene heading, action, character, dialogue. You move with Enter and Tab, and the editor lays out the page.'],
+  f2_k:['Kart tahtası','Card board'],f2_h:['Yapıyı bir bakışta görün.','See the structure at a glance.'],f2_p:['Her sahne bir karttır. Üç perde, 15 vuruş ya da hikâye çemberi üzerinde dizin; hangi hikâye hattının nerede kaybolduğunu tahta söyler.','Every scene is a card. Lay them out on three acts, 15 beats or the story circle, and the board tells you where a storyline drops out.'],
+  f3_k:['Hikâye hafızası','Story memory'],f3_h:['Senaryonuz kendini hatırlasın.','A script that remembers itself.'],f3_p:['Karakterler, kimin neyi ne zaman öğrendiği, değişmemesi gereken bilgiler. Sorunuzu sorun, yanıt sahne numarasıyla gelsin. Olası çelişkiler öneri olarak listelenir.','Characters, who learned what and when, facts that must not change. Ask a question and the answer comes with scene numbers. Possible contradictions are listed as suggestions.'],
+  f4_k:['Akademi','Academy'],f4_h:['Öğrenin, hemen yazın.','Learn, then write straight away.'],f4_p:['Kısa dersler, her dersin alıştırması ve her pazartesi yeni bir yazma görevi. Uzunluk değil, düzen önemlidir.','Short lessons, an exercise for each, and a new writing task every Monday. Regularity matters more than length.'],
+  pr_1:['Yapay zekâ yardımcıdır.','AI assists.'],pr_2:['Yazar sizsiniz.','You are the writer.'],
+  p1_h:['Sizin yerinize yazmaz','It does not write for you'],p1_p:['Hikâyenizi okur, sorunuzu yanıtlar, çelişkiyi gösterir. Sahneyi siz yazarsınız.','It reads your story, answers your question and points at the contradiction. You write the scene.'],
+  p2_h:['Her uyarı bir öneridir','Every flag is a suggestion'],p2_p:['Uyarıyı yok sayabilirsiniz. Yapay zekâ özelliklerini hiç kullanmadan da yazabilirsiniz.','You can dismiss a flag. You can also write without using the AI features at all.'],
+  p3_h:['Senaryonuz sizinle gelir','Your script leaves with you'],p3_p:['Dilediğiniz an Fountain biçiminde dışa aktarırsınız; başka yazım araçlarında açılır.','Export to Fountain whenever you like and open it in other writing tools.'],
+  cta_1:['İlk sahnenizi','Write your first scene'],cta_2:['bugün yazın.','today.'],
+  foot_site:['Scenariotopia, 2026. Bu sayfa bir tasarım prototipidir.','Scenariotopia, 2026. This page is a design prototype.'],
+  su_1:['Hesabınızı','Create'],su_2:['oluşturun.','your account.'],li_1:['Yeniden','Welcome'],li_2:['hoş geldiniz.','back.'],
+  name:['Adınız','Your name'],email:['E-posta','Email'],pass:['Şifre','Password'],pass_h:['En az 8 karakter','At least 8 characters'],
+  su_btn:['Hesap oluşturun','Create account'],li_btn:['Giriş yapın','Log in'],have:['Hesabınız var mı?','Already have an account?'],nohave:['Hesabınız yok mu?','No account yet?'],
+  err_name:['Adınızı yazın.','Enter your name.'],err_email:['Geçerli bir e-posta adresi yazın.','Enter a valid email address.'],err_pass:['Şifre en az 8 karakter olmalı.','The password needs at least 8 characters.'],
+  proto:['Bu bir tasarım prototipidir: gerçek hesap açılmaz, şifreniz hiçbir yere kaydedilmez ve gönderilmez.','This is a design prototype: no real account is created, and your password is not saved or sent anywhere.'],back:['Ana sayfa','Home'],
+
+  hero_try:['Kayıt olmadan deneyin','Try it without signing up'],my_projects:['Projelerim','My projects'],
+  st_err:['Kaydedilemedi, yeniden deneniyor','Not saved, retrying'],st_offline:['Bağlantı bekleniyor','Waiting for connection'],
+  tab_team:['Ekip','Team'],
+  ai_none:['Yapay zekâ özellikleri yakında: bağlantısı kurulunca burada açılacak.','AI features are coming: they will open here once connected.'],
+  auth_note:['Kaydolduktan sonra, sizi bir projeye ekleyen kişinin projesi burada görünür.','After you sign up, projects you are added to will show up here.'],
+  err_exists:['Bu e-postayla zaten bir hesap var. Giriş yapın.','An account with this email already exists. Log in instead.'],
+  err_login:['E-posta ya da şifre yanlış.','Wrong email or password.'],
+  err_confirm:['E-postanızı henüz onaylamadınız. Gelen kutunuzdaki bağlantıya tıklayın.','You have not confirmed your email yet. Click the link in your inbox.'],
+  err_rate:['Çok fazla deneme yapıldı. Biraz bekleyip yeniden deneyin.','Too many attempts. Wait a little and try again.'],
+  err_generic:['Bir şey ters gitti. Yeniden deneyin.','Something went wrong. Try again.'],
+  err_nocloud:['Sunucuya bağlanılamadı. İnternet bağlantınızı kontrol edip sayfayı yenileyin.','Could not reach the server. Check your connection and reload the page.'],
+  err_load:['Proje açılamadı. Sayfayı yenileyip yeniden deneyin.','The project could not be opened. Reload and try again.'],
+  sent_1:['E-postanızı','Check'],sent_2:['kontrol edin.','your email.'],sent_p:['{e} adresine bir onay bağlantısı gönderdik. Bağlantıya tıkladıktan sonra buraya dönüp giriş yapın.','We sent a confirmation link to {e}. Click it, then come back here and log in.'],
+  dash_hi:['Merhaba, {n}.','Hello, {n}.'],dash_h:['Projeleriniz.','Your projects.'],
+  dash_p:['Size atanan ortak projeler burada. Projeyi açan herkes aynı senaryoyu eş zamanlı görür ve yazar.','Shared projects assigned to you appear here. Everyone who opens a project sees and writes the same script in real time.'],
+  dash_p_admin:['Yeni bir ortak proje açın, sonra Ekip sekmesinden arkadaşlarınızı e-postalarıyla ekleyin.','Open a new shared project, then add your friends by email from the Team tab.'],
+  np_ph:['Yeni projenin adı','Name of the new project'],np_btn:['Proje oluşturun','Create project'],
+  loading:['Yükleniyor…','Loading…'],shared:['Ortak proje','Shared project'],created:['Açılış','Created'],
+  local_k:['Bu cihazda','On this device'],local_p:['Kişisel taslak; yalnızca bu tarayıcıda kayıtlı, kimseyle paylaşılmaz.','Personal draft, saved only in this browser and not shared.'],
+  no_projects:['Henüz size atanmış bir proje yok. Proje sahibi sizi eklediğinde burada görünür.','No projects are assigned to you yet. They will show up here once the owner adds you.'],
+  your_color:['Renginiz','Your colour'],your_color_p:['Yeni eklendiğiniz projelerde satırlarınız bu renkle görünür. Renk projede başkasındaysa size boş bir renk verilir; Ekip sekmesinden değiştirebilirsiniz.','Lines you write in projects you join show in this colour. If someone in the project already has it, you get a free one; change it from the Team tab.'],color:['Renk','Colour'],
+  admin_k:['Yönetici','Admin'],admin_on:['Proje açabilir, kişi ekleyip çıkarabilirsiniz.','You can open projects and add or remove people.'],
+  claim_k:['Yönetici kodunuz var mı?','Do you have an admin code?'],claim_btn:['Kodu girin','Enter code'],claim_bad:['Kod geçersiz ya da yönetici zaten belirlenmiş.','The code is invalid or an admin is already set.'],claim_ok:['Artık yöneticisiniz.','You are now the admin.'],
+  team_k:['Ekip','Team'],team_h:['Bu projede kimler yazıyor.','Who writes in this project.'],team_p:['Yeşil nokta şu an projede olanları gösterir. Bir satırı en son kim düzenlediyse satır onun renginde görünür.','A green dot marks who is in the project now. Each line shows in the colour of the person who last edited it.'],
+  members:['Üyeler','Members'],online:['Şu an burada','Here now'],remove:['Çıkarın','Remove'],role:['Yetki','Role'],role_writer:['Yazar','Writer'],role_reader:['Okur','Reader'],you:['siz','you'],
+  add_member:['Kişi ekleyin','Add a person'],add_member_p:['Önce kişinin siteye kaydolup bir kez giriş yapması gerekir. Sonra e-postasını buraya yazın.','The person needs to sign up and log in once first. Then enter their email here.'],add_btn:['Projeye ekleyin','Add to project'],
+  am_ok:['Eklendi.','Added.'],am_no_user:['Bu e-postayla kayıtlı kimse yok. Önce siteye kaydolmalı.','Nobody is registered with this email. They need to sign up first.'],am_no_profile:['Bu kişi kaydolmuş ama henüz giriş yapmamış. Bir kez giriş yapmasını isteyin.','This person signed up but has not logged in yet. Ask them to log in once.'],
+  danger:['Projeyi silin','Delete the project'],del_project:['Projeyi silin','Delete project'],del_sure:['Proje ve içindeki tüm senaryo herkes için kalıcı olarak silinecek. Emin misiniz?','The project and its whole script will be deleted for everyone. Are you sure?'],del_yes:['Evet, silin','Yes, delete'],
+  removed:['Bu projeden çıkarıldınız.','You were removed from this project.'],lock_taken:['{n} şu an bu satırda yazıyor.','{n} is writing on this line now.'],
+  colors_on:['Yazar renkleri: açık','Author colours: on'],colors_off:['Yazar renkleri: kapalı','Author colours: off'],ro:['Bu projede okur yetkiniz var; düzenleyemezsiniz.','You are a reader in this project and cannot edit.'],
+  foot_cloud:['Bu proje ekibinizle eş zamanlı kaydedilir. Renkler, satırı en son kimin düzenlediğini gösterir.','This project is saved live with your team. Colours show who last edited each line.'],
+  foot:['Senaryonuz hesabınıza özel alana, o kullanılamıyorsa bu tarayıcıya kaydedilir. Sayfa aralıkları 110 sayfalık bir senaryoya göre verilmiştir. Bu bir MVP1 prototipidir.','Your script is saved to a space private to your account, or to this browser when that is unavailable. Page ranges assume a 110-page script. This is an MVP1 prototype.']
+};
+const STRUCT={
+  three:[
+    {id:'t1',a:1,n:['Kurulum','Setup'],p:'1–30'},{id:'t2',a:1,n:['Birinci dönüm noktası','First plot point'],p:'~25–30'},
+    {id:'t3',a:2,n:['Çatışma, ilk yarı','Confrontation, first half'],p:'30–55'},{id:'t4',a:2,n:['Orta nokta','Midpoint'],p:'55–60'},{id:'t5',a:2,n:['Çatışma, ikinci yarı','Confrontation, second half'],p:'60–90'},{id:'t6',a:2,n:['Her şey kayıp','All is lost'],p:'~75'},
+    {id:'t7',a:3,n:['Çözüm','Resolution'],p:'90–120'}],
+  stc:[
+    {id:'s1',a:1,n:['Açılış görüntüsü','Opening image'],p:'1'},{id:'s2',a:1,n:['Tema dile gelir','Theme stated'],p:'5'},{id:'s3',a:1,n:['Kurulum','Set-up'],p:'1–10'},{id:'s4',a:1,n:['Katalizör','Catalyst'],p:'12'},{id:'s5',a:1,n:['Tereddüt','Debate'],p:'12–25'},
+    {id:'s6',a:2,n:['İkinci perdeye geçiş','Break into two'],p:'25'},{id:'s7',a:2,n:['B hikâyesi','B story'],p:'30'},{id:'s8',a:2,n:['Vaat edilen eğlence','Fun and games'],p:'30–55'},{id:'s9',a:2,n:['Orta nokta','Midpoint'],p:'55'},{id:'s10',a:2,n:['Kötüler yaklaşıyor','Bad guys close in'],p:'55–75'},{id:'s11',a:2,n:['Her şey kayıp','All is lost'],p:'75'},{id:'s12',a:2,n:['Ruhun karanlık gecesi','Dark night of the soul'],p:'75–85'},
+    {id:'s13',a:3,n:['Üçüncü perdeye geçiş','Break into three'],p:'85'},{id:'s14',a:3,n:['Final','Finale'],p:'85–110'},{id:'s15',a:3,n:['Kapanış görüntüsü','Final image'],p:'110'}],
+  circle:[
+    {id:'c1',a:1,n:['Sen: alışılmış dünya','You: a familiar world'],p:''},{id:'c2',a:1,n:['İhtiyaç: bir eksik','Need: something is missing'],p:''},
+    {id:'c3',a:2,n:['Git: yabancı bir duruma gir','Go: enter the unfamiliar'],p:''},{id:'c4',a:2,n:['Ara: uyum sağla','Search: adapt to it'],p:''},{id:'c5',a:2,n:['Bul: istediğini elde et','Find: get what you wanted'],p:''},{id:'c6',a:2,n:['Al: bedelini öde','Take: pay the price'],p:''},
+    {id:'c7',a:3,n:['Dön: tanıdık dünyaya','Return: back to the familiar'],p:''},{id:'c8',a:3,n:['Değiş: artık başka biri','Change: no longer the same'],p:''}]
+};
+const LESSONS=[
+ {id:'yapi',t:['Yapı','Structure'],b:[['Yapı, olayların sırasından çok seyircinin neyi ne zaman öğrendiğidir. Uzun metrajların çoğu üç harekete ayrılır: kahramanın düzeni bozulur, çözüm ararken işler zorlaşır, sonunda bir bedel ödenerek karar verilir.','Şablonlar haritadır, kural değildir. Sayfa numaraları yön gösterir; bir sahneniz birkaç sayfa erken ya da geç gelebilir. Asıl ölçü, her bölümün bir öncekinden daha yüksek bir bedel istemesidir.'],['Structure is less about the order of events than about what the audience learns and when. Most features fall into three movements: the hero’s order breaks, things get harder as they look for a way out, and a decision is made at a cost.','Templates are maps, not rules. Page numbers point the way; a scene may land a few pages early or late. The real test is that each section asks a higher price than the one before.']],e:['Hikâyenizi üç cümleyle yazın: düzen nasıl bozuluyor, en zor an hangisi, sonunda ne değişiyor?','Write your story in three sentences: how does the order break, what is the hardest moment, and what has changed by the end?']},
+ {id:'karakter',t:['Karakter','Character'],b:[['Bir karakteri tanımlayan şey özellikleri değil, baskı altında yaptığı seçimlerdir. İki soruyla başlayın: ne istiyor ve aslında neye ihtiyacı var? İstek hikâyeyi yürütür, ihtiyaç ona anlam verir.','İstek ile ihtiyaç birbirine ters düştüğünde karakter canlanır. Her sahnede karakterin önüne, istediğine yaklaşmak için bir şeyden vazgeçmesi gereken bir seçim koyun.'],['A character is defined by the choices they make under pressure, not by a list of traits. Start with two questions: what do they want, and what do they actually need? The want drives the story; the need gives it meaning.','A character comes alive when the want and the need pull in opposite directions. In each scene, put a choice in front of them that costs something.']],e:['Ana karakteriniz için iki cümle yazın: ne istiyor ve bunu elde etmesini kendi içinde ne engelliyor?','Write two sentences about your main character: what do they want, and what inside them stands in the way?']},
+ {id:'diyalog',t:['Diyalog','Dialogue'],b:[['İnsanlar ne düşündüklerini nadiren doğrudan söyler. İyi bir replik bilgi vermekten çok bir şey yapar: ikna eder, gizler, oyalar, incitir. Repliği yazmadan önce karakterin o anda karşısındakinden ne istediğini sorun.','Her karakterin kendine ait bir konuşma biçimi olmalı. Karakter adlarını kapattığınızda repliğin kime ait olduğunu anlayabiliyorsanız doğru yoldasınız. Yüksek sesle okuyun; kulağa yazı gibi gelen her şeyi kısaltın.'],['People rarely say what they think. A good line does something rather than informs: it persuades, hides, stalls, wounds. Before writing the line, ask what the character wants from the other person right now.','Each character needs a way of speaking that is theirs. If you can cover the names and still tell who is talking, you are on track. Read it aloud and trim whatever sounds written.']],e:['İki karakter bir şey üzerine pazarlık etsin ama pazarlık konusunun adını hiç anmasınlar. En fazla on replik yazın.','Have two characters bargain over something without ever naming it. Ten lines at most.']},
+ {id:'sahne',t:['Sahne','Scene'],b:[['Bir sahne, bir şeyin değiştiği en küçük hikâye birimidir. Sahnenin başındaki durum ile sonundaki durum aynıysa o sahne henüz çalışmıyordur.','Sahneye olabildiğince geç girin, iş bittiği anda çıkın. Selamlaşmaları, kapı açılışlarını ve vedaları atın. Sahne başlığı yalnızca yeri ve zamanı söyler; duyguyu aksiyon ve diyalog taşır.'],['A scene is the smallest unit of story in which something changes. If the situation at the end matches the situation at the start, the scene is not working yet.','Enter as late as you can and leave as soon as the job is done. Cut greetings, door openings and goodbyes. The heading only gives place and time; action and dialogue carry the feeling.']],e:['Bir sahnenizin başındaki ve sonundaki durumu birer cümleyle yazın. Değişen bir şey yoksa sahneyi neyin değiştireceğini ekleyin.','Describe the situation at the start and at the end of one of your scenes, one sentence each. If nothing changes, add what would change it.']},
+ {id:'altmetin',t:['Alt metin','Subtext'],b:[['Alt metin, söylenen ile kastedilen arasındaki boşluktur. Seyirci o boşluğu kendisi doldurduğunda sahneye ortak olur. Karakteriniz duygusunu adıyla söylüyorsa seyirciye yapacak iş kalmaz.','Duyguyu nesnelere ve eylemlere taşıyın: yarım bırakılan çay, iki kez kilitlenen kapı, cevapsız kalan basit bir soru. Senaryoda yalnızca görülebilen ve duyulabilen şeyler yazılır; içerideki dünya dışarıdan okunur.'],['Subtext is the gap between what is said and what is meant. The audience joins the scene when they fill that gap themselves. If your character names the feeling, there is nothing left for them to do.','Move the feeling into objects and actions: a tea left half drunk, a door locked twice, a simple question left unanswered. A script holds only what can be seen and heard; the inner world is read from outside.']],e:['Bir karakter üzgün olduğunu hiç söylemeden yemek hazırlasın. Yalnızca aksiyon satırları yazın.','Have a character cook a meal without ever saying they are sad. Action lines only.']},
+ {id:'yeniden',t:['Yeniden yazım','Rewriting'],b:[['İlk taslak hikâyeyi bulmak içindir, iyi yazmak için değil. Yeniden yazarken her şeyi birden düzeltmeye çalışmayın; geçişler halinde çalışın: önce yapı, sonra sahneler, en son replikler.','Her geçişte tek bir soru sorun. Bu sahne olmasa hikâye anlaşılır mı? Bu repliği kim söylese fark etmez mi? En sevdiğiniz satır hikâyeye hizmet etmiyorsa onu başka bir dosyaya taşıyın ve devam edin.'],['The first draft is for finding the story, not for writing it well. Do not fix everything at once when you rewrite; work in passes: structure first, then scenes, lines last.','Ask a single question in each pass. Would the story still be clear without this scene? Could anyone say this line? If your favourite line does not serve the story, move it to another file and keep going.']],e:['Bir sahneyi yarı uzunluğuna indirin. Neyi çıkardığınızı ve nedenini bir cümleyle not edin.','Cut a scene to half its length. Note in one sentence what you removed and why.']}
+];
+const TASKS=[
+ ['Bir karakter, uzun süredir ertelediği bir telefon görüşmesini yapsın. Karşı tarafı duymayalım.','A character finally makes a phone call they have been putting off. We never hear the other side.'],
+ ['İki kişi bir eşyayı paylaşmak zorunda kalsın. Sahnenin sonunda eşya kimde kalıyor?','Two people have to share one object. Who has it when the scene ends?'],
+ ['Hiç diyalog olmayan bir sayfa yazın. Bir karar verilsin ve biz bunu görelim.','Write one page without dialogue. A decision is made, and we see it.'],
+ ['Bir karakter yalan söylesin; seyirci yalanı bilsin, karşısındaki bilmesin.','A character lies. The audience knows it is a lie; the other person does not.'],
+ ['Aynı mekânda iki sahne yazın: biri sabah, biri gece. Mekân aynı kalsın, ilişki değişsin.','Write two scenes in one location, morning and night. The place stays; the relationship changes.'],
+ ['Bir sahneyi en geç girilebilecek andan başlatın ve üç replikte bitirin.','Start a scene at the latest possible moment and end it within three lines.'],
+ ['Bir karakter bir şeyi ilk kez öğrensin ama öğrendiğini belli etmemeye çalışsın.','A character learns something for the first time and tries not to show it.'],
+ ['Bir vedayı, kimse veda ettiğini söylemeden yazın.','Write a goodbye in which nobody says it is one.']
+];
+const SAMPLE={
+ tr:{title:'Son Vapur',blocks:[
+  ['scene','İÇ. SAAT TAMİRCİSİ - SABAH'],['action','Dar, tozlu bir dükkân. Duvarda onlarca saat, hiçbiri aynı zamanı göstermiyor. DEFNE (30) tezgâhın alt çekmecesini zorlayarak açar. İçinden bankadan gelmiş kalın bir zarf çıkar.'],['action','Zarfı yırtar. Mektubu sonuna kadar okur. Bir saat çalmaya başlar, eliyle susturur.'],['char','DEFNE'],['paren','(kendi kendine)'],['dialog','Dükkânı ipotek etmişsin baba.'],['action','Mektubu katlayıp ceketinin iç cebine koyar.'],
+  ['scene','DIŞ. VAPUR İSKELESİ - GÜN'],['action','Martılar, rüzgâr. NURAY (60) bankta oturmuş, simidini ikiye böler ve yarısını Defne’ye uzatır.'],['char','NURAY'],['dialog','Baban gideli üç yıl oldu. O zarfı sana bırakmadı kızım, senden saklıyordu.'],['char','DEFNE'],['dialog','Ben de saklayacağım. Kerem bilmesin.'],['char','NURAY'],['dialog','Kardeşin aptal değil.'],['action','Vapur düdüğü. Defne simidi yemeden cebine koyar.'],
+  ['scene','İÇ. SAAT TAMİRCİSİ - GECE'],['action','KEREM (35) tezgâhın arkasında, elinde telefon. Defne içeri girer, kapıyı iki kez kilitler.'],['char','KEREM'],['dialog','Bankadan aradılar. Dükkânın üstünde ipotek varmış.'],['char','DEFNE'],['dialog','İpotek mi? İlk kez duyuyorum.'],['char','KEREM'],['dialog','Babam geçen kış öldü, daha bir yıl olmadı. Bu kadar borcu ne ara yaptı?'],['action','Defne’nin eli ceketinin iç cebine gider, sonra geri çekilir.'],['trans','KESME:']],
+  cards:[['Defne babasının sakladığı ipoteği öğrenir.','th1','t1','s4','c2'],['Nuray uyarır; Defne sırrı Kerem’den saklamaya karar verir.','th2','t2','s5','c3'],['Kerem ipoteği bankadan öğrenir. Defne bilmiyormuş gibi yapar.','th1','t3','s6','c4']],
+  threads:[{id:'th1',name:'Dükkân ve borç',c:1},{id:'th2',name:'Kardeşler',c:2}],
+  chars:{DEFNE:{want:'Dükkânı kaybetmeden borcu kapatmak.',knows:'İpoteği birinci sahnede öğreniyor ve Kerem’den saklıyor.',note:''}},
+  facts:''},
+ en:{title:'Last Ferry',blocks:[
+  ['scene','INT. WATCH REPAIR SHOP - MORNING'],['action','A narrow, dusty shop. Dozens of clocks on the wall, no two showing the same time. DEFNE (30) forces open the bottom drawer of the workbench and pulls out a thick envelope from the bank.'],['action','She tears it open and reads the letter to the end. A clock starts to chime. She silences it with her hand.'],['char','DEFNE'],['paren','(to herself)'],['dialog','You mortgaged the shop, Dad.'],['action','She folds the letter into the inside pocket of her jacket.'],
+  ['scene','EXT. FERRY PIER - DAY'],['action','Gulls, wind. NURAY (60) sits on a bench, breaks a simit in two and offers half to Defne.'],['char','NURAY'],['dialog','Your father has been gone three years. He didn’t leave you that envelope, child. He was hiding it from you.'],['char','DEFNE'],['dialog','Then I’ll hide it too. Kerem can’t know.'],['char','NURAY'],['dialog','Your brother is not a fool.'],['action','A ferry horn. Defne puts the simit in her pocket, uneaten.'],
+  ['scene','INT. WATCH REPAIR SHOP - NIGHT'],['action','KEREM (35) behind the workbench, phone in hand. Defne comes in and locks the door twice.'],['char','KEREM'],['dialog','The bank called. There’s a mortgage on the shop.'],['char','DEFNE'],['dialog','A mortgage? First I’ve heard of it.'],['char','KEREM'],['dialog','Dad died last winter, it hasn’t even been a year. When did he run up a debt like that?'],['action','Defne’s hand goes to her inside pocket, then pulls back.'],['trans','CUT TO:']],
+  cards:[['Defne learns about the mortgage her father hid.','th1','t1','s4','c2'],['Nuray warns her; Defne decides to keep it from Kerem.','th2','t2','s5','c3'],['Kerem hears about the mortgage from the bank. Defne pretends not to know.','th1','t3','s6','c4']],
+  threads:[{id:'th1',name:'The shop and the debt',c:1},{id:'th2',name:'Brother and sister',c:2}],
+  chars:{DEFNE:{want:'To clear the debt without losing the shop.',knows:'She learns about the mortgage in scene one and hides it from Kerem.',note:''}},
+  facts:''}
+};
+
+/* ---------- durum ---------- */
+const uid=()=>(window.crypto&&crypto.randomUUID)?crypto.randomUUID():'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.random()*16|0;return (c==='x'?r:(r&3|8)).toString(16);});
+const LS='neoscript.project.v1';
+function makeSample(lang){
+  const s=SAMPLE[lang==='en'?'en':'tr'];const blocks=s.blocks.map(([t,x])=>({id:uid(),t,x}));const cards={};let i=0;
+  blocks.forEach(b=>{if(b.t==='scene'){const c=s.cards[i++];if(c)cards[b.id]={sum:c[0],th:c[1],beat:{three:c[2],stc:c[3],circle:c[4]}};}});
+  return {v:1,lang,title:s.title,sample:true,blocks,cards,threads:JSON.parse(JSON.stringify(s.threads)),chars:JSON.parse(JSON.stringify(s.chars)),facts:s.facts,qa:[],checks:null,ex:{},lessonDone:{},weekly:{},structure:'three',updatedAt:0};
+}
+function normalize(p){
+  if(!p||!Array.isArray(p.blocks))return null;
+  p.cards=p.cards||{};p.threads=p.threads||[];p.chars=p.chars||{};p.qa=p.qa||[];p.ex=p.ex||{};p.lessonDone=p.lessonDone||{};p.weekly=p.weekly||{};
+  p.structure=STRUCT[p.structure]?p.structure:'three';p.lang=p.lang==='en'?'en':'tr';p.facts=p.facts||'';p.title=p.title||'';
+  if(!p.blocks.length)p.blocks=[{id:uid(),t:'scene',x:''}];
+  return p;
+}
+let PERS=null;try{PERS=JSON.parse(localStorage.getItem('scn.personal'));}catch(e){}
+if(!PERS||typeof PERS!=='object')PERS={};
+let P=null;try{P=normalize(JSON.parse(localStorage.getItem(LS)));}catch(e){P=null;}
+PERS={lang:PERS.lang||(P&&P.lang)||'tr',ex:PERS.ex||(P&&P.ex)||{},lessonDone:PERS.lessonDone||(P&&P.lessonDone)||{},weekly:PERS.weekly||(P&&P.weekly)||{}};
+function bindPers(p){p.lang=PERS.lang;p.ex=PERS.ex;p.lessonDone=PERS.lessonDone;p.weekly=PERS.weekly;return p;}
+function loadGuest(){let p=null;try{p=normalize(JSON.parse(localStorage.getItem(LS)));}catch(e){p=null;}return bindPers(p||makeSample(PERS.lang));}
+if(!P)P=makeSample(PERS.lang);bindPers(P);
+const SB_URL='https://ymzwgykivjgrzbkvmzqn.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltendneWtpdmpncnpia3ZtenFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA0MjE2ODYsImV4cCI6MjEwNTk5NzY4Nn0.CpEQM-JFXfxjtOmymoL90Q4KUNnC59uAh4dmDeluC1I';
+let SB=null;try{if(window.supabase&&window.supabase.createClient)SB=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storageKey:'scn-auth'}});}catch(e){SB=null;}
+let ME=null,CLOUD=null;
+const SITE=['home','signup','login','sent'];
+const UI={colors:(()=>{try{return localStorage.getItem('scn.colors')!=='off';}catch(e){return true;}})(),view:'home',lesson:LESSONS[0].id,cur:null,confirm:false,busyAsk:false,busyCheck:false,busyFb:false,askOut:'',fbOut:{},msg:''};
+const t=(k,vars)=>{let s=(L[k]||[k,k])[P.lang==='en'?1:0];if(vars)for(const v in vars)s=s.replace('{'+v+'}',vars[v]);return s;};
+const tx=a=>a[P.lang==='en'?1:0];
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const up=s=>String(s||'').toLocaleUpperCase(P.lang==='en'?'en':'tr');
+const app=document.getElementById('app');
+
+/* ---------- kayıt ---------- */
+let saveTimer=null;
+function savePers(){try{localStorage.setItem('scn.personal',JSON.stringify(PERS));}catch(e){}}
+function setStatus(){const el=document.getElementById('st');if(!el)return;
+  if(CLOUD){el.textContent=CLOUD.state==='saving'?t('st_saving'):CLOUD.state==='err'?t('st_err'):CLOUD.live===false?t('st_offline'):t('st_saved');return;}
+  el.textContent=t('st_local');}
+function touch(){
+  savePers();
+  if(CLOUD){normalizePos();scheduleMeta();scheduleFlush();return;}
+  P.sample=false;P.updatedAt=Date.now();clearTimeout(saveTimer);saveTimer=setTimeout(save,800);
+}
+function save(){if(CLOUD)return;try{localStorage.setItem(LS,JSON.stringify(P));}catch(e){}savePers();}
+function toast(msg){let el=document.getElementById('toast');if(!el){el=document.createElement('div');el.id='toast';el.className='toast';el.setAttribute('role','status');document.body.appendChild(el);}el.textContent=msg;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>{el.hidden=true;},3200);}
+
+/* ---------- ortak yazım ---------- */
+const META_KEYS=['cards','threads','chars','facts','structure','qa','checks'];
+const metaString=()=>JSON.stringify(Object.fromEntries(META_KEYS.map(k=>[k,P[k]===undefined?null:P[k]])));
+const canWrite=()=>!CLOUD||CLOUD.role==='writer';
+function setCloud(st){if(CLOUD){CLOUD.state=st;setStatus();}}
+function colorOf(id){const m=CLOUD&&CLOUD.members.find(x=>x.id===id);return m?m.color:0;}
+function initial(n){return esc(String(n||'?').trim().charAt(0).toLocaleUpperCase(P.lang==='en'?'en':'tr'));}
+function jit(gap){return (Math.random()-.5)*gap*.2;}
+function normalizePos(){
+  const B=P.blocks;let last=-Infinity;
+  for(let i=0;i<B.length;i++){const b=B[i];
+    if(typeof b.p==='number'&&b.p>last){last=b.p;continue;}
+    let nxt=null;for(let j=i+1;j<B.length;j++){if(typeof B[j].p==='number'&&B[j].p>last){nxt=B[j].p;break;}}
+    if(nxt!=null&&last!==-Infinity&&nxt-last<1e-6){B.forEach((x,k)=>{x.p=(k+1)*1024;});return;}
+    const np=last===-Infinity?(nxt==null?1024:nxt-1024+jit(64)):(nxt==null?last+1024+jit(64):(last+nxt)/2+jit(nxt-last));
+    b.p=np;last=np;
+  }
+}
+let flushT=null,flushing=false,flushAgain=false,metaT=null;
+function scheduleFlush(){if(!CLOUD||!canWrite())return;if(flushT)return;flushT=setTimeout(()=>{flushT=null;flushBlocks();},500);}
+async function flushBlocks(){
+  if(!CLOUD||!canWrite())return;if(flushing){flushAgain=true;return;}
+  normalizePos();
+  const S=CLOUD.synced,ups=[],live=new Set();
+  P.blocks.forEach(b=>{live.add(b.id);const s=S.get(b.id);if(!s||s.t!==b.t||s.x!==b.x||s.p!==b.p)ups.push(b);});
+  const dels=[...S.keys()].filter(id=>!live.has(id));
+  if(!ups.length&&!dels.length)return;
+  flushing=true;setCloud('saving');
+  const pid=CLOUD.pid;let ok=true;
+  try{
+    if(ups.length){
+      const rows=ups.map(b=>({id:b.id,project_id:pid,pos:b.p,type:b.t,text:String(b.x).slice(0,5000),author_id:ME.id}));
+      const snap=rows.map(r=>[r.id,{t:r.type,x:r.text,p:r.pos,a:ME.id}]);
+      ups.forEach(b=>{if(b.a!==ME.id){b.a=ME.id;paintAuthor(b);}});
+      const {error}=await SB.from('scn_blocks').upsert(rows);
+      if(error)ok=false;else if(CLOUD&&CLOUD.pid===pid)snap.forEach(([id,v])=>S.set(id,v));
+    }
+    if(ok&&dels.length){const {error}=await SB.from('scn_blocks').delete().in('id',dels);if(error)ok=false;else if(CLOUD&&CLOUD.pid===pid)dels.forEach(id=>S.delete(id));}
+  }catch(e){ok=false;}
+  flushing=false;
+  if(CLOUD&&CLOUD.pid===pid){setCloud(ok?'ok':'err');if(flushAgain){flushAgain=false;scheduleFlush();}else if(!ok)setTimeout(scheduleFlush,4000);}
+}
+function scheduleMeta(){if(!CLOUD||!canWrite())return;if(metaT)return;metaT=setTimeout(()=>{metaT=null;saveMeta();},900);}
+async function saveMeta(){
+  if(!CLOUD||!canWrite())return;const s=metaString(),title=P.title||'';
+  if(s===CLOUD.metaStr&&title===CLOUD.title)return;
+  const pid=CLOUD.pid;setCloud('saving');
+  try{const {error}=await SB.from('scn_projects').update({title,meta:JSON.parse(s),meta_by:ME.id}).eq('id',pid);
+    if(CLOUD&&CLOUD.pid===pid){if(error){setCloud('err');setTimeout(scheduleMeta,4000);}else{CLOUD.metaStr=s;CLOUD.title=title;setCloud('ok');}}}
+  catch(e){setCloud('err');setTimeout(scheduleMeta,4000);}
+}
+async function loadMe(user){
+  let {data:prof}=await SB.from('scn_profiles').select('id,display_name,color').eq('id',user.id).maybeSingle();
+  if(!prof){
+    const name=String((user.user_metadata&&user.user_metadata.scn_name)||String(user.email||'').split('@')[0]||'Yazar').slice(0,60);
+    const color=1+Math.floor(Math.random()*8);
+    const r=await SB.from('scn_profiles').insert({id:user.id,display_name:name,color}).select('id,display_name,color').single();
+    prof=r.data||{display_name:name,color};
+  }
+  const {data:adm}=await SB.from('scn_admins').select('user_id').eq('user_id',user.id).maybeSingle();
+  ME={id:user.id,email:user.email,name:prof.display_name,color:prof.color||1,admin:!!adm};
+}
+async function fetchMembers(pid){
+  const {data:mem,error}=await SB.from('scn_members').select('user_id,role,color').eq('project_id',pid);
+  if(error)return null;
+  const ids=mem.map(m=>m.user_id);let profs=[];
+  if(ids.length){const r=await SB.from('scn_profiles').select('id,display_name,color').in('id',ids);profs=r.data||[];}
+  return mem.map(m=>{const p=profs.find(x=>x.id===m.user_id)||{};return {id:m.user_id,role:m.role,name:p.display_name||'?',color:m.color||p.color||1};});
+}
+async function openProject(pid){
+  if(!SB||!ME)return;
+  await leaveProject();
+  const [r1,r2,members]=await Promise.all([
+    SB.from('scn_projects').select('id,title,meta').eq('id',pid).single(),
+    SB.from('scn_blocks').select('id,pos,type,text,author_id').eq('project_id',pid).order('pos',{ascending:true}),
+    fetchMembers(pid)]);
+  if(r1.error||r2.error||!members){toast(t('err_load'));return;}
+  const mine=members.find(m=>m.id===ME.id);
+  const role=ME.admin?'writer':(mine?mine.role:'reader');
+  const rows=r2.data||[];
+  let blocks=rows.map(r=>({id:r.id,t:r.type,x:r.text,p:r.pos,a:r.author_id}));
+  const meta=r1.data.meta||{};
+  P=bindPers(normalize(Object.assign({},meta,{title:r1.data.title||'',blocks})));
+  CLOUD={pid,role,members,synced:new Map(rows.map(r=>[r.id,{t:r.type,x:r.text,p:r.pos,a:r.author_id}])),metaStr:'',title:r1.data.title||'',presence:{},channel:null,state:'ok',live:null,myBlock:null,myAt:0};
+  CLOUD.metaStr=metaString();
+  if(!rows.length)normalizePos();
+  subscribe(pid);
+  UI.view='script';render();window.scrollTo(0,0);
+  if(!rows.length)scheduleFlush();
+}
+async function leaveProject(skipFlush){
+  if(!CLOUD)return;
+  if(!skipFlush){clearTimeout(flushT);flushT=null;clearTimeout(metaT);metaT=null;try{await flushBlocks();await saveMeta();}catch(e){}}
+  try{if(CLOUD.channel)SB.removeChannel(CLOUD.channel);}catch(e){}
+  CLOUD=null;P=loadGuest();
+}
+function subscribe(pid){
+  const ch=SB.channel('scn-'+pid,{config:{presence:{key:ME.id}}});
+  ch.on('postgres_changes',{event:'*',schema:'public',table:'scn_blocks',filter:'project_id=eq.'+pid},onBlock)
+    .on('postgres_changes',{event:'UPDATE',schema:'public',table:'scn_projects',filter:'id=eq.'+pid},onProject)
+    .on('postgres_changes',{event:'*',schema:'public',table:'scn_members',filter:'project_id=eq.'+pid},()=>{reloadMembers();})
+    .on('presence',{event:'sync'},()=>{if(!CLOUD||CLOUD.pid!==pid)return;CLOUD.presence=ch.presenceState();applyLocks();renderPresence();})
+    .subscribe(st=>{if(!CLOUD||CLOUD.pid!==pid)return;
+      if(st==='SUBSCRIBED'){CLOUD.live=true;trackMe();setStatus();}
+      else if(st==='CHANNEL_ERROR'||st==='TIMED_OUT'||st==='CLOSED'){CLOUD.live=false;setStatus();}});
+  CLOUD.channel=ch;
+}
+let idleT=null;
+function claimBlock(id){if(!CLOUD)return;clearTimeout(idleT);idleT=setTimeout(()=>{if(CLOUD&&CLOUD.myBlock){CLOUD.myBlock=null;trackMe();}},20000);if(CLOUD.myBlock!==id){CLOUD.myBlock=id;CLOUD.myAt=Date.now();trackMe();}}
+function trackMe(){if(!CLOUD||!CLOUD.channel)return;try{CLOUD.channel.track({name:ME.name,color:ME.color,block:CLOUD.myBlock||null,at:CLOUD.myAt||0});}catch(e){}}
+function others(){const st=(CLOUD&&CLOUD.presence)||{},out=[];for(const k in st){if(k===ME.id)continue;const s=st[k]&&st[k][0];if(s)out.push(Object.assign({id:k},s));}return out;}
+function isOnline(id){return id===ME.id||others().some(o=>o.id===id);}
+function onBlock(pl){
+  if(!CLOUD)return;const S=CLOUD.synced;
+  if(pl.eventType==='DELETE'){const id=pl.old&&pl.old.id;if(!id)return;S.delete(id);const i=bIndex(id);if(i>=0){P.blocks.splice(i,1);queueReconcile();}return;}
+  const r=pl.new;if(!r||r.project_id!==CLOUD.pid)return;
+  const v={t:r.type,x:r.text,p:r.pos,a:r.author_id};
+  const i=bIndex(r.id);
+  if(r.author_id===ME.id&&i>=0)return;
+  S.set(r.id,v);
+  if(i>=0){const b=P.blocks[i];b.t=v.t;b.x=v.x;b.p=v.p;b.a=v.a;P.blocks.sort((a,c)=>a.p-c.p);}
+  else{let j=P.blocks.findIndex(b=>typeof b.p==='number'&&b.p>v.p);if(j<0)j=P.blocks.length;P.blocks.splice(j,0,{id:r.id,t:v.t,x:v.x,p:v.p,a:v.a});}
+  queueReconcile();
+}
+function onProject(pl){
+  if(!CLOUD)return;const r=pl.new;if(!r||r.id!==CLOUD.pid)return;
+  if(r.meta_by===ME.id&&metaT===null)return;
+  const incoming=JSON.stringify(Object.fromEntries(META_KEYS.map(k=>[k,(r.meta||{})[k]===undefined?null:(r.meta||{})[k]])));
+  if(incoming===CLOUD.metaStr&&(r.title||'')===CLOUD.title)return;
+  const m=r.meta||{};META_KEYS.forEach(k=>{if(m[k]!==undefined)P[k]=m[k];});
+  P.title=r.title||'';normalize(P);bindPers(P);
+  CLOUD.metaStr=metaString();CLOUD.title=P.title;
+  refreshForRemote();
+}
+function viewBusy(){const a=document.activeElement;const v=document.getElementById('view');return !!(a&&v&&v.contains(a)&&(a.matches('input,textarea,select')));}
+function refreshForRemote(){
+  if(UI.view==='script'){const ti=document.getElementById('title');if(ti&&document.activeElement!==ti)ti.value=P.title;refreshSide();return;}
+  if(viewBusy()){CLOUD.pendingView=true;return;}
+  renderView();
+}
+async function reloadMembers(){
+  if(!CLOUD)return;const pid=CLOUD.pid;const members=await fetchMembers(pid);
+  if(!members||!CLOUD||CLOUD.pid!==pid)return;
+  CLOUD.members=members;const mine=members.find(m=>m.id===ME.id);
+  if(!mine&&!ME.admin){await leaveProject(true);UI.view='projects';render();toast(t('removed'));return;}
+  CLOUD.role=ME.admin?'writer':mine.role;
+  if(UI.view==='team')renderView();
+  else if(UI.view==='script'){renderSampleBar();document.querySelectorAll('#paper .b').forEach(el=>{const b=P.blocks[bIndex(el.dataset.id)];if(b){paintAuthor(b,el);setEditable(el);}});}
+  renderPresence();
+}
+let recT=null;
+function queueReconcile(){if(recT)return;recT=requestAnimationFrame(()=>{recT=null;if(UI.view==='script')reconcileDom();else refreshForRemote();});}
+function setBlockType(el,tp){TYPES.forEach(x=>el.classList.remove('b-'+x));el.classList.add('b-'+tp);el.dataset.ph=t('ph_'+tp);el.setAttribute('aria-label',t('t_'+tp));}
+function setEditable(el){if(el.classList.contains('locked')||!canWrite()){el.setAttribute('contenteditable','false');return;}el.setAttribute('contenteditable','plaintext-only');if(el.contentEditable!=='plaintext-only')el.setAttribute('contenteditable','true');}
+function paintAuthor(b,el){el=el||document.querySelector('#paper .b[data-id="'+b.id+'"]');if(!el)return;const c=CLOUD?colorOf(b.a):0;if(c){el.dataset.a=c;el.style.setProperty('--ac','var(--u'+c+')');}else{delete el.dataset.a;el.style.removeProperty('--ac');}}
+function reconcileDom(){
+  const paper=document.getElementById('paper');if(!paper)return;
+  const act=document.activeElement;const map=new Map();[...paper.children].forEach(el=>map.set(el.dataset.id,el));
+  const want=new Set(P.blocks.map(b=>b.id));
+  map.forEach((el,id)=>{if(!want.has(id))el.remove();});
+  let ref=paper.firstElementChild;
+  P.blocks.forEach(b=>{let el=map.get(b.id);
+    if(!el||!el.isConnected){el=blockEl(b);paper.insertBefore(el,ref);return;}
+    if(el!==ref)paper.insertBefore(el,ref);else ref=ref.nextElementSibling;
+    if(!el.classList.contains('b-'+b.t))setBlockType(el,b.t);
+    if(el.textContent!==b.x){if(el===act){const pos=caretPos(el);el.textContent=b.x;setCaret(el,Math.min(pos,b.x.length));}else el.textContent=b.x;}
+    paintAuthor(b,el);
+  });
+  applyLocks();refreshSide();
+}
+function applyLocks(){
+  const paper=document.getElementById('paper');if(!paper||!CLOUD)return;
+  const lock={};others().forEach(o=>{if(o.block&&(!lock[o.block]||(o.at||0)<(lock[o.block].at||0)))lock[o.block]=o;});
+  paper.querySelectorAll('.b').forEach(el=>{const o=lock[el.dataset.id];const focused=document.activeElement===el;
+    if(o&&!(focused&&CLOUD.myAt&&CLOUD.myAt<(o.at||0))){
+      el.classList.add('locked');el.dataset.who=o.name||'';el.style.setProperty('--lc','var(--u'+(o.color||1)+')');el.setAttribute('contenteditable','false');
+      if(focused){el.blur();CLOUD.myBlock=null;trackMe();toast(t('lock_taken',{n:o.name||''}));}
+    }else if(el.classList.contains('locked')){el.classList.remove('locked');delete el.dataset.who;el.style.removeProperty('--lc');setEditable(el);}
+  });
+}
+function renderPresence(){
+  const h=document.getElementById('avs');if(h&&CLOUD){const o=others();h.innerHTML=o.slice(0,5).map(x=>`<span class="av" style="--ac:var(--u${x.color||1})" title="${esc(x.name)}">${initial(x.name)}</span>`).join('');}
+  const lg=document.getElementById('legend');if(lg)lg.innerHTML=legendHtml();
+  if(UI.view==='team'&&!viewBusy())renderView();
+}
+function legendHtml(){if(!CLOUD)return '';return CLOUD.members.map(m=>`<span style="--ac:var(--u${m.color})"><i></i>${esc(m.name)}${m.id===ME.id?` (${t('you')})`:''}${isOnline(m.id)?' <span class="online" title="'+t('online')+'"></span>':''}</span>`).join('');}
+
+/* ---------- yapay zekâ ---------- */
+let sampleFn=null;
+const sampleReady=(async()=>{try{sampleFn=(window.claude&&window.claude.use)?await window.claude.use('sample'):null;}catch(e){sampleFn=null;}})();
+const aiErr=e=>{const c=e&&e.code;return c==='not_granted'?t('ai_denied'):c==='rate_limited'?t('ai_rate'):c==='cancelled'?'':t('ai_fail');};
+let ctl=null;
+
+/* ---------- senaryo yardımcıları ---------- */
+const isHeading=x=>{const s=String(x||'').trimStart();const re=/^(İÇ|DIŞ|INT|EXT|EST|İÇ\/DIŞ|INT\/EXT)[.\s\/]/;return re.test(s.toLocaleUpperCase('tr'))||re.test(s.toUpperCase());};
+function scenes(){const out=[];P.blocks.forEach((b,i)=>{if(b.t==='scene'){if(out.length)out[out.length-1].end=i;out.push({id:b.id,title:b.x,start:i,end:P.blocks.length,n:out.length+1});}});return out;}
+function card(id){return P.cards[id]||(P.cards[id]={sum:'',th:'',beat:{}});}
+function lineCount(){let n=0;P.blocks.forEach(b=>{const w=b.t==='dialog'?35:b.t==='paren'?25:60;n+=Math.max(1,Math.ceil(b.x.length/w));if(b.t!=='dialog'&&b.t!=='paren')n+=1;});return n;}
+function stats(){const words=P.blocks.reduce((a,b)=>a+(b.x.trim()?b.x.trim().split(/\s+/).length:0),0);return {pages:Math.max(1,Math.round(lineCount()/55*10)/10),scenes:scenes().length,words};}
+function charName(x){return up(String(x).replace(/\(.*?\)/g,'').trim());}
+function characters(){const m=new Map();let sn=0;P.blocks.forEach((b,i)=>{if(b.t==='scene')sn++;if(b.t==='char'){const n=charName(b.x);if(!n)return;const c=m.get(n)||{name:n,lines:0,first:sn||1};const nx=P.blocks[i+1];if(nx&&(nx.t==='dialog'||nx.t==='paren'))c.lines++;m.set(n,c);}});return [...m.values()].sort((a,b)=>b.lines-a.lines);}
+function fountain(){
+  const out=['Title: '+(P.title||t('title_ph')),''];
+  P.blocks.forEach((b,i)=>{const x=b.x.trim();if(!x)return;const prev=P.blocks[i-1];
+    if(b.t==='scene'){out.push('');out.push((/^(INT|EXT|EST|INT\.?\/EXT|I\/E)[.\s]/i.test(x)?'':'.')+up(x));out.push('');}
+    else if(b.t==='action'){out.push(x);out.push('');}
+    else if(b.t==='char'){out.push('@'+up(x));}
+    else if(b.t==='paren'){out.push(/^\(.*\)$/.test(x)?x:'('+x+')');}
+    else if(b.t==='dialog'){out.push(x);const nx=P.blocks[i+1];if(!nx||(nx.t!=='dialog'&&nx.t!=='paren'))out.push('');}
+    else if(b.t==='trans'){out.push('> '+up(x));out.push('');}
+  });
+  return out.join('\n').replace(/\n{3,}/g,'\n\n');
+}
+function scriptText(){
+  const out=[];let n=0;
+  P.blocks.forEach(b=>{const x=b.x.trim();if(!x)return;
+    if(b.t==='scene'){n++;out.push('\n['+t('t_scene')+' '+n+'] '+up(x));}
+    else if(b.t==='char')out.push('\n'+up(x)+':');
+    else if(b.t==='paren')out.push('  '+x);
+    else if(b.t==='dialog')out.push('  '+x);
+    else if(b.t==='trans')out.push('\n'+up(x));
+    else out.push('\n'+x);});
+  return out.join('\n').trim();
+}
+function memoryText(){
+  const lines=[];for(const n in P.chars){const c=P.chars[n];const bits=[c.want&&(t('want')+' '+c.want),c.knows&&(t('knows')+' '+c.knows),c.note&&c.note].filter(Boolean);if(bits.length)lines.push(n+': '+bits.join(' | '));}
+  if(P.facts.trim())lines.push(t('facts')+': '+P.facts.trim());
+  return lines.join('\n');
+}
+
+/* ---------- kabuk ---------- */
+const TABS=[['script','tab_script'],['board','tab_board'],['memory','tab_memory'],['academy','tab_academy'],['week','tab_week']];
+const tabsList=()=>CLOUD?TABS.concat([['team','tab_team']]):TABS;
+function userBits(){return ME?`<span class="userchip"><i style="background:var(--u${ME.color})" title="${esc(ME.name)}">${initial(ME.name)}</i></span><button class="linkbtn" data-act="logout">${t('logout')}</button>`:`<button class="btn pri sm" data-act="go" data-v="signup">${t('start')}</button>`;}
+function render(){
+  document.documentElement.lang=P.lang;
+  if(SITE.includes(UI.view)){renderSite();return;}
+  if(UI.view==='projects'){renderDash();return;}
+  if(UI.view==='team'&&!CLOUD)UI.view='script';
+  app.innerHTML=`
+  <header class="top">
+    <button class="brand" data-act="go" data-v="${ME?'projects':'home'}" aria-label="Scenariotopia">Scenariotopia<i></i></button>
+    <nav class="tabs" aria-label="Scenariotopia">${tabsList().map(([v,k])=>`<button data-act="view" data-v="${v}" aria-current="${UI.view===v}">${t(k)}</button>`).join('')}</nav>
+    <div class="top-r"><span class="avs" id="avs"></span><span class="status" id="st" role="status"></span>${langBtn()}${userBits()}</div>
+  </header>
+  <main id="view" class="stack" style="gap:28px"></main>
+  <p class="foot">${t(CLOUD?'foot_cloud':'foot')}</p>`;
+  setStatus();renderView();renderPresence();
+}
+function renderView(){
+  const v=document.getElementById('view');if(!v)return;
+  ({script:vScript,board:vBoard,memory:vMemory,academy:vAcademy,week:vWeek,team:vTeam})[UI.view](v);
+  if(CLOUD&&!canWrite()&&UI.view!=='academy'&&UI.view!=='week'&&UI.view!=='team')v.querySelectorAll('input,textarea,select,[data-act="addScene"],[data-act="up"],[data-act="down"],[data-act="addThread"],[data-act="delThread"]').forEach(x=>{x.disabled=true;});
+}
+function vTeam(v){
+  const adm=ME&&ME.admin;
+  v.innerHTML=`<div class="head"><h1><em>${t('team_k')}</em>${t('team_h')}</h1><p>${t('team_p')}</p></div>
+  <div class="two"><div class="box stack"><h2>${t('members')}</h2>${CLOUD.members.map(m=>`<div class="inner row" style="justify-content:space-between;gap:10px"><span class="row" style="gap:10px;min-width:0"><span class="av" style="--ac:var(--u${m.color});margin:0">${initial(m.name)}</span><b style="overflow-wrap:anywhere">${esc(m.name)}${m.id===ME.id?` <span class="muted small">(${t('you')})</span>`:''}</b>${isOnline(m.id)?`<span class="online" title="${t('online')}"></span>`:''}</span><span class="row" style="gap:8px">${m.id===ME.id?`<span class="row" style="gap:6px" aria-label="${t('your_color')}">${[1,2,3,4,5,6,7,8].filter(c=>c===m.color||!CLOUD.members.some(o=>o.id!==ME.id&&o.color===c)).map(c=>`<button class="sw" style="width:22px;height:22px;background:var(--u${c})" data-act="pcolor" data-c="${c}" aria-pressed="${m.color===c}" aria-label="${t('color')} ${c}"></button>`).join('')}</span>`:''}${adm&&m.id!==ME.id?`<select data-f="mrole" data-id="${m.id}" id="mr-${m.id}" aria-label="${t('role')}"><option value="writer" ${m.role==='writer'?'selected':''}>${t('role_writer')}</option><option value="reader" ${m.role==='reader'?'selected':''}>${t('role_reader')}</option></select><button class="btn sm line" data-act="rmMember" data-id="${m.id}">${t('remove')}</button>`:`<span class="badge">${t('role_'+m.role)}</span>`}</span></div>`).join('')}</div>
+  ${adm?`<div class="stack"><form class="box stack" id="addMemberForm" novalidate><h2>${t('add_member')}</h2><p class="muted" style="margin:0">${t('add_member_p')}</p><div><label class="lab" for="am-email">${t('email')}</label><input class="field" id="am-email" type="email" autocomplete="off" inputmode="email"></div><div><label class="lab" for="am-role">${t('role')}</label><select id="am-role"><option value="writer">${t('role_writer')}</option><option value="reader">${t('role_reader')}</option></select></div><div><button class="btn pri" type="submit">${t('add_btn')}</button></div><div id="am-msg" role="status" class="${UI.amMsg?UI.amMsg[0]:''}">${UI.amMsg?UI.amMsg[1]:''}</div></form>
+  <div class="box stack"><h2>${t('danger')}</h2>${UI.delConfirm?`<p style="margin:0">${t('del_sure')}</p><div class="row"><button class="btn pri" data-act="delYes" style="background:var(--bad);color:#fff">${t('del_yes')}</button><button class="btn" data-act="delNo">${t('cancel')}</button></div>`:`<div><button class="btn line" data-act="delProject">${t('del_project')}</button></div>`}</div></div>`:''}</div>`;
+}
+function renderDash(){
+  app.innerHTML=`<div class="stack" style="gap:48px">${siteTop()}
+  <div class="head"><h1><em>${t('dash_hi',{n:esc(ME.name)})}</em>${t('dash_h')}</h1><p>${ME.admin?t('dash_p_admin'):t('dash_p')}</p></div>
+  ${ME.admin?`<form class="box row" id="newProjForm" novalidate style="gap:10px"><input class="field" id="np-title" placeholder="${t('np_ph')}" aria-label="${t('np_ph')}" style="flex:1 1 240px;min-width:0"><button class="btn pri" type="submit">${t('np_btn')}</button></form>`:''}
+  <div class="stack" style="gap:14px"><div id="dashNote"></div><div class="plist" id="plist"><p class="muted">${t('loading')}</p></div></div>
+  <div class="two"><div class="box stack"><h2>${t('your_color')}</h2><p class="muted" style="margin:0">${t('your_color_p')}</p><div class="row">${[1,2,3,4,5,6,7,8].map(c=>`<button class="sw" data-act="color" data-c="${c}" style="background:var(--u${c})" aria-pressed="${ME.color===c}" aria-label="${t('color')} ${c}"></button>`).join('')}</div></div>
+  ${ME.admin?`<div class="box stack"><h2>${t('admin_k')}</h2><p class="muted" style="margin:0">${t('admin_on')}</p></div>`:`<details class="box"><summary class="small muted" style="cursor:pointer;font-weight:600">${t('claim_k')}</summary><form id="claimForm" class="stack" novalidate style="margin-top:12px"><input class="field" id="cl-code" autocomplete="off" aria-label="${t('claim_k')}"><div><button class="btn sm" type="submit">${t('claim_btn')}</button></div><div id="cl-msg" role="status"></div></form></details>`}</div>
+  <footer class="site-foot"><span>${t('foot_site')}</span><span>TR · EN</span></footer></div>`;
+  loadProjects();
+}
+async function loadProjects(){
+  const box=document.getElementById('plist');if(!box||!SB)return;
+  const {data,error}=await SB.from('scn_projects').select('id,title,created_at').order('created_at',{ascending:false});
+  const b=document.getElementById('plist');if(!b)return;
+  if(error){b.innerHTML=`<p class="err">${t('err_load')}</p>`;return;}
+  const fmt=d=>{try{return new Date(d).toLocaleDateString(P.lang==='en'?'en-GB':'tr-TR',{day:'numeric',month:'long',year:'numeric'});}catch(e){return '';}};
+  const g=loadGuest();
+  b.innerHTML=(data||[]).map(p=>`<button class="pcard" data-act="open" data-id="${p.id}"><span class="k">${t('shared')}</span><b>${esc(p.title||t('title_ph'))}</b><span class="muted small">${t('created')}: ${fmt(p.created_at)}</span></button>`).join('')+`<button class="pcard local" data-act="guest"><span class="k">${t('local_k')}</span><b>${esc(g.title||t('title_ph'))}</b><span class="muted small">${t('local_p')}</span></button>`;
+  const n=document.getElementById('dashNote');if(n)n.innerHTML=(!(data||[]).length&&!ME.admin)?`<div class="note">${t('no_projects')}</div>`:'';
+}
+
+
+/* ---------- tanıtım sitesi ve üyelik ---------- */
+let THEME='light';try{if(localStorage.getItem('neoscript.theme')==='dark')THEME='dark';}catch(e){}
+const applyTheme=()=>{document.documentElement.setAttribute('data-theme',THEME);};applyTheme();
+const langBtn=()=>`<button class="lang" data-act="theme" aria-pressed="${THEME==='dark'}">${t(THEME==='dark'?'th_light':'th_dark')}</button><button class="lang" data-act="lang" aria-label="Dil / Language">${P.lang==='tr'?'<b>TR</b> <span>/ EN</span>':'<span>TR /</span> <b>EN</b>'}</button>`;
+const R=(x,y,w,h,f,rx)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx==null?h/2:rx}" fill="var(--${f})"/>`;
+const bars=(x,y,ws,f,h,gap)=>ws.map((w,i)=>R(x,y+i*(gap||18),w,h||8,f||'line')).join('');
+const SH='style="filter:drop-shadow(0 14px 30px rgba(0,0,0,.16))"';
+function illuHero(){return `<svg viewBox="0 0 1100 500" role="img" aria-label="${t('hero_alt')}">
+  ${R(40,30,1020,440,'card',28)}<circle cx="78" cy="62" r="5" fill="var(--line)"/><circle cx="96" cy="62" r="5" fill="var(--line)"/><circle cx="114" cy="62" r="5" fill="var(--line)"/>
+  ${R(70,104,150,10,'ink')}${bars(70,134,[130,150,110,140],'tone2',10,28)}
+  ${R(262,90,480,380,'tone',16)}
+  ${R(302,124,230,12,'ink')}${bars(302,156,[400,350],'line')}${R(482,204,70,8,'ink')}${bars(412,222,[220,170],'line')}${bars(302,272,[380,300],'line')}
+  ${R(302,330,190,12,'ink')}${bars(302,362,[400,260],'line')}${R(482,410,70,8,'ink')}${bars(412,428,[200],'line')}
+  ${R(778,90,252,96,'tone',18)}<circle cx="804" cy="116" r="5" fill="var(--th1)"/>${R(818,111,120,10,'ink')}${bars(798,138,[200,150],'line')}
+  ${R(778,200,252,96,'tone',18)}<circle cx="804" cy="226" r="5" fill="var(--th2)"/>${R(818,221,96,10,'ink')}${bars(798,248,[190,120],'line')}
+  <g ${SH}>${R(694,322,350,138,'card',22)}</g>${R(718,346,210,30,'ink',15)}${R(736,357,150,8,'bg')}${bars(718,394,[290,230],'line')}${R(718,430,74,18,'tone2',9)}<circle cx="732" cy="439" r="3.5" fill="var(--dot)"/>
+</svg>`;}
+function illuEditor(){return `<svg viewBox="0 0 520 340" role="img" aria-label="${t('f1_k')}">
+  ${R(30,24,460,40,'card',20)}${R(44,36,58,16,'tone2')}${R(110,36,64,16,'tone2')}<rect x="182" y="33" width="74" height="22" rx="11" fill="var(--card)" stroke="var(--ink)" stroke-width="1.5"/>${R(194,40,50,8,'ink')}${R(264,36,60,16,'tone2')}${R(332,36,66,16,'tone2')}
+  ${R(30,78,460,262,'card',16)}${R(64,108,200,12,'ink')}${bars(64,138,[380,330],'line')}${R(236,186,64,8,'ink')}${bars(170,204,[210,160],'line')}${R(236,252,64,8,'ink')}${bars(170,270,[190],'line')}<rect x="366" y="266" width="2" height="16" fill="var(--dot)"/>${bars(64,306,[360],'line')}
+</svg>`;}
+function illuBoard(){const col=(x,cards,empty)=>`${R(x,24,150,292,'card',18)}${R(x+16,42,70,10,'ink')}${cards.map((c,i)=>`${R(x+12,68+i*78,126,66,'tone',12)}<circle cx="${x+28}" cy="${86+i*78}" r="5" fill="var(--th${c})"/>${R(x+40,81+i*78,60,9,'ink')}${bars(x+24,102+i*78,[96,70],'line',7,14)}`).join('')}${empty?`<rect x="${x+12}" y="${68+cards.length*78}" width="126" height="66" rx="12" fill="none" stroke="var(--faint)" stroke-width="1.5" stroke-dasharray="5 5"/><circle cx="${x+28}" cy="${86+cards.length*78}" r="5" fill="var(--th2)"/>`:''}`;
+  return `<svg viewBox="0 0 520 340" role="img" aria-label="${t('f2_k')}">${col(20,[1,2,1])}${col(185,[1,1],true)}${col(350,[2,1])}</svg>`;}
+function illuMemory(){return `<svg viewBox="0 0 520 340" role="img" aria-label="${t('f3_k')}">
+  <g stroke="var(--line)" stroke-width="2"><line x1="110" y1="110" x2="250" y2="70"/><line x1="110" y1="110" x2="210" y2="210"/><line x1="250" y1="70" x2="210" y2="210"/></g>
+  <circle cx="110" cy="110" r="38" fill="var(--card)"/><circle cx="110" cy="110" r="38" fill="none" stroke="var(--ink)" stroke-width="1.5"/>${R(86,105,48,10,'ink')}
+  <circle cx="250" cy="70" r="30" fill="var(--card)"/>${R(230,65,40,10,'faint')}<circle cx="210" cy="210" r="30" fill="var(--card)"/>${R(190,205,40,10,'faint')}
+  <g ${SH}>${R(280,130,216,180,'card',20)}</g>${R(298,150,150,28,'ink',14)}${R(314,160,104,8,'bg')}${bars(298,198,[180,150,120],'line')}${R(298,262,66,18,'tone2',9)}<circle cx="311" cy="271" r="3.5" fill="var(--dot)"/>${R(372,262,66,18,'tone2',9)}<circle cx="385" cy="271" r="3.5" fill="var(--dot)"/>
+  ${R(40,270,200,44,'card',14)}${R(56,280,70,8,'ink')}${R(56,296,110,7,'line')}<circle cx="212" cy="292" r="9" fill="none" stroke="var(--bad)" stroke-width="1.5"/><rect x="211" y="287" width="2" height="6" fill="var(--bad)"/><rect x="211" y="295" width="2" height="2" fill="var(--bad)"/>
+</svg>`;}
+function illuAcademy(){const row=(y,ok,cur)=>`${cur?`<rect x="30" y="${y}" width="250" height="44" rx="14" fill="var(--card)" stroke="var(--ink)" stroke-width="1.5"/>`:R(30,y,250,44,'card',14)}${R(48,y+17,ok?110:140,10,cur?'ink':'faint')}${ok?`<circle cx="254" cy="${y+22}" r="9" fill="var(--good)"/><path d="M249.5 ${y+22}l3 3l6 -6.5" fill="none" stroke="var(--card)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`:''}`;
+  return `<svg viewBox="0 0 520 340" role="img" aria-label="${t('f4_k')}">
+  ${row(24,true)}${row(76,true)}${row(128,false,true)}${row(180,false)}${row(232,false)}${row(284,false)}
+  ${R(300,24,196,150,'card',18)}<text x="320" y="96" font-family="Manrope,system-ui,sans-serif" font-size="56" font-weight="600" letter-spacing="-2" fill="var(--ink)">2</text><text x="358" y="96" font-family="Manrope,system-ui,sans-serif" font-size="18" font-weight="500" fill="var(--mute)">/ 6</text>${bars(320,124,[150,110],'line')}
+  ${R(300,188,196,140,'card',18)}${R(320,208,90,10,'ink')}${[0,1,2,3,4,5,6].map(i=>`<rect x="${320+i*23}" y="238" width="17" height="46" rx="8.5" fill="var(--${i<4?'ink':i===4?'dot':'tone2'})"/>`).join('')}${R(320,300,120,8,'line')}
+</svg>`;}
+function siteTop(){return `<header class="site-top"><button class="brand" data-act="go" data-v="${ME?'projects':'home'}" aria-label="Scenariotopia">Scenariotopia<i></i></button>
+  <div class="links">${UI.view==='home'?`<button class="linkbtn" data-act="scroll" data-to="features">${t('nav_features')}</button><button class="linkbtn" data-act="scroll" data-to="principles">${t('nav_principles')}</button>`:(UI.view!=='projects'?`<button class="linkbtn" data-act="go" data-v="home">${t('back')}</button>`:'')}
+  ${langBtn()}${ME?`${UI.view!=='projects'?`<button class="btn pri sm" data-act="go" data-v="projects">${t('my_projects')}</button>`:''}${userBits()}`:`${UI.view!=='login'?`<button class="linkbtn" data-act="go" data-v="login">${t('login')}</button>`:''}${UI.view!=='signup'?`<button class="btn pri sm" data-act="go" data-v="signup">${t('start')}</button>`:''}`}</div></header>`;}
+function renderSite(){
+  if(UI.view==='home'){
+    const F=[[1,illuEditor],[2,illuBoard],[3,illuMemory],[4,illuAcademy]];
+    app.innerHTML=`<div class="stack site">
+    <div class="stack" style="gap:56px">${siteTop()}
+      <section class="hero"><div class="stack" style="gap:22px"><h1><em>${t('hero_1')}</em>${t('hero_2')}</h1><p class="lead">${t('hero_p')}</p>
+        <div class="row"><button class="btn pri" data-act="go" data-v="${ME?'projects':'signup'}">${t(ME?'my_projects':'start')}</button><button class="btn" data-act="guest">${t('hero_try')}</button></div><p class="small muted" style="margin:0">${t('hero_note')}</p></div>
+        <div class="illu">${illuHero()}</div></section></div>
+    <section class="feats" id="features">${F.map(([n,fn])=>`<div class="feat"><div class="ftext"><span class="k">${t('f'+n+'_k')}</span><h2>${t('f'+n+'_h')}</h2><p>${t('f'+n+'_p')}</p></div><div class="illu">${fn()}</div></div>`).join('')}</section>
+    <section id="principles"><div class="sec-h"><h2><em>${t('pr_1')}</em>${t('pr_2')}</h2></div>
+      <div class="tri">${[1,2,3].map(n=>`<div class="box"><h3>${t('p'+n+'_h')}</h3><p>${t('p'+n+'_p')}</p></div>`).join('')}</div></section>
+    <section class="cta"><h2><em>${t('cta_1')}</em>${t('cta_2')}</h2><button class="btn pri" data-act="go" data-v="signup">${t('start')}</button></section>
+    <footer class="site-foot"><span>${t('foot_site')}</span><span>TR · EN</span></footer></div>`;
+    return;
+  }
+  if(UI.view==='sent'){app.innerHTML=`<div class="stack" style="gap:72px">${siteTop()}<div class="auth"><div class="stack"><h1 style="margin:0;font-size:clamp(30px,4.4vw,44px);line-height:1.06;letter-spacing:-.04em;font-weight:600"><em style="font-style:normal;color:var(--faint);display:block">${t('sent_1')}</em>${t('sent_2')}</h1><p class="muted" style="margin:0;max-width:44ch">${t('sent_p',{e:esc(UI.sentTo||'')})}</p><div><button class="btn pri" data-act="go" data-v="login">${t('login')}</button></div></div><div class="illu">${illuBoard()}</div></div><footer class="site-foot"><span>${t('foot_site')}</span><span>TR · EN</span></footer></div>`;return;}
+  const su=UI.view==='signup';
+  app.innerHTML=`<div class="stack" style="gap:72px">${siteTop()}
+  <div class="auth"><form id="authForm" novalidate>
+    <h1><em>${t(su?'su_1':'li_1')}</em>${t(su?'su_2':'li_2')}</h1>
+    ${su?`<div><label class="lab" for="au-name">${t('name')}</label><input id="au-name" name="name" autocomplete="name"></div>`:''}
+    <div><label class="lab" for="au-email">${t('email')}</label><input id="au-email" name="email" type="email" autocomplete="email" inputmode="email"></div>
+    <div><label class="lab" for="au-pass">${t('pass')}</label><input id="au-pass" name="pass" type="password" autocomplete="${su?'new-password':'current-password'}" placeholder="${t('pass_h')}"></div>
+    <div class="err" id="au-err" role="alert" hidden></div>
+    <button class="btn pri" type="submit">${t(su?'su_btn':'li_btn')}</button>
+    <p class="small muted" style="margin:0">${t(su?'have':'nohave')} <button type="button" class="linkbtn" style="padding:2px 4px;color:var(--ink);text-decoration:underline" data-act="go" data-v="${su?'login':'signup'}">${t(su?'login':'start')}</button></p>
+    <p class="note small" style="margin:0">${t('auth_note')}</p>
+  </form><div class="illu">${su?illuMemory():illuBoard()}</div></div>
+  <footer class="site-foot"><span>${t('foot_site')}</span><span>TR · EN</span></footer></div>`;
+}
+function authErr(m){m=String(m||'').toLowerCase();return m.includes('already')||m.includes('registered')?t('err_exists'):m.includes('invalid login')?t('err_login'):m.includes('not confirmed')?t('err_confirm'):m.includes('rate')||m.includes('too many')?t('err_rate'):m.includes('password')?t('err_pass'):t('err_generic');}
+app.addEventListener('submit',async e=>{
+  const id=e.target.id;
+  if(['authForm','newProjForm','claimForm','addMemberForm'].includes(id))e.preventDefault();else return;
+  if(!SB){toast(t('err_nocloud'));return;}
+  if(id==='authForm'){
+    const su=UI.view==='signup',f=e.target,err=document.getElementById('au-err'),btn=f.querySelector('button[type=submit]');
+    const name=su?f.name.value.trim():'',email=f.email.value.trim(),pass=f.pass.value;
+    const show=m=>{err.hidden=false;err.textContent=m;};
+    const bad=(su&&!name)?['err_name',f.name]:!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)?['err_email',f.email]:pass.length<8?['err_pass',f.pass]:null;
+    if(bad){show(t(bad[0]));bad[1].focus();return;}
+    btn.disabled=true;UI.authBusy=true;
+    try{
+      if(su){
+        const {data,error}=await SB.auth.signUp({email,password:pass,options:{data:{scn_name:name},emailRedirectTo:location.origin+location.pathname}});
+        if(error){show(authErr(error.message));return;}
+        if(data.user&&Array.isArray(data.user.identities)&&!data.user.identities.length){show(t('err_exists'));return;}
+        if(data.session){await loadMe(data.session.user);UI.view='projects';render();window.scrollTo(0,0);}
+        else{UI.sentTo=email;UI.view='sent';render();window.scrollTo(0,0);}
+      }else{
+        const {data,error}=await SB.auth.signInWithPassword({email,password:pass});
+        if(error){show(authErr(error.message));return;}
+        await loadMe(data.user);UI.view='projects';render();window.scrollTo(0,0);
+      }
+    }catch(x){show(t('err_nocloud'));}
+    finally{UI.authBusy=false;if(btn.isConnected)btn.disabled=false;}
+  }else if(id==='newProjForm'){
+    const ti=document.getElementById('np-title'),btn=e.target.querySelector('button');btn.disabled=true;
+    const {data,error}=await SB.rpc('scn_create_project',{p_title:ti.value.trim()});
+    btn.disabled=false;if(error||!data){toast(t('err_generic'));return;}
+    openProject(data);
+  }else if(id==='claimForm'){
+    const c=document.getElementById('cl-code').value.trim(),m=document.getElementById('cl-msg');
+    const {data,error}=await SB.rpc('scn_claim_admin',{code:c});
+    if(error||!data){m.className='err';m.textContent=t('claim_bad');return;}
+    ME.admin=true;render();toast(t('claim_ok'));
+  }else if(id==='addMemberForm'){
+    const em=document.getElementById('am-email'),role=document.getElementById('am-role').value,m=document.getElementById('am-msg');
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim())){m.className='err';m.textContent=t('err_email');em.focus();return;}
+    const {data,error}=await SB.rpc('scn_add_member',{p_project:CLOUD.pid,p_email:em.value.trim(),p_role:role});
+    const code=error?'err':data;
+    UI.amMsg=[code==='ok'?'okmsg':'err',code==='ok'?t('am_ok'):code==='no_user'?t('am_no_user'):code==='no_profile'?t('am_no_profile'):t('err_generic')];
+    m.className=UI.amMsg[0];m.textContent=UI.amMsg[1];
+    if(code==='ok'){em.value='';await reloadMembers();}
+  }
+});
+
+/* ---------- senaryo ---------- */
+const TYPES=['scene','action','char','dialog','paren','trans'];
+const NEXT={scene:'action',action:'action',char:'dialog',paren:'dialog',dialog:'action',trans:'scene'};
+function vScript(v){
+  v.innerHTML=`
+  <div class="head"><h1><em>${t('script_k')}</em><input class="title-in" id="title" data-f="title" value="${esc(P.title)}" placeholder="${t('title_ph')}" aria-label="${t('title_ph')}"></h1></div>
+  <div id="sampleBar"></div>
+  <div class="script-grid">
+    <aside class="box side" id="side"></aside>
+    <div class="stack" style="min-width:0">
+      <div class="toolbar" id="toolbar" role="toolbar">${TYPES.map(k=>`<button data-type="${k}" aria-pressed="false">${t('t_'+k)}</button>`).join('')}<span class="sp"></span><button data-act="copy">${t('copy')}</button><button data-act="export">${t('exp')}</button></div>
+      <div class="small muted" id="expMsg" role="status" hidden></div>
+      <div class="box paper-box"><div class="paper" id="paper" lang="${P.lang}"></div><p class="hint">${t('hint')}</p></div>
+    </div>
+  </div>`;
+  const paper=document.getElementById('paper');if(CLOUD&&UI.colors)paper.classList.add('colored');if(CLOUD&&!canWrite()){const tb=document.getElementById('toolbar');if(tb)tb.hidden=true;}
+  P.blocks.forEach(b=>paper.appendChild(blockEl(b)));applyLocks();
+  renderSampleBar();renderSide();
+  if(UI.jump){const el=paper.querySelector('[data-id="'+UI.jump+'"]');UI.jump=null;if(el){el.scrollIntoView({block:'center'});el.classList.add('flash');}}
+}
+function renderSampleBar(){
+  const el=document.getElementById('sampleBar');if(!el)return;
+  if(CLOUD){el.innerHTML=`<div class="row" style="justify-content:space-between;gap:10px"><div class="legend" id="legend">${legendHtml()}</div><div class="row" style="gap:8px">${canWrite()?'':`<span class="ro-note">${t('ro')}</span>`}<button class="btn line sm" data-act="toggleColors" aria-pressed="${UI.colors}">${t(UI.colors?'colors_on':'colors_off')}</button><button class="btn sm" data-act="go" data-v="projects">${t('my_projects')}</button></div></div>`;return;}
+  if(UI.confirm){el.innerHTML=`<div class="note row"><span>${t('blank_sure')}</span><button class="btn pri sm" data-act="blankYes">${t('yes_clear')}</button><button class="btn sm" data-act="blankNo">${t('cancel')}</button></div>`;return;}
+  el.innerHTML=`<div class="row">${P.sample?`<span class="badge">${t('sample')}</span><span class="muted small">${t('sample_note')}</span>`:''}<button class="btn line sm" data-act="blank">${t('blank')}</button></div>`;
+}
+function renderSide(){
+  const el=document.getElementById('side');if(!el)return;const sc=scenes(),s=stats();
+  el.innerHTML=`<h3>${t('scenes')}</h3>${sc.length?`<ol class="scene-list">${sc.map(x=>`<li><button data-act="jump" data-id="${x.id}">${esc(up(x.title)||t('ph_scene'))}</button></li>`).join('')}</ol>`:`<p class="muted small">${t('no_scenes')}</p>`}
+  <div class="stats"><div><b>${String(s.pages).replace('.',P.lang==='tr'?',':'.')}</b><span>${t('s_pages')}</span></div><div><b>${s.scenes}</b><span>${t('s_scenes')}</span></div><div><b>${s.words}</b><span>${t('s_words')}</span></div></div>`;
+}
+let sideTimer=null;const refreshSide=()=>{clearTimeout(sideTimer);sideTimer=setTimeout(renderSide,250);};
+function blockEl(b){
+  const d=document.createElement('div');d.className='b b-'+b.t;d.dataset.id=b.id;d.dataset.ph=t('ph_'+b.t);
+  d.setAttribute('contenteditable','plaintext-only');if(d.contentEditable!=='plaintext-only')d.setAttribute('contenteditable','true');
+  d.setAttribute('role','textbox');d.setAttribute('aria-label',t('t_'+b.t));d.textContent=b.x;if(CLOUD){paintAuthor(b,d);if(!canWrite())d.setAttribute('contenteditable','false');}return d;
+}
+const bIndex=id=>P.blocks.findIndex(b=>b.id===id);
+function caretPos(el){const s=getSelection();if(!s.rangeCount)return 0;const r=s.getRangeAt(0);if(!el.contains(r.startContainer))return 0;const p=document.createRange();p.selectNodeContents(el);p.setEnd(r.startContainer,r.startOffset);return p.toString().length;}
+function setCaret(el,pos){el.focus();el.normalize();const n=el.firstChild,r=document.createRange();if(!n||n.nodeType!==3){r.selectNodeContents(el);r.collapse(pos===0);}else{r.setStart(n,Math.min(pos,n.textContent.length));r.collapse(true);}const s=getSelection();s.removeAllRanges();s.addRange(r);}
+function markType(tp){document.querySelectorAll('#toolbar [data-type]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.type===tp)));}
+function setType(i,tp,el){const b=P.blocks[i];b.t=tp;el.className='b b-'+tp;el.dataset.ph=t('ph_'+tp);el.setAttribute('aria-label',t('t_'+tp));markType(tp);afterEdit(true);}
+function afterEdit(structural){if(CLOUD){normalizePos();scheduleFlush();}else if(P.sample){touch();renderSampleBar();}else touch();if(structural)refreshSide();}
+function clean(el){return el.textContent.replace(/\n/g,' ');}
+
+app.addEventListener('keydown',e=>{
+  const el=e.target.closest&&e.target.closest('.b');if(!el)return;
+  const i=bIndex(el.dataset.id);if(i<0)return;const b=P.blocks[i];const sel=getSelection();
+  if(e.key==='Enter'){
+    e.preventDefault();if(e.isComposing)return;
+    if(!sel.isCollapsed)document.execCommand('delete');
+    const txt=clean(el),pos=Math.min(caretPos(el),txt.length);
+    if(!txt.trim()&&b.t!=='action'){setType(i,'action',el);return;}
+    b.x=txt.slice(0,pos);el.textContent=b.x;
+    const nb={id:uid(),t:NEXT[b.t],x:txt.slice(pos)};P.blocks.splice(i+1,0,nb);
+    const ne=blockEl(nb);el.after(ne);setCaret(ne,0);markType(nb.t);UI.cur=nb.id;afterEdit(true);
+  }else if(e.key==='Tab'&&!e.altKey&&!e.ctrlKey&&!e.metaKey){
+    e.preventDefault();const k=TYPES.indexOf(b.t);setType(i,TYPES[(k+(e.shiftKey?TYPES.length-1:1))%TYPES.length],el);
+  }else if(e.key==='Backspace'&&sel.isCollapsed&&caretPos(el)===0&&i>0){
+    e.preventDefault();const prev=P.blocks[i-1],pe=el.previousElementSibling,pl=prev.x.length;
+    prev.x+=clean(el);pe.textContent=prev.x;P.blocks.splice(i,1);el.remove();setCaret(pe,pl);markType(prev.t);UI.cur=prev.id;afterEdit(true);
+  }else if(e.key==='ArrowUp'&&sel.isCollapsed&&caretPos(el)===0&&el.previousElementSibling){
+    e.preventDefault();const pe=el.previousElementSibling;setCaret(pe,pe.textContent.length);
+  }else if(e.key==='ArrowDown'&&sel.isCollapsed&&caretPos(el)>=el.textContent.length&&el.nextElementSibling){
+    e.preventDefault();setCaret(el.nextElementSibling,0);
+  }
+});
+app.addEventListener('paste',e=>{
+  const el=e.target.closest&&e.target.closest('.b');if(!el)return;
+  const text=(e.clipboardData||window.clipboardData).getData('text/plain');if(text==null)return;e.preventDefault();
+  const lines=text.replace(/\r/g,'').split('\n').map(s=>s.trim()).filter(Boolean);if(!lines.length)return;
+  document.execCommand('insertText',false,lines[0]);
+  const i=bIndex(el.dataset.id);P.blocks[i].x=clean(el);
+  if(lines.length>1){
+    let at=i,last=el,prevT=P.blocks[i].t;
+    lines.slice(1).forEach(ln=>{let tp='action';
+      if(isHeading(ln))tp='scene';else if(/^\(.*\)$/.test(ln))tp='paren';else if(prevT==='char'||prevT==='paren')tp='dialog';
+      else if(ln.length<32&&ln===up(ln)&&/[A-ZÇĞİÖŞÜ]/.test(ln)&&!/[.!?]$/.test(ln))tp=/(:|TO:)$/.test(ln)?'trans':'char';
+      const nb={id:uid(),t:tp,x:ln};P.blocks.splice(++at,0,nb);const ne=blockEl(nb);last.after(ne);last=ne;prevT=tp;});
+    setCaret(last,last.textContent.length);
+  }
+  afterEdit(true);
+});
+app.addEventListener('focusout',e=>{
+  if(!CLOUD)return;
+  setTimeout(()=>{if(!CLOUD)return;const a=document.activeElement;
+    if(CLOUD.myBlock&&!(a&&a.closest&&a.closest('#paper .b'))){CLOUD.myBlock=null;trackMe();}
+    if(CLOUD.pendingView&&!viewBusy()){CLOUD.pendingView=false;if(UI.view!=='script')renderView();}},250);
+});
+app.addEventListener('focusin',e=>{const el=e.target.closest&&e.target.closest('.b');if(!el)return;if(CLOUD)claimBlock(el.dataset.id);UI.cur=el.dataset.id;const b=P.blocks[bIndex(UI.cur)];if(b)markType(b.t);});
+app.addEventListener('mousedown',e=>{if(e.target.closest('#toolbar [data-type]'))e.preventDefault();});
+
+/* ---------- kart tahtası ---------- */
+function vBoard(v){
+  const st=P.structure,beats=STRUCT[st],sc=scenes(),acts=[1,2,3];
+  const by={};sc.forEach(s=>{const c=card(s.id);const b=c.beat&&c.beat[st];const key=beats.some(x=>x.id===b)?b:'_';(by[key]=by[key]||[]).push(s);});
+  const thOpts=id=>`<option value="">${t('no_thread')}</option>`+P.threads.map(x=>`<option value="${x.id}" ${x.id===id?'selected':''}>${esc(x.name)}</option>`).join('');
+  const beatOpts=id=>`<option value="">${t('beat_none')}</option>`+beats.map(x=>`<option value="${x.id}" ${x.id===id?'selected':''}>${esc(tx(x.n))}</option>`).join('');
+  const cardHtml=s=>{const c=card(s.id);const th=P.threads.find(x=>x.id===c.th);return `<article class="card" draggable="true" data-id="${s.id}">
+    <div class="card-top"><span>${s.n}</span><span>${esc(up(s.title)||t('ph_scene'))}</span></div>
+    <textarea data-f="sum" data-id="${s.id}" id="sum-${s.id}" placeholder="${t('sum_ph')}" aria-label="${t('sum_ph')}">${esc(c.sum)}</textarea>
+    <div class="row" style="gap:6px"><span class="dotc" style="background:${th?`var(--th${th.c})`:'var(--line)'}"></span><select data-f="th" data-id="${s.id}" id="th-${s.id}" aria-label="${t('threads')}">${thOpts(c.th)}</select><select data-f="beat" data-id="${s.id}" id="bt-${s.id}" aria-label="${t('beat_none')}">${beatOpts(c.beat&&c.beat[st])}</select></div>
+    <div class="row" style="gap:6px"><button class="mini" data-act="up" data-id="${s.id}" aria-label="${t('up')}">↑</button><button class="mini" data-act="down" data-id="${s.id}" aria-label="${t('down')}">↓</button><button class="mini" data-act="jump" data-id="${s.id}">${t('open')}</button></div></article>`;};
+  const beatHtml=b=>`<section class="beat" data-beat="${b.id}"><div class="beat-h"><b>${esc(tx(b.n))}</b>${b.p?`<span>${P.lang==='tr'?'s.':'p.'} ${b.p}</span>`:''}</div>${(by[b.id]||[]).map(cardHtml).join('')}<button class="add" data-act="addScene" data-beat="${b.id}">+ ${t('add_card')}</button></section>`;
+  /* eksik hat okuması */
+  const gaps=[];let anyTh=false;
+  P.threads.forEach(th=>{const mine=sc.filter(s=>card(s.id).th===th.id);if(!mine.length)return;anyTh=true;
+    acts.forEach(a=>{const ids=beats.filter(b=>b.a===a).map(b=>b.id);if(!mine.some(s=>ids.includes(card(s.id).beat&&card(s.id).beat[st])))gaps.push(t('gap_line',{t:esc(th.name),a}));});});
+  const un=(by._||[]).length;
+  v.innerHTML=`
+  <div class="head"><h1><em>${t('board_k')}</em>${t('board_h')}</h1><p>${t('board_p')}</p></div>
+  <div class="row" style="justify-content:space-between">
+    <div class="tabs" role="tablist">${['three','stc','circle'].map(k=>`<button data-act="structure" data-v="${k}" aria-current="${st===k}">${t('st_'+k)}</button>`).join('')}</div>
+    <div class="threads">${P.threads.map(x=>`<span class="th"><span class="dotc" style="background:var(--th${x.c})"></span><input data-f="thname" data-id="${x.id}" id="thn-${x.id}" value="${esc(x.name)}" aria-label="${t('threads')}"><button data-act="delThread" data-id="${x.id}" aria-label="×">×</button></span>`).join('')}${P.threads.length<5?`<button class="btn sm" data-act="addThread">+ ${t('add_thread')}</button>`:''}</div>
+  </div>
+  <div class="note"><b>${t('gaps')}</b><ul>${!sc.length?`<li>${t('no_scenes')}</li>`:(un?`<li>${t('gap_un',{n:un})}</li>`:'')+(anyTh?(gaps.length?gaps.map(g=>`<li>${g}</li>`).join(''):`<li>${t('gap_ok')}</li>`):`<li>${t('gap_empty')}</li>`)}</ul></div>
+  ${acts.map(a=>`<div class="act"><div class="act-h"><h2>${t('act')} ${a}</h2></div><div class="beats">${beats.filter(b=>b.a===a).map(beatHtml).join('')}</div></div>`).join('')}
+  <div class="act"><div class="act-h"><h2>${t('unassigned')}</h2><span>${t('unassigned_h')}</span></div><div class="beats"><section class="beat" data-beat="">${(by._||[]).map(cardHtml).join('')}<button class="add" data-act="addScene" data-beat="">+ ${t('add_card')}</button></section></div></div>`;
+}
+let dragId=null;
+app.addEventListener('dragstart',e=>{const c=e.target.closest&&e.target.closest('.card');if(!c)return;dragId=c.dataset.id;e.dataTransfer.effectAllowed='move';try{e.dataTransfer.setData('text/plain',dragId);}catch(_){}});
+app.addEventListener('dragover',e=>{const b=e.target.closest&&e.target.closest('.beat');if(!b||!dragId)return;e.preventDefault();b.classList.add('over');});
+app.addEventListener('dragleave',e=>{const b=e.target.closest&&e.target.closest('.beat');if(b&&!b.contains(e.relatedTarget))b.classList.remove('over');});
+app.addEventListener('drop',e=>{const b=e.target.closest&&e.target.closest('.beat');if(!b||!dragId)return;e.preventDefault();const c=card(dragId);c.beat=c.beat||{};c.beat[P.structure]=b.dataset.beat||'';dragId=null;touch();renderView();});
+app.addEventListener('dragend',()=>{dragId=null;});
+function moveScene(id,dir){
+  const sc=scenes(),k=sc.findIndex(s=>s.id===id),j=k+dir;if(k<0||j<0||j>=sc.length)return;
+  const a=sc[Math.min(k,j)],b=sc[Math.max(k,j)];
+  const head=P.blocks.slice(0,a.start),A=P.blocks.slice(a.start,a.end),B=P.blocks.slice(b.start,b.end),tail=P.blocks.slice(b.end);
+  P.blocks=[...head,...B,...A,...tail];if(CLOUD)normalizePos();touch();renderView();
+}
+
+/* ---------- hafıza ---------- */
+function vMemory(v){
+  const cs=characters();
+  v.innerHTML=`
+  <div class="head"><h1><em>${t('mem_k')}</em>${t('mem_h')}</h1><p>${t('mem_p')}</p></div>
+  <div class="two">
+    <div class="stack">
+      <div class="box stack"><h2>${t('ask')}</h2>
+        <textarea id="askQ" rows="2" placeholder="${t('ask_ph')}" aria-label="${t('ask')}"></textarea>
+        <div class="row"><button class="btn pri" data-act="ask" id="askBtn">${t('ask_btn')}</button><button class="btn" data-act="stop" id="stopBtn" hidden>${t('stop')}</button></div>
+        <div class="inner a" id="askOut" role="status" ${UI.askOut?'':'hidden'}>${esc(UI.askOut)}</div>
+        <div class="qa" id="qaList">${P.qa.map(x=>`<div class="inner"><div class="q">${esc(x.q)}</div><div class="a">${esc(x.a)}</div></div>`).join('')}</div>
+      </div>
+      <div class="box stack"><h2>${t('check')}</h2><p class="muted" style="margin:0">${t('check_p')}</p>
+        <div class="row"><button class="btn pri" data-act="check" id="checkBtn">${t('check_btn')}</button><span class="muted small" id="checkMsg" role="status"></span></div>
+        <div class="stack" id="checkList">${checksHtml()}</div>
+      </div>
+      <p class="foot">${t('ai_note')}</p>
+    </div>
+    <div class="stack">
+      <div class="box stack"><h2>${t('chars')}</h2>
+        ${cs.length?cs.map(c=>{const d=P.chars[c.name]||{};const k=encodeURIComponent(c.name);return `<div class="inner stack" style="gap:10px"><div class="char-h"><b>${esc(c.name)}</b><span class="muted small">${c.lines} ${t('lines')} · ${t('first')} ${c.first}</span></div>
+          <div><label class="lab" for="w-${k}">${t('want')}</label><textarea rows="1" id="w-${k}" data-f="cwant" data-id="${esc(c.name)}">${esc(d.want)}</textarea></div>
+          <div><label class="lab" for="k-${k}">${t('knows')}</label><textarea rows="1" id="k-${k}" data-f="cknows" data-id="${esc(c.name)}">${esc(d.knows)}</textarea></div>
+          <div><label class="lab" for="n-${k}">${t('cnote')}</label><textarea rows="1" id="n-${k}" data-f="cnote" data-id="${esc(c.name)}">${esc(d.note)}</textarea></div></div>`;}).join(''):`<p class="muted" style="margin:0">${t('no_chars')}</p>`}
+      </div>
+      <div class="box stack"><h2>${t('facts')}</h2><textarea id="facts" rows="4" data-f="facts" placeholder="${t('facts_ph')}" aria-label="${t('facts')}">${esc(P.facts)}</textarea></div>
+    </div>
+  </div>`;
+}
+function checksHtml(){
+  if(!P.checks)return '';if(!P.checks.length)return `<div class="inner muted">${t('check_none')}</div>`;
+  return P.checks.map((c,i)=>`<div class="inner issue"><span class="k">${c.scene?t('t_scene')+' '+esc(c.scene):''}${c.kind?(c.scene?' · ':'')+esc(c.kind):''}</span><div>${esc(c.issue)}</div>${c.evidence?`<div class="muted small">${esc(c.evidence)}</div>`:''}<div class="row">${c.scene?`<button class="btn sm" data-act="gotoN" data-n="${esc(c.scene)}">${t('goto')}</button>`:''}<button class="btn sm line" data-act="dismiss" data-i="${i}">${t('dismiss')}</button></div></div>`).join('');
+}
+function aiGuard(out){const s=scriptText();if(s.length<40){out(t('ai_empty'));return null;}if(s.length>200000){out(t('ai_long'));return null;}return s;}
+const LANGNAME=()=>P.lang==='en'?'English':'Turkish';
+async function doAsk(){
+  if(UI.busyAsk)return;const qEl=document.getElementById('askQ');const q=(qEl.value||'').trim();if(!q){qEl.focus();return;}
+  const show=s=>{UI.askOut=s;const o=document.getElementById('askOut');if(o){o.hidden=!s;o.textContent=s;}};
+  const script=aiGuard(show);if(!script)return;
+  UI.busyAsk=true;const btn=document.getElementById('askBtn'),sb=document.getElementById('stopBtn');if(btn)btn.disabled=true;show(t('thinking'));
+  await sampleReady;
+  const fin=()=>{UI.busyAsk=false;const b=document.getElementById('askBtn'),s=document.getElementById('stopBtn');if(b)b.disabled=false;if(s)s.hidden=true;};
+  if(!sampleFn){show(t('ai_none'));fin();return;}
+  ctl=new AbortController();if(sb)sb.hidden=false;
+  const prompt=`You are the story memory of a screenwriting tool. Answer the writer's question using ONLY the screenplay and notes below. Cite scene numbers in parentheses for every claim. If the screenplay does not answer the question, say so plainly; never invent story facts. Do not rewrite or continue the script. Answer in ${LANGNAME()}, in at most 120 words, plain text without markdown.\n\n=== SCREENPLAY ===\n${script}\n\n=== WRITER'S NOTES ===\n${memoryText()||'(none)'}\n\n=== QUESTION ===\n${q}`;
+  try{
+    const r=await sampleFn(prompt,{signal:ctl.signal,cache:false,onText:({text})=>show(text)});
+    P.qa.unshift({q,a:r.text});P.qa=P.qa.slice(0,8);touch();show('');
+    if(UI.view==='memory'){renderView();}
+  }catch(e){const keep=e&&e.text;if(keep){P.qa.unshift({q,a:keep});P.qa=P.qa.slice(0,8);touch();}show(aiErr(e));if(keep&&UI.view==='memory'){const o=UI.askOut;renderView();UI.askOut=o;}}
+  fin();
+}
+async function doCheck(){
+  if(UI.busyCheck)return;const msg=s=>{const m=document.getElementById('checkMsg');if(m)m.textContent=s;};
+  const script=aiGuard(msg);if(!script)return;
+  UI.busyCheck=true;const btn=document.getElementById('checkBtn');if(btn)btn.disabled=true;msg(t('thinking'));
+  await sampleReady;
+  const fin=()=>{UI.busyCheck=false;const b=document.getElementById('checkBtn');if(b)b.disabled=false;};
+  if(!sampleFn){msg(t('ai_none'));fin();return;}
+  const prompt=`You are a continuity checker for a screenplay. Find contradictions between scenes, or between the script and the writer's notes: timeline and dates, what a character knows versus when they learned it, established facts, names, ages, places. A character deliberately lying is NOT a contradiction; mention it only if the script itself gives no sign the lie is intended. Report only issues you can support with two specific places in the text. Return ONLY a JSON array (no prose) of at most 8 objects with keys: "scene" (number of the later scene where the issue shows), "kind" (one or two words in ${LANGNAME()}), "issue" (one sentence in ${LANGNAME()}), "evidence" (the two places compared, with scene numbers, in ${LANGNAME()}). Return [] if you find none.\n\n=== SCREENPLAY ===\n${script}\n\n=== WRITER'S NOTES ===\n${memoryText()||'(none)'}`;
+  try{
+    let r=await sampleFn.json(prompt,{cache:false});
+    if(r&&!Array.isArray(r)&&Array.isArray(r.items))r=r.items;
+    if(!Array.isArray(r))throw {code:'bad'};
+    P.checks=r.slice(0,8).filter(x=>x&&x.issue).map(x=>({scene:x.scene!=null?String(x.scene).replace(/[^0-9]/g,''):'',kind:String(x.kind||''),issue:String(x.issue),evidence:String(x.evidence||'')}));
+    touch();msg('');const l=document.getElementById('checkList');if(l)l.innerHTML=checksHtml();
+  }catch(e){msg(aiErr(e)||t('ai_fail'));}
+  fin();
+}
+
+/* ---------- akademi ---------- */
+function vAcademy(v){
+  const ls=LESSONS.find(x=>x.id===UI.lesson)||LESSONS[0];const n=LESSONS.filter(x=>P.lessonDone[x.id]).length;
+  v.innerHTML=`
+  <div class="head"><h1><em>${t('aca_k')}</em>${t('aca_h')}</h1><p>${t('aca_p')}</p></div>
+  <div class="aca">
+    <aside class="box"><div class="big">${n}<small>/ ${LESSONS.length} ${t('of')}</small></div>
+      <ol class="lessons">${LESSONS.map(x=>`<li><button data-act="lesson" data-id="${x.id}" aria-current="${x.id===ls.id}">${esc(tx(x.t))}${P.lessonDone[x.id]?`<span class="ok">${t('done')}</span>`:''}</button></li>`).join('')}</ol></aside>
+    <div class="stack">
+      <div class="box stack"><h2>${esc(tx(ls.t))}</h2><div class="prose">${tx(ls.b).map(p=>`<p>${esc(p)}</p>`).join('')}</div></div>
+      <div class="box stack"><h3>${t('exercise')}</h3><p style="margin:0;max-width:64ch">${esc(tx(ls.e))}</p>
+        <textarea id="ex-${ls.id}" rows="7" data-f="ex" data-id="${ls.id}" placeholder="${t('ex_ph')}" aria-label="${t('exercise')}">${esc(P.ex[ls.id])}</textarea>
+        <div class="row"><button class="btn pri" data-act="lessonDone" data-id="${ls.id}">${P.lessonDone[ls.id]?t('unmark'):t('mark')}</button><button class="btn" data-act="fb" data-id="${ls.id}" id="fbBtn">${t('fb')}</button></div>
+        <div class="inner a" id="fbOut" role="status" ${UI.fbOut[ls.id]?'':'hidden'}>${esc(UI.fbOut[ls.id])}</div>
+        <p class="foot" style="margin:0">${t('ai_note')}</p>
+      </div>
+    </div>
+  </div>`;
+}
+async function doFb(id){
+  if(UI.busyFb)return;const ls=LESSONS.find(x=>x.id===id);const text=(P.ex[id]||'').trim();
+  const show=s=>{UI.fbOut[id]=s;const o=document.getElementById('fbOut');if(o&&UI.lesson===id){o.hidden=!s;o.textContent=s;}};
+  if(text.length<20){show(t('ex_ph'));return;}
+  UI.busyFb=true;const btn=document.getElementById('fbBtn');if(btn)btn.disabled=true;show(t('thinking'));
+  await sampleReady;
+  const fin=()=>{UI.busyFb=false;const b=document.getElementById('fbBtn');if(b)b.disabled=false;};
+  if(!sampleFn){show(t('ai_none'));fin();return;}
+  const prompt=`You are a screenwriting tutor giving first feedback on a short exercise. Do not rewrite the student's text and do not write replacement lines. Give: one thing that works (quote a few words of it), one thing that weakens it, and one concrete question the writer should ask themselves before revising. Be specific to this text, kind and direct. Answer in ${LANGNAME()}, at most 110 words, plain text without markdown.\n\nLESSON: ${ls.t[1]}\nEXERCISE: ${ls.e[1]}\n\nSTUDENT TEXT:\n${text.slice(0,6000)}`;
+  try{await sampleFn(prompt,{cache:false,onText:({text})=>show(text)}).then(r=>show(r.text));}catch(e){show((e&&e.text)||aiErr(e)||t('ai_fail'));}
+  fin();
+}
+
+/* ---------- bu hafta ---------- */
+function isoWeek(d){const x=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));const day=x.getUTCDay()||7;x.setUTCDate(x.getUTCDate()+4-day);const y=x.getUTCFullYear();const w=Math.ceil(((x-Date.UTC(y,0,1))/864e5+1)/7);return {y,w,key:y+'-'+String(w).padStart(2,'0')};}
+function vWeek(v){
+  const wk=isoWeek(new Date()),task=TASKS[wk.w%TASKS.length],cur=P.weekly[wk.key]||{text:'',done:false},ls=LESSONS[wk.w%LESSONS.length];
+  const hist=Object.keys(P.weekly).filter(k=>P.weekly[k].done).sort().reverse();
+  v.innerHTML=`
+  <div class="head"><h1><em>${t('week_k')}</em>${t('week_h')}</h1><p>${t('week_p')}</p></div>
+  <div class="two">
+    <div class="box stack"><div class="big">${wk.w}<small>. ${t('week_n')}, ${wk.y}</small></div>
+      <h3>${t('task')}</h3><p style="margin:0;font-size:17px;max-width:56ch">${esc(tx(task))}</p>
+      <textarea id="wk" rows="9" data-f="week" data-id="${wk.key}" placeholder="${t('task_ph')}" aria-label="${t('task')}">${esc(cur.text)}</textarea>
+      <div class="row"><button class="btn pri" data-act="weekDone" data-id="${wk.key}">${cur.done?t('w_undo'):t('w_done')}</button>${cur.done?`<span class="small" style="color:var(--good);font-weight:600">${t('done')}</span>`:''}</div>
+    </div>
+    <div class="stack">
+      <div class="box stack"><h2>${t('bul')}</h2>
+        <div class="inner stack" style="gap:8px"><span class="small muted" style="font-weight:600">${t('bul_concept')}</span><h3>${esc(tx(ls.t))}</h3><p class="muted" style="margin:0">${esc(tx(ls.b)[0])}</p><div><button class="btn sm" data-act="lesson" data-id="${ls.id}" data-go="1">${t('read_lesson')}</button></div></div>
+        <div class="inner stack" style="gap:8px"><span class="small muted" style="font-weight:600">${t('task')}</span><p style="margin:0">${esc(tx(task))}</p></div>
+        <div class="inner stack" style="gap:8px"><span class="small muted" style="font-weight:600">${t('bul_calls')}</span><p class="muted" style="margin:0">${t('bul_calls_p')}</p></div>
+      </div>
+      <div class="box stack"><h2>${t('history')}</h2>${hist.length?`<ul class="done-list">${hist.map(k=>{const [y,w]=k.split('-');return `<li>${Number(w)}. ${t('week_n')}, ${y} <span class="muted">· ${esc((P.weekly[k].text||'').slice(0,70))}</span></li>`;}).join('')}</ul>`:`<p class="muted" style="margin:0">${t('no_history')}</p>`}</div>
+    </div>
+  </div>`;
+}
+
+/* ---------- olaylar ---------- */
+function expMsg(s){const m=document.getElementById('expMsg');if(m){m.hidden=!s;m.textContent=s;}}
+app.addEventListener('click',async e=>{
+  const tb=e.target.closest('#toolbar [data-type]');
+  if(tb){const i=bIndex(UI.cur);const el=i>=0&&document.querySelector('.b[data-id="'+UI.cur+'"]');if(el){setType(i,tb.dataset.type,el);el.focus();}return;}
+  const a=e.target.closest('[data-act]');if(!a)return;const act=a.dataset.act,id=a.dataset.id;
+  if(act==='view'){UI.view=a.dataset.v;UI.delConfirm=false;UI.amMsg=null;render();}
+  else if(act==='go'){let v=a.dataset.v;if(v==='projects'&&!ME)v='login';if(CLOUD&&(v==='projects'||SITE.includes(v)))await leaveProject();UI.view=v;render();window.scrollTo(0,0);const fi=document.querySelector('#authForm input');if(fi)fi.focus();}
+  else if(act==='guest'){await leaveProject();UI.view='script';render();window.scrollTo(0,0);}
+  else if(act==='open'){a.disabled=true;await openProject(id);if(a.isConnected)a.disabled=false;}
+  else if(act==='toggleColors'){UI.colors=!UI.colors;try{localStorage.setItem('scn.colors',UI.colors?'on':'off');}catch(_){}const p=document.getElementById('paper');if(p)p.classList.toggle('colored',UI.colors);a.setAttribute('aria-pressed',String(UI.colors));a.textContent=t(UI.colors?'colors_on':'colors_off');}
+  else if(act==='color'){const c=Number(a.dataset.c);const {error}=await SB.from('scn_profiles').update({color:c}).eq('id',ME.id);if(error){toast(t('err_generic'));return;}ME.color=c;render();}
+  else if(act==='pcolor'){const c=Number(a.dataset.c);const {data,error}=await SB.rpc('scn_set_color',{p_project:CLOUD.pid,p_color:c});if(error||data!=='ok'){toast(t('err_generic'));return;}ME.color=c;reloadMembers();}
+  else if(act==='rmMember'){const {error}=await SB.from('scn_members').delete().eq('project_id',CLOUD.pid).eq('user_id',id);if(error)toast(t('err_generic'));else reloadMembers();}
+  else if(act==='delProject'){UI.delConfirm=true;renderView();}
+  else if(act==='delNo'){UI.delConfirm=false;renderView();}
+  else if(act==='delYes'){const pid=CLOUD.pid;UI.delConfirm=false;const {error}=await SB.from('scn_projects').delete().eq('id',pid);if(error){toast(t('err_generic'));return;}await leaveProject(true);UI.view='projects';render();}
+  else if(act==='theme'){THEME=THEME==='dark'?'light':'dark';try{localStorage.setItem('neoscript.theme',THEME);}catch(_){}applyTheme();render();}
+  else if(act==='scroll'){const el=document.getElementById(a.dataset.to);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
+  else if(act==='logout'){await leaveProject();try{if(SB)await SB.auth.signOut();}catch(_){}ME=null;UI.view='home';render();window.scrollTo(0,0);}
+  else if(act==='lang'){PERS.lang=P.lang==='tr'?'en':'tr';savePers();if(!CLOUD&&P.sample){P=bindPers(makeSample(PERS.lang));}else{P.lang=PERS.lang;}if(!CLOUD){try{localStorage.setItem(LS,JSON.stringify(P));}catch(_){}}render();}
+  else if(act==='jump'){UI.jump=id;UI.view='script';render();}
+  else if(act==='gotoN'){const s=scenes()[Number(a.dataset.n)-1];if(s){UI.jump=s.id;UI.view='script';render();}}
+  else if(act==='blank'){UI.confirm=true;renderSampleBar();}
+  else if(act==='blankNo'){UI.confirm=false;renderSampleBar();}
+  else if(act==='blankYes'){UI.confirm=false;const l=P.lang;P=normalize({v:1,lang:l,title:'',blocks:[{id:uid(),t:'scene',x:''}],threads:[{id:'th1',name:l==='en'?'Main story':'Ana hikâye',c:1}],structure:P.structure,lessonDone:P.lessonDone,ex:P.ex,weekly:P.weekly});touch();render();const f=document.querySelector('.b');if(f)f.focus();}
+  else if(act==='copy'){const txt=fountain();try{await navigator.clipboard.writeText(txt);expMsg(t('copied'));}catch(_){expMsg(t('copy_fail'));}}
+  else if(act==='export'){
+    const name=(P.title||t('title_ph')).replace(/[\\/:*?"<>|]+/g,' ').trim().slice(0,80)||'senaryo';
+    try{const blob=new Blob([fountain()],{type:'text/plain;charset=utf-8'});const l=document.createElement('a');l.href=URL.createObjectURL(blob);l.download=name+'.fountain';document.body.appendChild(l);l.click();setTimeout(()=>{URL.revokeObjectURL(l.href);l.remove();},800);expMsg('');}catch(err){expMsg(t('exp_none'));}
+  }
+  else if(act==='structure'){P.structure=a.dataset.v;touch();renderView();}
+  else if(act==='addThread'){const used=P.threads.map(x=>x.c);const c=[1,2,3,4,5].find(n=>!used.includes(n))||5;P.threads.push({id:'th'+uid(),name:t('th_new'),c});touch();renderView();}
+  else if(act==='delThread'){P.threads=P.threads.filter(x=>x.id!==id);for(const k in P.cards)if(P.cards[k].th===id)P.cards[k].th='';touch();renderView();}
+  else if(act==='addScene'){const nb={id:uid(),t:'scene',x:''};P.blocks.push(nb,{id:uid(),t:'action',x:''});const c=card(nb.id);if(a.dataset.beat)c.beat[P.structure]=a.dataset.beat;touch();UI.jump=nb.id;UI.view='script';render();const el=document.querySelector('.b[data-id="'+nb.id+'"]');if(el)el.focus();}
+  else if(act==='up')moveScene(id,-1);
+  else if(act==='down')moveScene(id,1);
+  else if(act==='ask')doAsk();
+  else if(act==='stop'){if(ctl)ctl.abort();}
+  else if(act==='check')doCheck();
+  else if(act==='dismiss'){P.checks.splice(Number(a.dataset.i),1);if(!P.checks.length)P.checks=null;touch();const l=document.getElementById('checkList');if(l)l.innerHTML=checksHtml();}
+  else if(act==='lesson'){UI.lesson=id;if(a.dataset.go)UI.view='academy';a.dataset.go?render():renderView();}
+  else if(act==='lessonDone'){P.lessonDone[id]=!P.lessonDone[id];touch();renderView();}
+  else if(act==='fb')doFb(id);
+  else if(act==='weekDone'){const w=P.weekly[id]||(P.weekly[id]={text:'',done:false});w.done=!w.done;touch();renderView();}
+});
+app.addEventListener('input',e=>{
+  const el=e.target;
+  if(el.classList&&el.classList.contains('b')){
+    const i=bIndex(el.dataset.id);if(i<0)return;const b=P.blocks[i];if(CLOUD)claimBlock(b.id);
+    if(el.childNodes.length===1&&el.firstChild.nodeName==='BR')el.textContent='';
+    b.x=clean(el);
+    if(b.t==='action'&&isHeading(b.x)){b.t='scene';el.className='b b-scene';el.dataset.ph=t('ph_scene');markType('scene');const m=b.x.match(/^\s*(int|ext|est)(?=[.\s\/])/i);if(m&&m[1]!==m[1].toUpperCase()){b.x=b.x.replace(m[1],m[1].toUpperCase());el.textContent=b.x;setCaret(el,b.x.length);}}
+    afterEdit(b.t==='scene'||b.t==='char');return;
+  }
+  const f=el.dataset&&el.dataset.f;if(!f)return;const id=el.dataset.id,val=el.value;
+  if(f==='title')P.title=val;
+  else if(f==='sum')card(id).sum=val;
+  else if(f==='thname'){const th=P.threads.find(x=>x.id===id);if(th)th.name=val;}
+  else if(f==='cwant'||f==='cknows'||f==='cnote'){const c=P.chars[id]||(P.chars[id]={want:'',knows:'',note:''});c[f.slice(1)]=val;}
+  else if(f==='facts')P.facts=val;
+  else if(f==='ex')P.ex[id]=val;
+  else if(f==='week'){const w=P.weekly[id]||(P.weekly[id]={text:'',done:false});w.text=val;}
+  else return;
+  touch();
+});
+app.addEventListener('change',async e=>{
+  const el=e.target,f=el.dataset&&el.dataset.f;if(!f)return;const id=el.dataset.id;
+  if(f==='mrole'){const {error}=await SB.from('scn_members').update({role:el.value}).eq('project_id',CLOUD.pid).eq('user_id',id);if(error)toast(t('err_generic'));else reloadMembers();return;}
+  if(f==='th'){card(id).th=el.value;touch();renderView();}
+  else if(f==='beat'){const c=card(id);c.beat=c.beat||{};c.beat[P.structure]=el.value;touch();renderView();}
+  else if(f==='thname'){renderView();}
+});
+window.addEventListener('beforeunload',()=>{if(!CLOUD){try{localStorage.setItem(LS,JSON.stringify(P));}catch(_){}}else if(flushT||metaT){flushBlocks();saveMeta();}});
+(async function boot(){
+  if(!SB)return;
+  try{const {data}=await SB.auth.getSession();if(data&&data.session){await loadMe(data.session.user);if(SITE.includes(UI.view)){UI.view='projects';render();}}}catch(e){}
+  SB.auth.onAuthStateChange((ev,session)=>{setTimeout(async()=>{
+    if(ev==='SIGNED_OUT'&&ME){ME=null;await leaveProject(true);UI.view='home';render();}
+    else if(ev==='SIGNED_IN'&&session&&!ME&&!UI.authBusy){try{await loadMe(session.user);UI.view='projects';render();}catch(e){}}
+  },0);});
+})();
+
+render();
+})();
+</script>
+
+</body>
+</html>
