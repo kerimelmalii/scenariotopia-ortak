@@ -345,6 +345,32 @@ input.field{font-size:16px;padding:12px 14px}
 .empty{color:var(--mute);font-size:15px;line-height:1.55;background:var(--tone);border-radius:24px;padding:20px}
 @media (max-width:980px){.social{grid-template-columns:minmax(0,1fr)}.aside{position:static}}
 @media (max-width:560px){.compose{padding:16px;border-radius:24px}.compose .ask{font-size:14.5px;padding:12px 16px}.post{padding:16px;border-radius:22px}.pbody h3{font-size:18px}.pav{width:36px;height:36px}}
+
+/* yorumlar */
+.cmarks{position:absolute;inset:0;pointer-events:none}
+.cmark{position:absolute;pointer-events:auto;min-width:26px;height:26px;padding:0 7px;border:0;border-radius:999px 999px 999px 4px;background:var(--dot);color:#fff;font:700 12px/26px var(--sans);cursor:pointer;box-shadow:0 0 0 3px var(--paper)}
+.cmark:hover{transform:scale(1.08)}
+#paper .b.has-c{background:color-mix(in srgb,var(--dot) 9%,transparent);border-radius:4px}
+.cmt-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.cmt-h h3{margin:0}.cmt-h .cnt{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--dot);color:#fff;font-size:11px;font-weight:700;vertical-align:1px}
+.cmt-side{display:flex;flex-direction:column;gap:10px;margin:0 0 14px;padding:0 0 14px;border-bottom:1px solid var(--line)}
+.cmt-list{display:flex;flex-direction:column;gap:8px;max-height:340px;overflow:auto}
+.cmt-card{text-align:left;border:0;background:var(--bg);border-radius:16px;padding:10px 12px;font:inherit;color:inherit;cursor:pointer;display:flex;flex-direction:column;gap:4px;min-width:0}
+.cmt-card:hover{background:var(--tone2)}
+.cmt-card.res{opacity:.55}
+.cmt-card .q{font-family:var(--mono);font-size:12.5px;color:var(--mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cmt-card .m{font-size:13.5px;line-height:1.4;overflow-wrap:anywhere}
+.cmt-card .m i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.cmt-card .n{font-size:12px;font-weight:600;color:var(--mute)}
+.cmt-q{font-family:var(--mono);font-size:14px;line-height:1.45;background:var(--tone);border-left:4px solid var(--dot);border-radius:14px;padding:12px 14px;white-space:pre-wrap;overflow-wrap:anywhere;max-height:140px;overflow:auto}
+.cmt{display:flex;flex-direction:column;gap:4px;align-items:flex-start}
+.cmt.res{opacity:.6}
+.cmt-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.cmt-top i{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;color:#fff;font-style:normal;font-size:11px;font-weight:700}
+.cmt-top b{font-size:14px}
+.cmt p{margin:0 0 0 34px;font-size:15px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}
+.cmt .linkbtn{margin-left:34px}
+#cmtThread{max-height:46vh;overflow:auto}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -490,6 +516,14 @@ const L={
   post_week:['Haftanın görevi','Task of the week'],post_week_go:['Yazmaya başlayın','Start writing'],post_aca:['Günün dersi','Lesson of the day'],post_aca_go:['Dersi okuyun','Read the lesson'],
   post_lock:['Demo: yalnızca yöneticiler kullanabilir','Demo: admins only'],role_admin:['Yönetici','Admin'],role_member:['Yazar','Writer'],
   people_h:['Yazarlar','Writers'],aca_side:['Akademi ilerlemesi','Academy progress'],new_k:['Yeni proje','New project'],open_proj:['Açın','Open'],all_proj:['Tümü','All'],
+
+  cmts:['Yorumlar','Comments'],cmt_add:['Yorum ekleyin','Add comment'],cmt_ph:['Yorumunuz… (Ctrl+Enter ile gönderin)','Your comment… (Ctrl+Enter to send)'],cmt_send:['Gönderin','Send'],
+  cmt_team:['Ekipteki herkes görür.','Everyone on the team sees it.'],cmt_first:['Bu satırda henüz yorum yok.','No comments on this line yet.'],
+  cmt_empty:['Henüz yorum yok. Bir satıra tıklayıp "Yorum ekleyin"e basın.','No comments yet. Click a line, then "Add comment".'],
+  cmt_pick:['Önce yorum yapmak istediğiniz satıra tıklayın.','First click the line you want to comment on.'],
+  cmt_resolve:['Çözüldü olarak işaretleyin','Mark as resolved'],cmt_reopen:['Yeniden açın','Reopen'],cmt_resolved:['çözüldü','resolved'],cmt_del:['Silin','Delete'],
+  cmt_show_res:['Çözülenleri gösterin','Show resolved'],cmt_hide_res:['Çözülenleri gizleyin','Hide resolved'],cmt_gone:['satır silinmiş','line deleted'],cmt_n:['{n} yorum','{n} comments'],
+  cmt_new:['{n} yorum yaptı','{n} commented'],feed_cmt:['yorum yaptı','commented'],k_cmt:['Satıra yorum','Comment on line'],cmt_missing:['Yorumlar henüz kurulmadı.','Comments are not set up yet.'],
   foot_cloud:['Bu proje ekibinizle eş zamanlı kaydedilir. Renkler, satırı en son kimin düzenlediğini gösterir.','This project is saved live with your team. Colours show who last edited each line.'],
   foot:['Senaryonuz hesabınıza özel alana, o kullanılamıyorsa bu tarayıcıya kaydedilir. Sayfa aralıkları 110 sayfalık bir senaryoya göre verilmiştir. Bu bir MVP1 prototipidir.','Your script is saved to a space private to your account, or to this browser when that is unavailable. Page ranges assume a 110-page script. This is an MVP1 prototype.']
 };
@@ -689,6 +723,7 @@ async function openProject(pid){
   if(!rows.length)normalizePos();
   subscribe(pid);
   UI.view='script';render();window.scrollTo(0,0);
+  loadComments();
   if(!rows.length)scheduleFlush();
 }
 async function leaveProject(skipFlush){
@@ -702,6 +737,7 @@ function subscribe(pid){
   const ch=SB.channel('scn-'+pid,{config:{presence:{key:ME.id}}});
   ch.on('postgres_changes',{event:'*',schema:'public',table:'scn_blocks',filter:'project_id=eq.'+pid},onBlock)
     .on('postgres_changes',{event:'UPDATE',schema:'public',table:'scn_projects',filter:'id=eq.'+pid},onProject)
+    .on('postgres_changes',{event:'*',schema:'public',table:'scn_comments',filter:'project_id=eq.'+pid},onComment)
     .on('postgres_changes',{event:'*',schema:'public',table:'scn_members',filter:'project_id=eq.'+pid},()=>{reloadMembers();})
     .on('postgres_changes',{event:'*',schema:'public',table:'scn_folder_members',filter:'folder_id=eq.'+((CLOUD&&CLOUD.folder&&CLOUD.folder.id)||'00000000-0000-0000-0000-000000000000')},()=>{reloadMembers();})
     .on('presence',{event:'sync'},()=>{if(!CLOUD||CLOUD.pid!==pid)return;CLOUD.presence=ch.presenceState();applyLocks();renderPresence();})
@@ -905,7 +941,7 @@ const isAdmin=()=>!!(ME&&ME.admin);
 function demoModal(){openModal(`<h2>${t('demo_k')}</h2><p class="muted" style="margin:0">${t('demo_p')}</p><div><button class="btn pri" data-act="modalClose">${t('ok')}</button></div>`,t('demo_k'));}
 function keysModal(){const mod=/Mac|iPhone|iPad/.test(navigator.platform||navigator.userAgent)?'⌘':'Ctrl';
   const row=(k,d)=>`<span class="kbd">${k}</span><span>${d}</span>`;
-  openModal(`<h2>${t('keys')}</h2><div class="keys">${row(mod+'+Z',t('k_undo'))}${row(mod+'+Shift+Z / '+mod+'+Y',t('k_redo'))}${row(mod+'+S',t('k_save'))}${row(mod+'+P',t('k_pdf'))}${row(mod+'+1…6',t('k_type'))}${row('Tab / Shift+Tab',t('k_tab'))}${row('Enter',t('k_enter'))}${row(mod+'+/',t('k_help'))}</div><div><button class="btn pri" data-act="modalClose">${t('ok')}</button></div>`,t('keys'));}
+  openModal(`<h2>${t('keys')}</h2><div class="keys">${row(mod+'+Z',t('k_undo'))}${row(mod+'+Shift+Z / '+mod+'+Y',t('k_redo'))}${row(mod+'+S',t('k_save'))}${row(mod+'+P',t('k_pdf'))}${row(mod+'+1…6',t('k_type'))}${row('Tab / Shift+Tab',t('k_tab'))}${row('Enter',t('k_enter'))}${row(mod+'+Alt+M',t('k_cmt'))}${row(mod+'+/',t('k_help'))}</div><div><button class="btn pri" data-act="modalClose">${t('ok')}</button></div>`,t('keys'));}
 
 /* ---------- pdf ---------- */
 const JSPDF_URL='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
@@ -1121,7 +1157,7 @@ function relTime(d){const s=(new Date(d).getTime()-Date.now())/1000;const rtf=ne
   const a=Math.abs(s);if(a<60)return rtf.format(Math.round(s),'second');if(a<3600)return rtf.format(Math.round(s/60),'minute');if(a<86400)return rtf.format(Math.round(s/3600),'hour');if(a<86400*30)return rtf.format(Math.round(s/86400),'day');return new Date(d).toLocaleDateString(P.lang==='en'?'en-GB':'tr-TR',{day:'numeric',month:'long'});}
 async function loadFeed(projects,folders){
   const box=document.getElementById('feed');if(!box||!SB)return;
-  const [rb,rp]=await Promise.all([SB.from('scn_blocks').select('project_id,author_id,updated_at,text,type').order('updated_at',{ascending:false}).limit(400),SB.from('scn_profiles').select('id,display_name,color').limit(80)]);
+  const [rb,rp,rc]=await Promise.all([SB.from('scn_blocks').select('project_id,author_id,updated_at,text,type').order('updated_at',{ascending:false}).limit(400),SB.from('scn_profiles').select('id,display_name,color').limit(80),SB.from('scn_comments').select('id,project_id,block_id,author_id,body,quote,created_at').order('created_at',{ascending:false}).limit(30)]);
   const f=document.getElementById('feed');if(!f||UI.view!=='projects')return;
   const people=rp.error?[]:(rp.data||[]);const pm={};people.forEach(p=>pm[p.id]=p);
   const prj={};projects.forEach(p=>prj[p.id]=p);const fm={};folders.forEach(x=>fm[x.id]=x);
@@ -1131,9 +1167,12 @@ async function loadFeed(projects,folders){
     if(!g){g={a:b.author_id,p:b.project_id,at:b.updated_at,oldest:tm,n:0,snip:null};groups.push(g);}
     g.n++;g.oldest=Math.min(g.oldest,tm);if(b.text&&b.text.trim()&&b.type!=='trans'&&(!g.snip||(g.snip.type==='scene'&&b.type!=='scene')))g.snip=b;});
   const pname=p=>{const fo=p.folder_id&&fm[p.folder_id];return fo?fo.title+' · '+t('episode')+' '+(p.episode_no||''):(p.title||t('title_ph'));};
-  const items=groups.slice(0,14).map(g=>{const u=pm[g.a]||{display_name:'?',color:1};const mine=g.a===ME.id;const c=mine?ME.color:(u.color||1);const p=prj[g.p];
+  const gi=groups.slice(0,14).map(g=>{const u=pm[g.a]||{display_name:'?',color:1};const mine=g.a===ME.id;const c=mine?ME.color:(u.color||1);const p=prj[g.p];
     const sn=g.snip?`<div class="snip" style="border-left-color:var(--u${c})">${esc(g.snip.text.length>220?g.snip.text.slice(0,220)+'…':g.snip.text)}</div>`:'';
-    return `<article class="post"><div class="ph"><span class="pav" style="background:var(--u${c})" aria-hidden="true">${initial(mine?ME.name:u.display_name)}</span><div><b>${esc(mine?t('you'):u.display_name)}</b><small>${esc(t('feed_worked',{p:pname(p)}))} · ${t('feed_lines',{n:g.n})} · ${esc(relTime(g.at))}</small></div></div>${sn}<div class="pact"><button class="btn sm" data-act="open" data-id="${p.id}">${t('open_proj')}</button></div></article>`;});
+    return {at:g.at,h:`<article class="post"><div class="ph"><span class="pav" style="background:var(--u${c})" aria-hidden="true">${initial(mine?ME.name:u.display_name)}</span><div><b>${esc(mine?t('you'):u.display_name)}</b><small>${esc(t('feed_worked',{p:pname(p)}))} · ${t('feed_lines',{n:g.n})} · ${esc(relTime(g.at))}</small></div></div>${sn}<div class="pact"><button class="btn sm" data-act="open" data-id="${p.id}">${t('open_proj')}</button></div></article>`};});
+  const ci=(rc&&!rc.error?(rc.data||[]):[]).filter(c=>prj[c.project_id]).map(c=>{const u=pm[c.author_id]||{display_name:'?',color:1};const mine=c.author_id===ME.id;const col=mine?ME.color:(u.color||1);const p=prj[c.project_id];
+    return {at:c.created_at,h:`<article class="post"><div class="ph"><span class="pav" style="background:var(--u${col})" aria-hidden="true">${initial(mine?ME.name:u.display_name)}</span><div><b>${esc(mine?t('you'):u.display_name)} <span style="font-weight:500;color:var(--mute)">${t('feed_cmt')}</span></b><small>${esc(pname(p))} · ${esc(relTime(c.created_at))}</small></div></div><p style="margin:0;font-size:16px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere">${esc(trunc(c.body,400))}</p>${c.quote?`<div class="snip" style="border-left-color:var(--dot);color:var(--mute)">${esc(trunc(c.quote,160))}</div>`:''}<div class="pact"><button class="btn sm" data-act="open" data-id="${p.id}" data-cmt="${esc(c.block_id)}">${t('open_proj')}</button></div></article>`};});
+  const items=gi.concat(ci).sort((a,b)=>a.at<b.at?1:a.at>b.at?-1:0).slice(0,16).map(x=>x.h);
   const aca=document.querySelector('[data-aca-slot]');const acaHtml=aca?aca.innerHTML:'';if(aca)aca.remove();
   if(!items.length)f.innerHTML=`<div class="empty">${t('feed_empty')}</div>`+acaHtml;
   else{items.splice(Math.min(2,items.length),0,acaHtml);f.innerHTML=items.join('');}
@@ -1337,14 +1376,14 @@ function vScript(v){
 }
 function renderSampleBar(){
   const el=document.getElementById('sampleBar');if(!el)return;
-  if(CLOUD){el.innerHTML=`<div class="row" style="justify-content:space-between;gap:10px"><div class="legend" id="legend">${legendHtml()}</div><div class="row" style="gap:8px">${canWrite()?'':`<span class="ro-note">${t('ro')}</span>`}<button class="btn line sm" data-act="versions">${t('ver')}</button><button class="btn line sm" data-act="toggleColors" aria-pressed="${UI.colors}">${t(UI.colors?'colors_on':'colors_off')}</button>${CLOUD.folder?`<button class="btn sm" data-act="folder" data-id="${CLOUD.folder.id}">← ${esc(CLOUD.folder.title)}</button>`:`<button class="btn sm" data-act="go" data-v="projects">${t('my_projects')}</button>`}</div></div>`;return;}
+  if(CLOUD){el.innerHTML=`<div class="row" style="justify-content:space-between;gap:10px"><div class="legend" id="legend">${legendHtml()}</div><div class="row" style="gap:8px">${canWrite()?'':`<span class="ro-note">${t('ro')}</span>`}<button class="btn pri sm" data-act="cmtAdd">+ ${t('cmt_add')}</button><button class="btn line sm" data-act="versions">${t('ver')}</button><button class="btn line sm" data-act="toggleColors" aria-pressed="${UI.colors}">${t(UI.colors?'colors_on':'colors_off')}</button>${CLOUD.folder?`<button class="btn sm" data-act="folder" data-id="${CLOUD.folder.id}">← ${esc(CLOUD.folder.title)}</button>`:`<button class="btn sm" data-act="go" data-v="projects">${t('my_projects')}</button>`}</div></div>`;return;}
   if(UI.confirm){el.innerHTML=`<div class="note row"><span>${t('blank_sure')}</span><button class="btn pri sm" data-act="blankYes">${t('yes_clear')}</button><button class="btn sm" data-act="blankNo">${t('cancel')}</button></div>`;return;}
   el.innerHTML=`<div class="row">${P.sample?`<span class="badge">${t('sample')}</span><span class="muted small">${t('sample_note')}</span>`:''}<button class="btn line sm" data-act="blank">${t('blank')}</button></div>`;
 }
 function renderSide(){
   const el=document.getElementById('side');if(!el)return;const sc=scenes(),s=stats(),L=computeLayout();const mins=L.count?Math.max(1,Math.round(L.frac)):0;
   el.innerHTML=`<div class="stats" style="margin:0 0 14px;padding:0 0 14px;border-top:0;border-bottom:1px solid var(--line)"><div><b>${L.count}</b><span>${t('s_pages2')}</span></div><div><b>~${mins}</b><span>${t('s_min')}</span></div><div><b>${s.scenes}</b><span>${t('s_scenes')}</span></div><div><b>${s.words}</b><span>${t('s_words')}</span></div></div>
-  <h3>${t('scenes')}</h3>${sc.length?`<ol class="scene-list">${sc.map(x=>`<li><button data-act="jump" data-id="${x.id}">${esc(up(x.title)||t('ph_scene'))}</button></li>`).join('')}</ol>`:`<p class="muted small">${t('no_scenes')}</p>`}
+  ${CLOUD?'<div class="cmt-side" id="cmtSide"></div>':''}<h3>${t('scenes')}</h3>${sc.length?`<ol class="scene-list">${sc.map(x=>`<li><button data-act="jump" data-id="${x.id}">${esc(up(x.title)||t('ph_scene'))}</button></li>`).join('')}</ol>`:`<p class="muted small">${t('no_scenes')}</p>`}
   <p class="small muted" style="margin:12px 0 0">${t('pg_note',{p:PERS.paper==='letter'?'Letter':'A4'})}</p>`;
   renderPageMarks();updatePgNow();
   if(CLOUD&&canWrite()&&L.count!==CLOUD.pageCount){CLOUD.pageCount=L.count;const pid=CLOUD.pid;clearTimeout(window.__pcT);window.__pcT=setTimeout(()=>{SB.from('scn_projects').update({page_count:L.count}).eq('id',pid).then(()=>{},()=>{});},3000);}
@@ -1408,7 +1447,91 @@ app.addEventListener('focusout',e=>{
     if(CLOUD.pendingView&&!viewBusy()){CLOUD.pendingView=false;if(UI.view!=='script')renderView();}},250);
 });
 app.addEventListener('focusin',e=>{const el=e.target.closest&&e.target.closest('.b');if(!el)return;setTimeout(updatePgNow,0);if(CLOUD)claimBlock(el.dataset.id);UI.cur=el.dataset.id;const b=P.blocks[bIndex(UI.cur)];if(b)markType(b.t);});
-app.addEventListener('mousedown',e=>{if(e.target.closest('#toolbar [data-type]'))e.preventDefault();});
+app.addEventListener('mousedown',e=>{if(e.target.closest('#toolbar [data-type]')||e.target.closest('[data-act=cmtAdd]'))e.preventDefault();});
+
+/* ---------- yorumlar ---------- */
+const CMT_COLS='id,block_id,quote,body,author_id,resolved,created_at,project_id';
+const cmtList=()=>(CLOUD&&CLOUD.comments)||[];
+const trunc=(x,n)=>{x=String(x||'').replace(/\s+/g,' ').trim();return x.length>n?x.slice(0,n)+'…':x;};
+function memberName(id){if(ME&&id===ME.id)return ME.name;const m=((CLOUD&&CLOUD.members)||[]).find(x=>x.id===id);return m?m.name:'?';}
+function memberColor(id){if(ME&&id===ME.id)return ME.color||1;try{return colorOf(id)||1;}catch(e){return 1;}}
+async function loadComments(){
+  if(!CLOUD||!SB)return;const pid=CLOUD.pid;
+  const {data,error}=await SB.from('scn_comments').select(CMT_COLS).eq('project_id',pid).order('created_at',{ascending:true});
+  if(!CLOUD||CLOUD.pid!==pid)return;CLOUD.comments=error?[]:(data||[]);CLOUD.cmtOk=!error;refreshComments();
+  if(UI.cmtAfter){const b=UI.cmtAfter;UI.cmtAfter=null;openCmt(b);}
+}
+function onComment(pl){
+  if(!CLOUD)return;const Lc=CLOUD.comments||(CLOUD.comments=[]);
+  if(pl.eventType==='DELETE'){const id=pl.old&&pl.old.id;const i=Lc.findIndex(c=>c.id===id);if(i>=0)Lc.splice(i,1);}
+  else{const r=pl.new;if(!r||r.project_id!==CLOUD.pid)return;const i=Lc.findIndex(c=>c.id===r.id);
+    if(i>=0)Lc[i]=Object.assign({},Lc[i],r);else{Lc.push(r);if(pl.eventType==='INSERT'&&r.author_id!==ME.id)toast(t('cmt_new',{n:memberName(r.author_id)}));}}
+  refreshComments();
+}
+function refreshComments(){renderCmtSide();renderCMarks();renderThread();}
+function renderCmtSide(){
+  const el=document.getElementById('cmtSide');if(!el||!CLOUD)return;
+  const all=cmtList(),open=all.filter(c=>!c.resolved),show=UI.cmtAll?all:open;
+  const order=new Map(P.blocks.map((b,i)=>[b.id,i]));const groups={};
+  show.forEach(c=>{(groups[c.block_id]=groups[c.block_id]||[]).push(c);});
+  const keys=Object.keys(groups).sort((a,b)=>(order.has(a)?order.get(a):1e9)-(order.has(b)?order.get(b):1e9));
+  el.innerHTML=`<div class="cmt-h"><h3>${t('cmts')}${open.length?` <span class="cnt">${open.length}</span>`:''}</h3>${all.length>open.length||UI.cmtAll?`<button class="linkbtn small" data-act="cmtAll">${t(UI.cmtAll?'cmt_hide_res':'cmt_show_res')}</button>`:''}</div>
+  ${keys.length?`<div class="cmt-list">${keys.map(k=>{const cs=groups[k],b=order.has(k)?P.blocks[order.get(k)]:null,last=cs[cs.length-1];
+    return `<button class="cmt-card${cs.every(c=>c.resolved)?' res':''}" data-act="cmtOpen" data-id="${esc(k)}"><span class="q">${esc(trunc(b?b.x:cs[0].quote,60)||'…')}${b?'':` (${t('cmt_gone')})`}</span><span class="m"><i style="background:var(--u${memberColor(last.author_id)})"></i><b>${esc(last.author_id===ME.id?t('you'):memberName(last.author_id))}:</b> ${esc(trunc(last.body,100))}</span>${cs.length>1?`<span class="n">${t('cmt_n',{n:cs.length})}</span>`:''}</button>`;}).join('')}</div>`:`<p class="small muted" style="margin:0">${t('cmt_empty')}</p>`}
+  <div><button class="btn sm" data-act="cmtAdd">+ ${t('cmt_add')}</button></div>`;
+}
+function renderCMarks(){
+  const box=document.querySelector('.paper-box'),paper=document.getElementById('paper');if(!box||!paper||!CLOUD)return;
+  let layer=document.getElementById('cmarks');if(!layer){layer=document.createElement('div');layer.id='cmarks';layer.className='cmarks';box.appendChild(layer);}
+  const cnt={};cmtList().forEach(c=>{if(!c.resolved)cnt[c.block_id]=(cnt[c.block_id]||0)+1;});
+  paper.querySelectorAll('.b.has-c').forEach(el=>{if(!cnt[el.dataset.id])el.classList.remove('has-c');});
+  const br=box.getBoundingClientRect(),pr=paper.getBoundingClientRect();const x=Math.max(0,pr.right-br.left-36);
+  layer.innerHTML=Object.keys(cnt).map(id=>{const el=paper.querySelector('.b[data-id="'+CSS.escape(id)+'"]');if(!el)return '';el.classList.add('has-c');const r=el.getBoundingClientRect();
+    return `<button class="cmark" data-act="cmtOpen" data-id="${esc(id)}" style="top:${Math.round(r.top-br.top-4)}px;left:${Math.round(x)}px" aria-label="${t('cmts')}: ${cnt[id]}">${cnt[id]}</button>`;}).join('');
+}
+function openCmt(bid){
+  if(!CLOUD)return;if(CLOUD.cmtOk===false){toast(t('cmt_missing'));return;}
+  bid=bid||UI.cur;const b=P.blocks.find(x=>x.id===bid);const old=cmtList().find(c=>c.block_id===bid);
+  if(!bid||(!b&&!old)){toast(t('cmt_pick'));return;}
+  UI.cmtBlock=bid;
+  if(b){const el=document.querySelector('#paper .b[data-id="'+CSS.escape(bid)+'"]');if(el){el.scrollIntoView({block:'center'});el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash');}}
+  openModal(`<h2>${t('cmts')}</h2><div class="cmt-q">${esc(b?(b.x||'…'):(old.quote||'…'))}</div><div id="cmtThread" class="stack" style="gap:14px"></div>
+  <form id="cmtForm" class="stack" novalidate style="gap:8px"><textarea class="field" id="cmt-body" rows="3" maxlength="2000" placeholder="${t('cmt_ph')}" aria-label="${t('cmt_ph')}" style="resize:vertical"></textarea>
+  <div class="row" style="gap:10px;justify-content:space-between"><span class="small muted">${t('cmt_team')}</span><span class="row" style="gap:8px"><button class="btn sm" type="button" data-act="modalClose">${t('cancel')}</button><button class="btn pri sm" type="submit">${t('cmt_send')}</button></span></div></form>`,t('cmts'));
+  renderThread();setTimeout(()=>{const ta=document.getElementById('cmt-body');if(ta)ta.focus();},30);
+}
+function renderThread(){
+  const el=document.getElementById('cmtThread');if(!el||!CLOUD)return;const cs=cmtList().filter(c=>c.block_id===UI.cmtBlock);
+  const canRes=canWrite()||isAdmin()||cs.some(c=>c.author_id===ME.id);
+  el.innerHTML=cs.length?cs.map(c=>`<div class="cmt${c.resolved?' res':''}"><div class="cmt-top"><i style="background:var(--u${memberColor(c.author_id)})">${initial(memberName(c.author_id))}</i><b>${esc(c.author_id===ME.id?t('you'):memberName(c.author_id))}</b><span class="small muted">${esc(relTime(c.created_at))}${c.resolved?' · '+t('cmt_resolved'):''}</span></div><p>${esc(c.body)}</p>${(c.author_id===ME.id||isAdmin())?`<button class="linkbtn small" data-act="cmtDel" data-id="${esc(c.id)}">${t('cmt_del')}</button>`:''}</div>`).join('')
+    +(canRes?`<div><button class="btn line sm" data-act="cmtRes">${t(cs.every(c=>c.resolved)?'cmt_reopen':'cmt_resolve')}</button></div>`:'')
+    :`<p class="small muted" style="margin:0">${t('cmt_first')}</p>`;
+}
+async function sendCmt(form){
+  const ta=document.getElementById('cmt-body');const body=(ta&&ta.value||'').trim();if(!body||!CLOUD||!UI.cmtBlock)return;
+  const b=P.blocks.find(x=>x.id===UI.cmtBlock);const btn=form.querySelector('button[type=submit]');if(btn)btn.disabled=true;
+  if(b&&typeof flushBlocks==='function'){try{await flushBlocks();}catch(e){}}
+  const {data,error}=await SB.from('scn_comments').insert({project_id:CLOUD.pid,block_id:UI.cmtBlock,quote:(b?b.x:'').slice(0,300),body:body.slice(0,2000),author_id:ME.id}).select(CMT_COLS).single();
+  if(btn)btn.disabled=false;if(error||!data){toast(t('err_generic'));return;}
+  if(CLOUD&&!cmtList().some(c=>c.id===data.id))(CLOUD.comments=CLOUD.comments||[]).push(data);
+  if(ta)ta.value='';refreshComments();
+}
+async function resolveCmt(){
+  if(!CLOUD)return;const cs=cmtList().filter(c=>c.block_id===UI.cmtBlock);if(!cs.length)return;const val=!cs.every(c=>c.resolved);
+  const {error}=await SB.from('scn_comments').update({resolved:val}).eq('project_id',CLOUD.pid).eq('block_id',UI.cmtBlock);
+  if(error){toast(t('err_generic'));return;}cs.forEach(c=>c.resolved=val);refreshComments();if(val)closeModal();
+}
+async function delCmt(id){
+  if(!CLOUD)return;const {error}=await SB.from('scn_comments').delete().eq('id',id);if(error){toast(t('err_generic'));return;}
+  const i=cmtList().findIndex(c=>c.id===id);if(i>=0)CLOUD.comments.splice(i,1);refreshComments();
+}
+addEventListener('submit',e=>{if(e.target.id!=='cmtForm')return;e.preventDefault();sendCmt(e.target);});
+addEventListener('keydown',e=>{
+  if(e.target&&e.target.id==='cmt-body'&&e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();const f=document.getElementById('cmtForm');if(f)sendCmt(f);return;}
+  if(CLOUD&&(e.ctrlKey||e.metaKey)&&e.altKey&&(e.code==='KeyM'||e.key==='m'||e.key==='M')){e.preventDefault();openCmt();}
+});
+app.addEventListener('click',e=>{const el=e.target.closest&&e.target.closest('#paper .b');if(el)UI.cur=el.dataset.id;},true);
+{const _rs=renderSide;renderSide=function(){_rs();renderCmtSide();};const _pm=renderPageMarks;renderPageMarks=function(){_pm();renderCMarks();};}
 
 /* ---------- kart tahtası ---------- */
 function vBoard(v){
@@ -1565,6 +1688,11 @@ app.addEventListener('click',async e=>{
   const a=e.target.closest('[data-act]');if(!a)return;const act=a.dataset.act,id=a.dataset.id;
   if(act==='view'){if(DEMO_LOCK.includes(a.dataset.v)&&!isAdmin()){demoModal();return;}UI.view=a.dataset.v;UI.delConfirm=false;UI.amMsg=null;render();}
   else if(act==='modalClose'){closeModal();}
+  else if(act==='cmtAdd'){openCmt();}
+  else if(act==='cmtOpen'){openCmt(a.dataset.id);}
+  else if(act==='cmtAll'){UI.cmtAll=!UI.cmtAll;renderCmtSide();}
+  else if(act==='cmtRes'){a.disabled=true;await resolveCmt();a.disabled=false;}
+  else if(act==='cmtDel'){a.disabled=true;await delCmt(a.dataset.id);}
   else if(act==='pdf'){openPdf();}
   else if(act==='keys'){keysModal();}
   else if(act==='versions'){openVersions();}
@@ -1582,7 +1710,7 @@ app.addEventListener('click',async e=>{
   else if(act==='delFolderNo'){UI.delFolder=false;loadFolder();}
   else if(act==='delFolderYes'){UI.delFolder=false;const {error}=await SB.from('scn_folders').delete().eq('id',UI.folderId);if(error){toast(t('err_generic'));return;}UI.view='projects';render();}
   else if(act==='guest'){await leaveProject();UI.view='script';render();window.scrollTo(0,0);}
-  else if(act==='open'){a.disabled=true;await openProject(id);if(a.isConnected)a.disabled=false;}
+  else if(act==='open'){UI.cmtAfter=a.dataset.cmt||null;a.disabled=true;await openProject(id);if(a.isConnected)a.disabled=false;}
   else if(act==='toggleColors'){UI.colors=!UI.colors;try{localStorage.setItem('scn.colors',UI.colors?'on':'off');}catch(_){}const p=document.getElementById('paper');if(p)p.classList.toggle('colored',UI.colors);a.setAttribute('aria-pressed',String(UI.colors));a.textContent=t(UI.colors?'colors_on':'colors_off');}
   else if(act==='color'){const c=Number(a.dataset.c);const {error}=await SB.from('scn_profiles').update({color:c}).eq('id',ME.id);if(error){toast(t('err_generic'));return;}ME.color=c;render();}
   else if(act==='pcolor'){const c=Number(a.dataset.c);const mm=CLOUD.members.find(m=>m.id===ME.id);const {data,error}=(CLOUD.folder&&mm&&mm.src==='folder')?await SB.rpc('scn_set_folder_color',{p_folder:CLOUD.folder.id,p_color:c}):await SB.rpc('scn_set_color',{p_project:CLOUD.pid,p_color:c});if(error||data!=='ok'){toast(t('err_generic'));return;}ME.color=c;reloadMembers();}
