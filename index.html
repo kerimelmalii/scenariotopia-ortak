@@ -395,6 +395,32 @@ input.field{font-size:16px;padding:12px 14px}
 .tempty{font-family:var(--sans);text-align:center;color:var(--mute);padding:40px 0;display:flex;flex-direction:column;gap:16px;align-items:center}
 .tempty p{margin:0;max-width:46ch;line-height:1.55}
 @media (max-width:560px){.paper.treat{font-size:14.5px}.ti{grid-template-columns:2.6ch minmax(0,1fr)}}
+
+/* açılır kapanır akış */
+.feedtog{display:inline-flex;align-items:center;gap:10px;border:0;background:transparent;padding:0;font:inherit;color:inherit;cursor:pointer}
+.feedtog h2{margin:0}
+.feedtog .chev{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--tone);transition:transform .2s ease;font-size:14px;line-height:1}
+.feedtog[aria-expanded="true"] .chev{transform:rotate(90deg)}
+.feedtog:hover .chev{background:var(--tone2)}
+#feed.lim>.post:nth-child(n+4),#feed.lim>.empty~.post{display:none}
+#feed[hidden],#feedMore[hidden]{display:none}
+#feedMore{align-self:flex-start}
+
+/* akış kutusu: senaryolar üstte, akış katlanır */
+.feedbox{background:var(--tone);border-radius:30px;padding:8px;display:flex;flex-direction:column;gap:0}
+.feedbar{width:100%;display:flex;align-items:center;justify-content:space-between;gap:14px;border:0;background:transparent;padding:14px 16px;font:inherit;color:inherit;cursor:pointer;text-align:left;border-radius:24px}
+.feedbar:hover{background:var(--tone2)}
+.feedbar .fl{display:flex;flex-direction:column;gap:2px;min-width:0}
+.feedbar h2{margin:0;font-size:22px;letter-spacing:-.03em}
+.feedbar .fs{font-size:13px;color:var(--mute);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.feedpill{flex:none;display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--bg);border-radius:999px;padding:9px 14px 9px 16px;font-size:13px;font-weight:700}
+.feedpill svg{width:12px;height:8px;transition:transform .2s ease}
+.feedbar[aria-expanded="true"] .feedpill{background:var(--bg);color:var(--ink)}
+.feedbar[aria-expanded="true"] .feedpill svg{transform:rotate(180deg)}
+#feedWrap{display:flex;flex-direction:column;gap:14px;padding:6px 8px 12px}
+#feedWrap[hidden]{display:none}
+#feedWrap .post:not(.dark){background:var(--bg)}
+@media (max-width:560px){.feedbox{border-radius:24px;padding:6px}.feedbar{padding:12px}.feedbar h2{font-size:19px}.feedpill{padding:8px 12px}#feedWrap{padding:4px 4px 8px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -558,6 +584,11 @@ const L={
   t_import_p:['"1." "2." ile başlayan satırlar madde olur; maddenin başındaki "İÇ. KAHVE." gibi kısım sahne başlığı olarak ayrılır. "BİRİNCİ BÖLÜM" gibi büyük harfli satırlar bölüm başlığıdır. Mevcut tretmanın sonuna eklenir.','Lines starting with "1." "2." become beats; a leading "INT. CAFE." becomes the scene heading. All-caps lines like "EPISODE ONE" become section headings. Added to the end.'],
   t_import_btn:['Aktarın','Import'],t_imported:['{n} madde aktarıldı.','{n} beats imported.'],t_none:['Aktarılacak madde bulunamadı.','No beats found to import.'],t_pdf_empty:['Önce birkaç madde yazın.','Write a few beats first.'],
   t_missing:['Tretman henüz kurulmadı.','Treatment is not set up yet.'],t_loading:['Tretman yükleniyor…','Loading treatment…'],
+
+  feed_show:['Akışı açın','Show feed'],feed_hide:['Akışı kapatın','Hide feed'],feed_more:['Tümünü gösterin ({n})','Show all ({n})'],feed_less:['Daha az gösterin','Show less'],
+  feed_sum:['{n} yeni hareket','{n} updates'],feed_sum_last:['{n} hareket · son: {w}, {t}','{n} updates · latest: {w}, {t}'],
+
+  feed_open_b:['Açın','Open'],feed_close_b:['Kapatın','Close'],
   foot_cloud:['Bu proje ekibinizle eş zamanlı kaydedilir. Renkler, satırı en son kimin düzenlediğini gösterir.','This project is saved live with your team. Colours show who last edited each line.'],
   foot:['Senaryonuz hesabınıza özel alana, o kullanılamıyorsa bu tarayıcıya kaydedilir. Sayfa aralıkları 110 sayfalık bir senaryoya göre verilmiştir. Bu bir MVP1 prototipidir.','Your script is saved to a space private to your account, or to this browser when that is unavailable. Page ranges assume a 110-page script. This is an MVP1 prototype.']
 };
@@ -1172,11 +1203,16 @@ function renderDash(){
         <div class="chips" id="recent"></div>
         ${adm?`<form class="row" id="newProjForm" novalidate style="gap:8px"><input class="field" id="np-title" placeholder="${t('np_ph2')}" aria-label="${t('np_ph2')}" style="flex:1 1 220px;min-width:0;background:var(--bg)"><button class="btn pri sm" type="submit" value="series">${t('np_series')}</button><button class="btn sm" type="submit" value="single" style="background:var(--bg)">${t('np_single')}</button></form>`:''}
       </section>
-      ${weekPost}
-      <div class="feedhead"><h2>${t('feed_h')}</h2><span class="small muted">${t('feed_p')}</span></div>
-      <div class="feedcol" id="feed"><p class="muted">${t('loading')}</p></div>
+      <section class="stack" id="projects" style="gap:14px;scroll-margin-top:24px"><div class="feedhead"><h2>${t('t_proj')}</h2></div><div id="dashNote"></div><div class="plist" id="plist"><p class="muted">${t('loading')}</p></div></section>
+      <section class="feedbox" aria-label="${t('feed_h')}">
+        <button class="feedbar feedtog" data-act="feedTog" aria-expanded="${feedOpen()}" aria-controls="feedWrap"><span class="fl"><h2>${t('feed_h')}</h2><span class="fs" id="feedSum">${t('feed_p')}</span></span><span class="feedpill"><span id="feedPillT">${t(feedOpen()?'feed_close_b':'feed_open_b')}</span><svg viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+        <div id="feedWrap"${feedOpen()?'':' hidden'}>
+          ${weekPost}
+          <div class="feedcol${UI.feedAll?'':' lim'}" id="feed"><p class="muted">${t('loading')}</p></div>
+          <button class="btn sm" id="feedMore" data-act="feedMore" hidden style="background:var(--bg)"></button>
+        </div>
+      </section>
       <div data-aca-slot hidden>${acaPost}</div>
-      <section class="stack" id="projects" style="gap:14px;scroll-margin-top:24px;margin-top:18px"><div class="feedhead"><h2>${t('t_proj')}</h2></div><div id="dashNote"></div><div class="plist" id="plist"><p class="muted">${t('loading')}</p></div></section>
     </div>
     <aside class="aside">
       <div class="side-card me-card"><span class="pav lg" style="background:var(--u${ME.color})" aria-hidden="true">${initial(ME.name)}</span><div><div class="nm">${esc(ME.name)}</div><span class="small muted" style="font-weight:600">${t(adm?'role_admin':'role_member')}</span></div>
@@ -1213,6 +1249,8 @@ async function loadFeed(projects,folders){
   const aca=document.querySelector('[data-aca-slot]');const acaHtml=aca?aca.innerHTML:'';if(aca)aca.remove();
   if(!items.length)f.innerHTML=`<div class="empty">${t('feed_empty')}</div>`+acaHtml;
   else{items.splice(Math.min(2,items.length),0,acaHtml);f.innerHTML=items.join('');}
+  UI.feedN=f.querySelectorAll('.post').length;const lastG=gi.concat(ci).sort((a,b)=>a.at<b.at?1:-1)[0];
+  UI.feedLast=lastG?{w:(lastG.h.match(/<b>([^<]*)/)||[,''])[1].trim(),t:relTime(lastG.at)}:null;feedUi();
   const pe=document.getElementById('people');
   if(pe){const list=people.slice().sort((a,b)=>(a.id===ME.id?-1:b.id===ME.id?1:String(a.display_name).localeCompare(String(b.display_name))));
     pe.innerHTML=list.length?list.slice(0,24).map(p=>`<div class="person"><span class="pav" style="background:var(--u${p.id===ME.id?ME.color:(p.color||1)})" aria-hidden="true">${initial(p.display_name)}</span><span>${esc(p.display_name)}${p.id===ME.id?` <span class="muted">· ${t('you')}</span>`:''}</span></div>`).join(''):`<span class="small muted">—</span>`;}
@@ -1725,6 +1763,17 @@ async function makeTreatPdf(btn){
   }catch(err){tMsg(t('pdf_fail'));}finally{btn.disabled=false;}
 }
 
+/* ---------- akış aç/kapat ---------- */
+function feedOpen(){if(UI.feedClosed!=null)return !UI.feedClosed;try{return localStorage.getItem('scn.feed')==='open';}catch(e){return false;}}
+function feedUi(){
+  const f=document.getElementById('feed'),tg=document.querySelector('[data-act=feedTog]'),sm=document.getElementById('feedSum'),mb=document.getElementById('feedMore');if(!f)return;
+  const open=feedOpen();const w=document.getElementById('feedWrap');if(w)w.hidden=!open;f.classList.toggle('lim',!UI.feedAll);const pt=document.getElementById('feedPillT');if(pt)pt.textContent=t(open?'feed_close_b':'feed_open_b');
+  if(tg){tg.setAttribute('aria-expanded',String(open));}
+  const n=UI.feedN||0;
+  if(sm)sm.textContent=open?t('feed_p'):(UI.feedLast&&UI.feedLast.w?t('feed_sum_last',{n,w:UI.feedLast.w,t:UI.feedLast.t}):t('feed_sum',{n}));
+  if(mb){mb.hidden=!open||n<=3;mb.textContent=UI.feedAll?t('feed_less'):t('feed_more',{n});}
+}
+
 /* ---------- kart tahtası ---------- */
 function vBoard(v){
   const st=P.structure,beats=STRUCT[st],sc=scenes(),acts=[1,2,3];
@@ -1880,6 +1929,8 @@ app.addEventListener('click',async e=>{
   const a=e.target.closest('[data-act]');if(!a)return;const act=a.dataset.act,id=a.dataset.id;
   if(act==='view'){if(DEMO_LOCK.includes(a.dataset.v)&&!isAdmin()){demoModal();return;}UI.view=a.dataset.v;UI.delConfirm=false;UI.amMsg=null;render();}
   else if(act==='modalClose'){closeModal();}
+  else if(act==='feedTog'){const c=feedOpen();UI.feedClosed=c;try{localStorage.setItem('scn.feed',c?'closed':'open');}catch(_){}feedUi();}
+  else if(act==='feedMore'){UI.feedAll=!UI.feedAll;feedUi();if(!UI.feedAll){const h=document.querySelector('.feedtog');if(h)h.scrollIntoView({block:'start',behavior:'smooth'});}}
   else if(act==='tStart'||act==='tSec'){const sc=newSec();treat().secs.push(sc);tMark(sc.id);tMark(sc.items[0].id);tRender(sc.items[0].id);}
   else if(act==='tAdd'){const sc=treat().secs.find(x=>x.id===a.dataset.id);if(!sc)return;const it=tItem(posAfter(sc.items));sc.items.push(it);tMark(it.id);tRender(it.id);}
   else if(act==='tDelSec'){const id2=a.dataset.id;if(UI.tDel!==id2){UI.tDel=id2;tRender();clearTimeout(UI.tDelT);UI.tDelT=setTimeout(()=>{if(UI.tDel===id2){UI.tDel=null;tRender();}},4000);return;}UI.tDel=null;const sc=treat().secs.find(x=>x.id===id2);if(sc)sc.items.forEach(i=>TQ.delete(i.id));treat().secs=treat().secs.filter(x=>x.id!==id2);tDelete(id2);tRender();}
