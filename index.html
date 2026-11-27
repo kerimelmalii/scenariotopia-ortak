@@ -242,6 +242,27 @@ input.field{font-size:16px;padding:12px 14px}
 .okmsg{color:var(--good);font-size:14px;font-weight:600}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:600;font-size:14px;z-index:60;max-width:calc(100vw - 32px)}
 .ro-note{font-size:13px;font-weight:600;color:var(--mute)}
+
+/* sayfalar, pdf, pencere, karakterler */
+.paper-box{position:relative}
+.pmarks{position:absolute;inset:0;pointer-events:none}
+.pmark{position:absolute;height:0;border-top:1px dashed var(--line)}
+.pmark span{position:absolute;right:10px;top:-9px;background:var(--paper);padding:0 6px;font-family:var(--mono);font-size:11px;line-height:18px;color:var(--faint)}
+.pgnow{font-family:var(--mono);font-size:12px;color:var(--mute);white-space:nowrap;padding:0 10px;font-variant-numeric:tabular-nums}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.34);z-index:70}
+.modal{position:fixed;z-index:71;left:50%;top:50%;transform:translate(-50%,-50%);width:min(480px,calc(100vw - 32px));max-height:calc(100dvh - 48px);overflow:auto;background:var(--bg);border-radius:28px;padding:26px;display:flex;flex-direction:column;gap:14px;box-shadow:0 24px 70px rgba(0,0,0,.25)}
+.modal h2{font-size:22px}
+.modal .field{background:var(--tone)}
+.modal .inner{background:var(--tone)}
+.chk{display:inline-flex;gap:8px;align-items:center;font-weight:600;font-size:14px;cursor:pointer}
+.chk input{width:18px;height:18px;accent-color:var(--ink)}
+.tabs .lk{display:inline-block;width:9px;height:10px;margin-left:6px;vertical-align:-1px;opacity:.55}
+.chargrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.chargrid .box{display:flex;flex-direction:column;gap:12px}
+.chargrid .mx2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.kbd{font-family:var(--mono);font-size:12px;background:var(--tone);border-radius:6px;padding:2px 7px;white-space:nowrap}
+.keys{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;align-items:center;font-size:14px}
+@media (max-width:860px){.chargrid,.chargrid .mx2{grid-template-columns:minmax(0,1fr)}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -254,7 +275,7 @@ input.field{font-size:16px;padding:12px 14px}
 
 /* ---------- metinler ---------- */
 const L={
-  tab_script:['Senaryo','Script'],tab_board:['Kartlar','Cards'],tab_memory:['Hafıza','Memory'],tab_academy:['Akademi','Academy'],tab_week:['Bu hafta','This week'],
+  tab_script:['Senaryo','Script'],tab_board:['Kartlar','Cards'],tab_memory:['Karakterler','Characters'],tab_academy:['Akademi','Academy'],tab_week:['Bu hafta','This week'],
   st_saved:['Kaydedildi','Saved'],st_saving:['Kaydediliyor…','Saving…'],st_local:['Yalnızca bu tarayıcıda kayıtlı','Saved in this browser only'],st_big:['Senaryo çok büyük, yalnızca tarayıcıda kayıtlı','Script too large, saved in this browser only'],
   script_k:['Senaryonuz','Your script'],title_ph:['Başlıksız senaryo','Untitled script'],
   sample:['Örnek proje','Sample project'],sample_note:['Bu sayfalar bir örnektir. Üzerine yazabilir ya da boş bir projeyle başlayabilirsiniz.','These pages are an example. Write over them or start from a blank project.'],
@@ -263,7 +284,7 @@ const L={
   s_pages:['yaklaşık sayfa','approx. pages'],s_scenes:['sahne','scenes'],s_words:['kelime','words'],
   t_scene:['Sahne','Scene'],t_action:['Aksiyon','Action'],t_char:['Karakter','Character'],t_dialog:['Diyalog','Dialogue'],t_paren:['Parantez','Parenthetical'],t_trans:['Geçiş','Transition'],
   ph_scene:['İÇ. MEKÂN - GÜN','INT. LOCATION - DAY'],ph_action:['Görünen ve duyulan her şey.','What we see and hear.'],ph_char:['KARAKTER','CHARACTER'],ph_dialog:['Replik','Line'],ph_paren:['(ton ya da eylem)','(tone or action)'],ph_trans:['KESME:','CUT TO:'],
-  hint:['Enter sonraki öğeye geçer. Tab öğe türünü değiştirir.','Enter moves to the next element. Tab changes the element type.'],
+  hint:['Enter sonraki öğe · Tab öğe türü · Ctrl+Z geri al · Ctrl+S kaydet · Ctrl+P PDF · Ctrl+/ tüm kısayollar','Enter next element · Tab element type · Ctrl+Z undo · Ctrl+S save · Ctrl+P PDF · Ctrl+/ all shortcuts'],
   exp:['Fountain olarak indir','Download as Fountain'],copy:['Kopyala','Copy'],copied:['Kopyalandı','Copied'],copy_fail:['Kopyalanamadı','Could not copy'],exp_none:['İndirme bu görünümde kullanılamıyor. Kopyala düğmesini kullanın.','Download is not available in this view. Use Copy instead.'],
   board_k:['Kart tahtası','Card board'],board_h:['Yapıyı bir bakışta görün.','See the structure at a glance.'],board_p:['Her sahne bir karttır. Kartı bir vuruşa sürükleyin ya da karttaki listeden seçin. Sayfa aralıkları yol göstericidir, kural değildir.','Every scene is a card. Drag a card onto a beat or pick one from the list on the card. Page ranges are a guide, not a rule.'],
   st_three:['Üç perde','Three acts'],st_stc:['15 vuruş','15 beats'],st_circle:['Hikâye çemberi','Story circle'],
@@ -339,6 +360,37 @@ const L={
   danger:['Projeyi silin','Delete the project'],del_project:['Projeyi silin','Delete project'],del_sure:['Proje ve içindeki tüm senaryo herkes için kalıcı olarak silinecek. Emin misiniz?','The project and its whole script will be deleted for everyone. Are you sure?'],del_yes:['Evet, silin','Yes, delete'],
   removed:['Bu projeden çıkarıldınız.','You were removed from this project.'],lock_taken:['{n} şu an bu satırda yazıyor.','{n} is writing on this line now.'],
   colors_on:['Yazar renkleri: açık','Author colours: on'],colors_off:['Yazar renkleri: kapalı','Author colours: off'],ro:['Bu projede okur yetkiniz var; düzenleyemezsiniz.','You are a reader in this project and cannot edit.'],
+  link_expired:['Onay bağlantısının süresi dolmuş ya da daha önce kullanılmış. Giriş yapmayı deneyin; olmazsa yeniden kaydolun.','The confirmation link has expired or was already used. Try logging in, or sign up again.'],
+
+  chars_k:['Karakterler','Characters'],chars_h:['Herkes bir şey istiyor.','Everyone wants something.'],
+  chars_p:['Karakterler, senaryoda konuşan herkesten otomatik çıkarılır. Her biri için ne istediğini, neye ihtiyacı olduğunu ve ne sakladığını yazın.','Characters are picked up from everyone who speaks in the script. Write down what each wants, needs and hides.'],
+  need:['Neye ihtiyacı var?','What do they need?'],
+  demo_k:['Demo sürümü','Demo version'],demo_p:['Karakterler, Akademi ve Bu hafta bölümleri demo sürümünde yalnızca yöneticilere açık. Senaryo ve Kartlar herkes için açık.','Characters, Academy and This week are open only to admins in the demo version. Script and Cards are open to everyone.'],ok:['Tamam','OK'],
+  s_pages2:['sayfa','pages'],s_min:['dakika (tahmini)','minutes (est.)'],pg_label:['Sayfa','Page'],pg_now:['Sayfa {a} / {b}','Page {a} of {b}'],
+  pg_note:['Sayfalar {p} standart senaryo düzenine göre hesaplanır. 1 sayfa yaklaşık 1 dakikadır.','Pages follow the standard {p} screenplay layout. One page is about one minute.'],
+  pdf:['PDF','PDF'],pdf_k:['PDF olarak indirin','Download as PDF'],pdf_p:['Senaryo, standart formatta (Courier 12 punto, sayfa numaralı) hazırlanır.','The script is laid out in standard format (Courier 12 pt, numbered pages).'],
+  paper:['Kâğıt','Paper'],pdf_title:['Başlık sayfası ekleyin','Add a title page'],pdf_scn:['Sahne numaraları','Scene numbers'],pdf_by:['Yazan','Written by'],pdf_go:['PDF oluşturun','Create PDF'],
+  pdf_wait:['Hazırlanıyor…','Preparing…'],pdf_fail:['PDF oluşturulamadı. İnternet bağlantınızı kontrol edip yeniden deneyin.','The PDF could not be created. Check your connection and try again.'],pdf_empty:['Önce birkaç satır yazın.','Write a few lines first.'],
+  more:['(DEVAMI VAR)','(MORE)'],contd:[' (DEVAM)'," (CONT'D)"],by_line:['Yazan','Written by'],
+  ver:['Sürümler','Versions'],ver_k:['Sürüm geçmişi','Version history'],ver_p:['Senaryo her değişiklikte kaydedilir. Ayrıca yazı sürerken her 10 dakikada bir ve projeden çıkarken tam bir kopya alınır.','The script is saved on every change. A full copy is also kept every 10 minutes while writing and when you leave the project.'],
+  ver_save:['Şimdi sürüm kaydedin','Save a version now'],ver_saved:['Sürüm kaydedildi.','Version saved.'],ver_none:['Henüz sürüm yok.','No versions yet.'],ver_err:['Sürümler yüklenemedi.','Versions could not be loaded.'],
+  ver_auto:['Otomatik','Automatic'],ver_manual:['Elle kaydedildi','Saved by hand'],ver_restore:['Geri yükleme öncesi','Before a restore'],ver_lines:['satır','lines'],
+  ver_dl:['İndirin (.fountain)','Download (.fountain)'],ver_back:['Bu sürüme dönün','Restore this version'],ver_sure:['Emin misiniz? Evet, dönün','Sure? Yes, restore'],ver_done:['Sürüm geri yüklendi. Önceki hali de listede duruyor.','Version restored. The previous state is kept in the list too.'],
+  saved_now:['Kaydedildi.','Saved.'],unsaved:['Kaydedilmemiş değişiklikler var.','There are unsaved changes.'],
+  keys:['Kısayollar','Shortcuts'],k_undo:['Geri al','Undo'],k_redo:['Yinele','Redo'],k_save:['Kaydet','Save'],k_pdf:['PDF','PDF'],k_type:['Öğe türü: sahne, aksiyon, karakter, diyalog, parantez, geçiş','Element: scene, action, character, dialogue, parenthetical, transition'],
+  k_tab:['Sonraki öğe türü','Next element type'],k_enter:['Yeni satır (sıradaki tür)','New line (next type)'],k_help:['Bu listeyi açın','Open this list'],
+  nothing_undo:['Geri alınacak bir şey yok.','Nothing to undo.'],
+
+  series:['Dizi','Series'],series_k:['Diziler','Series'],single_k:['Tek projeler','Single projects'],
+  series_p:['Bu diziye eklenen herkes tüm bölümleri görür. Yazarlar yazar, okurlar okur.','Everyone added to this series sees every episode. Writers write, readers read.'],
+  episode:['Bölüm','Episode'],ep_ph:['Bölümün adı (isteğe bağlı)','Episode title (optional)'],ep_new:['Yeni bölüm ekleyin','Add episode'],ep_none:['Henüz bölüm yok.','No episodes yet.'],
+  ep_count:['{n} bölüm','{n} episodes'],total:['Toplam','Total'],mins:['dk','min'],
+  np_series:['Dizi oluşturun','Create series'],np_single:['Tek proje oluşturun','Create single project'],np_ph2:['Yeni dizinin ya da projenin adı','Name of the new series or project'],
+  move_k:['Mevcut bir projeyi bu diziye taşıyın','Move an existing project into this series'],move_btn:['Taşıyın','Move'],move_none:['Taşınacak tek proje yok.','No single projects to move.'],
+  del_series:['Diziyi silin','Delete series'],del_series_sure:['Dizi silinir ama bölümler silinmez; her biri tek proje olarak kalır. Diziye eklenen kişiler bölümlere erişimini kaybeder. Emin misiniz?','The series is deleted but its episodes are kept as single projects. People added to the series lose access to them. Are you sure?'],
+  series_team:['Dizinin ekibi','Series team'],series_team_note:['Bu ekip “{s}” dizisinin ekibidir; buradaki değişiklikler tüm bölümleri etkiler.','This is the team of “{s}”; changes here apply to every episode.'],
+  add_btn_series:['Diziye ekleyin','Add to series'],
+  add_member_series:['Önce kişinin siteye kaydolup bir kez giriş yapması gerekir. Diziye eklenen kişi tüm bölümleri görür.','The person needs to sign up and log in once first. Anyone added to the series sees every episode.'],
   foot_cloud:['Bu proje ekibinizle eş zamanlı kaydedilir. Renkler, satırı en son kimin düzenlediğini gösterir.','This project is saved live with your team. Colours show who last edited each line.'],
   foot:['Senaryonuz hesabınıza özel alana, o kullanılamıyorsa bu tarayıcıya kaydedilir. Sayfa aralıkları 110 sayfalık bir senaryoya göre verilmiştir. Bu bir MVP1 prototipidir.','Your script is saved to a space private to your account, or to this browser when that is unavailable. Page ranges assume a 110-page script. This is an MVP1 prototype.']
 };
@@ -411,7 +463,7 @@ function normalize(p){
 let PERS=null;try{PERS=JSON.parse(localStorage.getItem('scn.personal'));}catch(e){}
 if(!PERS||typeof PERS!=='object')PERS={};
 let P=null;try{P=normalize(JSON.parse(localStorage.getItem(LS)));}catch(e){P=null;}
-PERS={lang:PERS.lang||(P&&P.lang)||'tr',ex:PERS.ex||(P&&P.ex)||{},lessonDone:PERS.lessonDone||(P&&P.lessonDone)||{},weekly:PERS.weekly||(P&&P.weekly)||{}};
+PERS={paper:PERS.paper==='letter'?'letter':'a4',lang:PERS.lang||(P&&P.lang)||'tr',ex:PERS.ex||(P&&P.ex)||{},lessonDone:PERS.lessonDone||(P&&P.lessonDone)||{},weekly:PERS.weekly||(P&&P.weekly)||{}};
 function bindPers(p){p.lang=PERS.lang;p.ex=PERS.ex;p.lessonDone=PERS.lessonDone;p.weekly=PERS.weekly;return p;}
 function loadGuest(){let p=null;try{p=normalize(JSON.parse(localStorage.getItem(LS)));}catch(e){p=null;}return bindPers(p||makeSample(PERS.lang));}
 if(!P)P=makeSample(PERS.lang);bindPers(P);
@@ -476,9 +528,9 @@ async function flushBlocks(){
       const snap=rows.map(r=>[r.id,{t:r.type,x:r.text,p:r.pos,a:ME.id}]);
       ups.forEach(b=>{if(b.a!==ME.id){b.a=ME.id;paintAuthor(b);}});
       const {error}=await SB.from('scn_blocks').upsert(rows);
-      if(error)ok=false;else if(CLOUD&&CLOUD.pid===pid)snap.forEach(([id,v])=>S.set(id,v));
+      if(error)ok=false;else if(CLOUD&&CLOUD.pid===pid){snap.forEach(([id,v])=>S.set(id,v));CLOUD.changed=true;}
     }
-    if(ok&&dels.length){const {error}=await SB.from('scn_blocks').delete().in('id',dels);if(error)ok=false;else if(CLOUD&&CLOUD.pid===pid)dels.forEach(id=>S.delete(id));}
+    if(ok&&dels.length){const {error}=await SB.from('scn_blocks').delete().in('id',dels);if(error)ok=false;else if(CLOUD&&CLOUD.pid===pid){dels.forEach(id=>S.delete(id));CLOUD.changed=true;}}
   }catch(e){ok=false;}
   flushing=false;
   if(CLOUD&&CLOUD.pid===pid){setCloud(ok?'ok':'err');if(flushAgain){flushAgain=false;scheduleFlush();}else if(!ok)setTimeout(scheduleFlush,4000);}
@@ -489,7 +541,7 @@ async function saveMeta(){
   if(s===CLOUD.metaStr&&title===CLOUD.title)return;
   const pid=CLOUD.pid;setCloud('saving');
   try{const {error}=await SB.from('scn_projects').update({title,meta:JSON.parse(s),meta_by:ME.id}).eq('id',pid);
-    if(CLOUD&&CLOUD.pid===pid){if(error){setCloud('err');setTimeout(scheduleMeta,4000);}else{CLOUD.metaStr=s;CLOUD.title=title;setCloud('ok');}}}
+    if(CLOUD&&CLOUD.pid===pid){if(error){setCloud('err');setTimeout(scheduleMeta,4000);}else{CLOUD.metaStr=s;CLOUD.title=title;CLOUD.changed=true;setCloud('ok');}}}
   catch(e){setCloud('err');setTimeout(scheduleMeta,4000);}
 }
 async function loadMe(user){
@@ -503,28 +555,36 @@ async function loadMe(user){
   const {data:adm}=await SB.from('scn_admins').select('user_id').eq('user_id',user.id).maybeSingle();
   ME={id:user.id,email:user.email,name:prof.display_name,color:prof.color||1,admin:!!adm};
 }
-async function fetchMembers(pid){
-  const {data:mem,error}=await SB.from('scn_members').select('user_id,role,color').eq('project_id',pid);
-  if(error)return null;
-  const ids=mem.map(m=>m.user_id);let profs=[];
+async function fetchMembers(pid,fid){
+  const [r1,r2]=await Promise.all([SB.from('scn_members').select('user_id,role,color').eq('project_id',pid),fid?SB.from('scn_folder_members').select('user_id,role,color').eq('folder_id',fid):Promise.resolve({data:[]})]);
+  if(r1.error)return null;
+  const rows=[];(r2.data||[]).forEach(m=>rows.push(Object.assign({src:'folder'},m)));
+  (r1.data||[]).forEach(m=>{const ex=rows.find(x=>x.user_id===m.user_id);if(ex){if(m.role==='writer')ex.role='writer';}else rows.push(Object.assign({src:'project'},m));});
+  const ids=rows.map(m=>m.user_id);let profs=[];
   if(ids.length){const r=await SB.from('scn_profiles').select('id,display_name,color').in('id',ids);profs=r.data||[];}
-  return mem.map(m=>{const p=profs.find(x=>x.id===m.user_id)||{};return {id:m.user_id,role:m.role,name:p.display_name||'?',color:m.color||p.color||1};});
+  return rows.map(m=>{const p=profs.find(x=>x.id===m.user_id)||{};return {id:m.user_id,role:m.role,src:m.src,name:p.display_name||'?',color:m.color||p.color||1};});
+}
+async function fetchFolderMembers(fid){
+  const {data,error}=await SB.from('scn_folder_members').select('user_id,role,color').eq('folder_id',fid);if(error)return null;
+  const ids=data.map(m=>m.user_id);let profs=[];if(ids.length){const r=await SB.from('scn_profiles').select('id,display_name,color').in('id',ids);profs=r.data||[];}
+  return data.map(m=>{const p=profs.find(x=>x.id===m.user_id)||{};return {id:m.user_id,role:m.role,name:p.display_name||'?',color:m.color||p.color||1};});
 }
 async function openProject(pid){
   if(!SB||!ME)return;
   await leaveProject();
-  const [r1,r2,members]=await Promise.all([
-    SB.from('scn_projects').select('id,title,meta').eq('id',pid).single(),
+  const r1=await SB.from('scn_projects').select('id,title,meta,folder_id,episode_no,page_count').eq('id',pid).single();
+  if(r1.error){toast(t('err_load'));return;}
+  const fid=r1.data.folder_id||null;
+  const [r2,members,rf]=await Promise.all([
     SB.from('scn_blocks').select('id,pos,type,text,author_id').eq('project_id',pid).order('pos',{ascending:true}),
-    fetchMembers(pid)]);
-  if(r1.error||r2.error||!members){toast(t('err_load'));return;}
-  const mine=members.find(m=>m.id===ME.id);
-  const role=ME.admin?'writer':(mine?mine.role:'reader');
+    fetchMembers(pid,fid),fid?SB.from('scn_folders').select('id,title').eq('id',fid).single():Promise.resolve({data:null})]);
+  if(r2.error||!members){toast(t('err_load'));return;}
+  const role=ME.admin?'writer':(members.some(m=>m.id===ME.id&&m.role==='writer')?'writer':'reader');
   const rows=r2.data||[];
   let blocks=rows.map(r=>({id:r.id,t:r.type,x:r.text,p:r.pos,a:r.author_id}));
   const meta=r1.data.meta||{};
-  P=bindPers(normalize(Object.assign({},meta,{title:r1.data.title||'',blocks})));
-  CLOUD={pid,role,members,synced:new Map(rows.map(r=>[r.id,{t:r.type,x:r.text,p:r.pos,a:r.author_id}])),metaStr:'',title:r1.data.title||'',presence:{},channel:null,state:'ok',live:null,myBlock:null,myAt:0};
+  P=bindPers(normalize(Object.assign({},meta,{title:r1.data.title||'',blocks})));UNDO.length=0;REDO.length=0;
+  CLOUD={pid,role,members,synced:new Map(rows.map(r=>[r.id,{t:r.type,x:r.text,p:r.pos,a:r.author_id}])),metaStr:'',title:r1.data.title||'',presence:{},channel:null,state:'ok',live:null,myBlock:null,myAt:0,folder:fid?{id:fid,title:(rf.data&&rf.data.title)||''}:null,ep:r1.data.episode_no||null,pageCount:r1.data.page_count||0};
   CLOUD.metaStr=metaString();
   if(!rows.length)normalizePos();
   subscribe(pid);
@@ -533,7 +593,8 @@ async function openProject(pid){
 }
 async function leaveProject(skipFlush){
   if(!CLOUD)return;
-  if(!skipFlush){clearTimeout(flushT);flushT=null;clearTimeout(metaT);metaT=null;try{await flushBlocks();await saveMeta();}catch(e){}}
+  if(!skipFlush){clearTimeout(flushT);flushT=null;clearTimeout(metaT);metaT=null;try{await flushBlocks();await saveMeta();if(CLOUD&&CLOUD.changed&&canWrite())await makeVersion('auto');}catch(e){}}
+  if(!CLOUD)return;UNDO.length=0;REDO.length=0;
   try{if(CLOUD.channel)SB.removeChannel(CLOUD.channel);}catch(e){}
   CLOUD=null;P=loadGuest();
 }
@@ -542,6 +603,7 @@ function subscribe(pid){
   ch.on('postgres_changes',{event:'*',schema:'public',table:'scn_blocks',filter:'project_id=eq.'+pid},onBlock)
     .on('postgres_changes',{event:'UPDATE',schema:'public',table:'scn_projects',filter:'id=eq.'+pid},onProject)
     .on('postgres_changes',{event:'*',schema:'public',table:'scn_members',filter:'project_id=eq.'+pid},()=>{reloadMembers();})
+    .on('postgres_changes',{event:'*',schema:'public',table:'scn_folder_members',filter:'folder_id=eq.'+((CLOUD&&CLOUD.folder&&CLOUD.folder.id)||'00000000-0000-0000-0000-000000000000')},()=>{reloadMembers();})
     .on('presence',{event:'sync'},()=>{if(!CLOUD||CLOUD.pid!==pid)return;CLOUD.presence=ch.presenceState();applyLocks();renderPresence();})
     .subscribe(st=>{if(!CLOUD||CLOUD.pid!==pid)return;
       if(st==='SUBSCRIBED'){CLOUD.live=true;trackMe();setStatus();}
@@ -582,11 +644,11 @@ function refreshForRemote(){
   renderView();
 }
 async function reloadMembers(){
-  if(!CLOUD)return;const pid=CLOUD.pid;const members=await fetchMembers(pid);
+  if(!CLOUD)return;const pid=CLOUD.pid;const members=await fetchMembers(pid,CLOUD.folder&&CLOUD.folder.id);
   if(!members||!CLOUD||CLOUD.pid!==pid)return;
   CLOUD.members=members;const mine=members.find(m=>m.id===ME.id);
   if(!mine&&!ME.admin){await leaveProject(true);UI.view='projects';render();toast(t('removed'));return;}
-  CLOUD.role=ME.admin?'writer':mine.role;
+  CLOUD.role=ME.admin?'writer':(members.some(m=>m.id===ME.id&&m.role==='writer')?'writer':'reader');
   if(UI.view==='team')renderView();
   else if(UI.view==='script'){renderSampleBar();document.querySelectorAll('#paper .b').forEach(el=>{const b=P.blocks[bIndex(el.dataset.id)];if(b){paintAuthor(b,el);setEditable(el);}});}
   renderPresence();
@@ -666,9 +728,215 @@ function scriptText(){
   return out.join('\n').trim();
 }
 function memoryText(){
-  const lines=[];for(const n in P.chars){const c=P.chars[n];const bits=[c.want&&(t('want')+' '+c.want),c.knows&&(t('knows')+' '+c.knows),c.note&&c.note].filter(Boolean);if(bits.length)lines.push(n+': '+bits.join(' | '));}
+  const lines=[];for(const n in P.chars){const c=P.chars[n];const bits=[c.want&&(t('want')+' '+c.want),c.need&&(t('need')+' '+c.need),c.knows&&(t('knows')+' '+c.knows),c.note&&c.note].filter(Boolean);if(bits.length)lines.push(n+': '+bits.join(' | '));}
   if(P.facts.trim())lines.push(t('facts')+': '+P.facts.trim());
   return lines.join('\n');
+}
+
+
+/* ---------- sayfa düzeni (A4/Letter, Courier 12) ---------- */
+const GEO={a4:{W:595.28,H:841.89,L:58,C:57},letter:{W:612,H:792,L:54,C:60}};
+function wrapText(str,w){const s0=String(str||'').replace(/\s+/g,' ').trim();if(!s0)return [];const out=[];let line='';
+  s0.split(' ').forEach(word=>{while(word.length>w){if(line){out.push(line);line='';}out.push(word.slice(0,w));word=word.slice(w);}
+    if(!word)return;if(!line)line=word;else if(line.length+1+word.length<=w)line+=' '+word;else{out.push(line);line=word;}});
+  if(line)out.push(line);return out;}
+function layoutScript(paper,blocks){
+  const g=GEO[paper==='letter'?'letter':'a4'],L=g.L,C=g.C,B=blocks||P.blocks;
+  const pages=[];let page=[],y=0;
+  const flush=()=>{pages.push(page);page=[];y=0;};
+  const put=ln=>{page.push(Object.assign({y},ln));y++;};
+  const gap=()=>{if(y>0)y++;};
+  const units=[],blockLines={};
+  for(let i=0;i<B.length;i++){const b=B[i];if(!String(b.x||'').trim())continue;
+    if(b.t==='char'){const name=up(String(b.x).trim());const u={kind:'speech',name,lines:[]};
+      wrapText(name,38).forEach((t0,li)=>u.lines.push({t:t0,ind:22,bi:i,li,k:'char'}));blockLines[i]=u.lines.length;
+      let j=i+1;for(;j<B.length;j++){const c=B[j];if(c.t!=='dialog'&&c.t!=='paren')break;if(!String(c.x||'').trim())continue;
+        let ls;if(c.t==='paren'){let x=String(c.x).trim();if(!/^\(/.test(x))x='('+x;if(!/\)$/.test(x))x+=')';ls=wrapText(x,19).map((t0,li)=>({t:t0,ind:16,bi:j,li,k:'paren'}));}
+        else ls=wrapText(c.x,35).map((t0,li)=>({t:t0,ind:10,bi:j,li,k:'dialog'}));
+        blockLines[j]=ls.length;u.lines.push(...ls);}
+      i=j-1;units.push(u);continue;}
+    const isS=b.t==='scene',isT=b.t==='trans';const txt=(isS||isT)?up(String(b.x).trim()):b.x;
+    const lines=isT?[{t:txt,align:'right',bi:i,li:0,k:'trans'}]:wrapText(txt,C).map((t0,li)=>({t:t0,ind:0,bi:i,li,k:b.t,bold:isS}));
+    blockLines[i]=lines.length;units.push({kind:b.t,lines});}
+  units.forEach((u,ui)=>{
+    const n=u.lines.length,head=y>0?1:0;
+    if(u.kind==='scene'){const nx=units[ui+1];const extra=nx?Math.min(2,nx.lines.length):0;if(y>0&&y+head+n+extra>L)flush();gap();u.lines.forEach(put);return;}
+    if(y+head+n<=L){gap();u.lines.forEach(put);return;}
+    let rest=u.lines.slice(),first=true;
+    while(rest.length){const hd=(first&&y>0)?1:0;const avail=L-y-hd;
+      if(rest.length<=avail){if(first)gap();rest.forEach(put);break;}
+      if(u.kind==='speech'){let k=avail-1;const minFirst=first?3:2;
+        if(k>=minFirst&&rest.length-k>=2){if(first)gap();rest.slice(0,k).forEach(put);put({t:t('more'),ind:22,k:'more'});flush();put({t:u.name+t('contd'),ind:22,k:'cont'});rest=rest.slice(k);first=false;}
+        else if(y===0){const kk=Math.max(1,L-2);rest.slice(0,kk).forEach(put);put({t:t('more'),ind:22,k:'more'});flush();put({t:u.name+t('contd'),ind:22,k:'cont'});rest=rest.slice(kk);first=false;}
+        else flush();}
+      else{if(avail>=2&&rest.length-avail>=2&&u.kind==='action'){if(first)gap();rest.slice(0,avail).forEach(put);flush();rest=rest.slice(avail);first=false;}
+        else if(y===0){rest.slice(0,L).forEach(put);flush();rest=rest.slice(L);first=false;}
+        else flush();}
+    }
+  });
+  if(page.length||!pages.length)pages.push(page);
+  const starts=pages.map(pg=>{const it=pg.find(l=>l.bi!=null);return it?{bi:it.bi,li:it.li,frac:blockLines[it.bi]?it.li/blockLines[it.bi]:0}:null;});
+  const blockPage={};pages.forEach((pg,pi)=>pg.forEach(l=>{if(l.bi!=null&&blockPage[l.bi]==null)blockPage[l.bi]=pi;}));
+  const lastPg=pages[pages.length-1];const fill=lastPg.length?(lastPg[lastPg.length-1].y+1)/L:0;
+  const empty=!units.length;
+  return {pages,starts,blockPage,g,count:empty?0:pages.length,frac:empty?0:pages.length-1+fill};
+}
+let LAYOUT=null;
+function computeLayout(){LAYOUT=layoutScript(PERS.paper);return LAYOUT;}
+function renderPageMarks(){
+  const box=document.querySelector('.paper-box'),paper=document.getElementById('paper');if(!box||!paper||!LAYOUT)return;
+  let layer=document.getElementById('pmarks');if(!layer){layer=document.createElement('div');layer.id='pmarks';layer.className='pmarks';layer.setAttribute('aria-hidden','true');box.appendChild(layer);}
+  const br=box.getBoundingClientRect(),pr=paper.getBoundingClientRect(),els=paper.children;
+  layer.innerHTML=LAYOUT.starts.slice(1).map((st,k)=>{if(!st)return '';const el=els[st.bi];if(!el)return '';const r=el.getBoundingClientRect();
+    const top=st.frac>0?r.top-br.top+r.height*st.frac:r.top-br.top-10;
+    return `<div class="pmark" style="top:${Math.round(top)}px;left:${Math.round(pr.left-br.left)}px;width:${Math.round(pr.width)}px"><span>${t('pg_label')} ${k+2}</span></div>`;}).join('');
+}
+function updatePgNow(){const el=document.getElementById('pgnow');if(!el||!LAYOUT)return;const i=bIndex(UI.cur);let pg=1;
+  if(i>=0){for(let j=i;j>=0;j--){if(LAYOUT.blockPage[j]!=null){pg=LAYOUT.blockPage[j]+1;break;}}}
+  el.textContent=LAYOUT.count?t('pg_now',{a:Math.min(pg,LAYOUT.count),b:LAYOUT.count}):'';}
+let pmT=null;window.addEventListener('resize',()=>{clearTimeout(pmT);pmT=setTimeout(renderPageMarks,200);});
+
+/* ---------- pencere ---------- */
+function openModal(html,label){closeModal();const w=document.createElement('div');w.id='modal';w.innerHTML=`<div class="modal-bg" data-act="modalClose"></div><div class="modal" role="dialog" aria-modal="true" aria-label="${esc(label||'')}">${html}</div>`;app.appendChild(w);const f=w.querySelector('.modal input,.modal button');if(f)f.focus();}
+function closeModal(){const m=document.getElementById('modal');if(m)m.remove();UI.verConfirm=null;}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.getElementById('modal'))closeModal();});
+const DEMO_LOCK=['memory','academy','week'];
+const isAdmin=()=>!!(ME&&ME.admin);
+function demoModal(){openModal(`<h2>${t('demo_k')}</h2><p class="muted" style="margin:0">${t('demo_p')}</p><div><button class="btn pri" data-act="modalClose">${t('ok')}</button></div>`,t('demo_k'));}
+function keysModal(){const mod=/Mac|iPhone|iPad/.test(navigator.platform||navigator.userAgent)?'⌘':'Ctrl';
+  const row=(k,d)=>`<span class="kbd">${k}</span><span>${d}</span>`;
+  openModal(`<h2>${t('keys')}</h2><div class="keys">${row(mod+'+Z',t('k_undo'))}${row(mod+'+Shift+Z / '+mod+'+Y',t('k_redo'))}${row(mod+'+S',t('k_save'))}${row(mod+'+P',t('k_pdf'))}${row(mod+'+1…6',t('k_type'))}${row('Tab / Shift+Tab',t('k_tab'))}${row('Enter',t('k_enter'))}${row(mod+'+/',t('k_help'))}</div><div><button class="btn pri" data-act="modalClose">${t('ok')}</button></div>`,t('keys'));}
+
+/* ---------- pdf ---------- */
+const JSPDF_URL='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+const FONT_R='https://cdn.jsdelivr.net/npm/@expo-google-fonts/courier-prime@0.4.1/400Regular/CourierPrime_400Regular.ttf';
+const FONT_B='https://cdn.jsdelivr.net/npm/@expo-google-fonts/courier-prime@0.4.1/700Bold/CourierPrime_700Bold.ttf';
+let FONTS=null;
+function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
+async function fontB64(url){const r=await fetch(url);if(!r.ok)throw new Error('font');const u=new Uint8Array(await r.arrayBuffer());let s0='';for(let i=0;i<u.length;i+=0x8000)s0+=String.fromCharCode.apply(null,u.subarray(i,i+0x8000));return btoa(s0);}
+function downloadBlob(blob,name){const l=document.createElement('a');l.href=URL.createObjectURL(blob);l.download=name;document.body.appendChild(l);l.click();setTimeout(()=>{URL.revokeObjectURL(l.href);l.remove();},1500);}
+function fileName(){const base=(CLOUD&&CLOUD.folder)?(CLOUD.folder.title+' - '+t('episode')+' '+String(CLOUD.ep||'').padStart(2,'0')+(P.title?' - '+P.title:'')):(P.title||t('title_ph'));return base.replace(/[\\/:*?"<>|]+/g,' ').trim().slice(0,80)||'senaryo';}
+function openPdf(){
+  const by=CLOUD?CLOUD.members.map(m=>m.name).join(', '):(ME?ME.name:'');
+  openModal(`<form id="pdfForm" class="stack" novalidate><h2>${t('pdf_k')}</h2><p class="muted" style="margin:0">${t('pdf_p')}</p>
+  <div><span class="lab">${t('paper')}</span><div class="row"><label class="chk"><input type="radio" name="paper" value="a4" ${PERS.paper!=='letter'?'checked':''}> A4</label><label class="chk"><input type="radio" name="paper" value="letter" ${PERS.paper==='letter'?'checked':''}> Letter</label></div></div>
+  <label class="chk"><input type="checkbox" name="tp" checked> ${t('pdf_title')}</label>
+  <label class="chk"><input type="checkbox" name="sn"> ${t('pdf_scn')}</label>
+  <div><label class="lab" for="pdf-by">${t('pdf_by')}</label><input class="field" id="pdf-by" name="by" value="${esc(by)}"></div>
+  <div class="row"><button class="btn pri" type="submit">${t('pdf_go')}</button><button class="btn" type="button" data-act="modalClose">${t('cancel')}</button></div>
+  <div id="pdf-msg" role="status" class="small muted"></div></form>`,t('pdf_k'));
+}
+async function makePdf(f){
+  const msg=document.getElementById('pdf-msg'),btn=f.querySelector('button[type=submit]');
+  const paper=f.querySelector('input[name=paper]:checked').value==='letter'?'letter':'a4';PERS.paper=paper;savePers();
+  const lay=layoutScript(paper);if(!lay.count){msg.textContent=t('pdf_empty');return;}
+  btn.disabled=true;msg.textContent=t('pdf_wait');
+  try{
+    if(!(window.jspdf&&window.jspdf.jsPDF))await loadScript(JSPDF_URL);
+    if(!FONTS){const [r,b]=await Promise.all([fontB64(FONT_R),fontB64(FONT_B)]);FONTS={r,b};}
+    const doc=new window.jspdf.jsPDF({unit:'pt',format:paper,compress:true});
+    doc.addFileToVFS('CP-R.ttf',FONTS.r);doc.addFont('CP-R.ttf','CourierPrime','normal');
+    doc.addFileToVFS('CP-B.ttf',FONTS.b);doc.addFont('CP-B.ttf','CourierPrime','bold');
+    const g=lay.g,W=g.W,H=g.H,top=72,left=108,cw=7.2,lh=12;
+    doc.setFontSize(12);doc.setTextColor(0,0,0);
+    const ser=CLOUD&&CLOUD.folder;const title=up(ser?CLOUD.folder.title:(P.title||t('title_ph'))),by=String(f.querySelector('#pdf-by').value||'').trim();
+    const sub=ser?(t('episode')+' '+(CLOUD.ep||'')+(P.title?': '+P.title:'')):'';
+    doc.setProperties({title:P.title||t('title_ph'),creator:'Scenariotopia',author:by});
+    if(f.querySelector('input[name=tp]').checked){
+      doc.setFont('CourierPrime','bold');let yy=H*0.36;wrapText(title,45).forEach(l=>{doc.text(l,W/2,yy,{align:'center'});yy+=lh;});
+      if(sub){doc.setFont('CourierPrime','normal');yy+=lh;wrapText(sub,50).forEach(l=>{doc.text(l,W/2,yy,{align:'center'});yy+=lh;});}
+      doc.setFont('CourierPrime','normal');yy+=lh*2;
+      if(by){doc.text(t('by_line'),W/2,yy,{align:'center'});yy+=lh*2;wrapText(by,45).forEach(l=>{doc.text(l,W/2,yy,{align:'center'});yy+=lh;});}
+      doc.text(new Date().toLocaleDateString(P.lang==='en'?'en-GB':'tr-TR',{day:'numeric',month:'long',year:'numeric'}),left,H-top);
+      doc.addPage(paper);
+    }
+    const sn=f.querySelector('input[name=sn]').checked;let scn=0;
+    lay.pages.forEach((pg,pi)=>{
+      if(pi>0)doc.addPage(paper);
+      doc.setFont('CourierPrime','normal');
+      if(pi>0)doc.text((pi+1)+'.',W-72,48,{align:'right'});
+      pg.forEach(l=>{const y=top+l.y*lh+9.6;doc.setFont('CourierPrime',l.bold?'bold':'normal');
+        if(l.align==='right')doc.text(l.t,W-72,y,{align:'right'});else doc.text(l.t,left+(l.ind||0)*cw,y);
+        if(sn&&l.k==='scene'&&l.li===0){scn++;doc.setFont('CourierPrime','normal');doc.text(String(scn),left-36,y,{align:'right'});doc.text(String(scn),W-40,y,{align:'right'});}
+      });
+    });
+    downloadBlob(doc.output('blob'),fileName()+'.pdf');closeModal();
+  }catch(e){msg.textContent=t('pdf_fail');btn.disabled=false;}
+}
+
+/* ---------- geri al / yinele ---------- */
+const UNDO=[],REDO=[];let lastTypeAt=0,lastTypeId=null;
+const snap=()=>{normalizePos();return P.blocks.map(b=>({id:b.id,t:b.t,x:b.x,p:b.p,a:b.a}));};
+function pushUndo(){const s0=snap();const last=UNDO[UNDO.length-1];if(last&&JSON.stringify(last.s)===JSON.stringify(s0))return;UNDO.push({s:s0,cur:UI.cur});if(UNDO.length>200)UNDO.shift();REDO.length=0;}
+function maybeTypeUndo(id){const now=Date.now();if(id!==lastTypeId||now-lastTypeAt>1200)pushUndo();lastTypeAt=now;lastTypeId=id;}
+const mine=b=>!CLOUD||!b.a||b.a===ME.id||!CLOUD.synced.has(b.id);
+function applyState(target){
+  const cur=new Map(P.blocks.map(b=>[b.id,b])),tgt=new Map(target.map(b=>[b.id,b]));const out=[];
+  P.blocks.forEach(b=>{const tb=tgt.get(b.id);if(tb){out.push(mine(b)?Object.assign({},tb):b);}else if(!mine(b))out.push(b);});
+  target.forEach(tb=>{if(!cur.has(tb.id))out.push(Object.assign({},tb));});
+  out.sort((a,c)=>a.p-c.p);P.blocks=out;
+}
+function undoRedo(redo){
+  const from=redo?REDO:UNDO,to=redo?UNDO:REDO;const e=from.pop();if(!e){if(!redo)toast(t('nothing_undo'));return;}
+  to.push({s:snap(),cur:UI.cur});applyState(e.s);
+  const paper=document.getElementById('paper');
+  if(paper){paper.innerHTML='';P.blocks.forEach(b=>paper.appendChild(blockEl(b)));if(CLOUD)applyLocks();}
+  lastTypeId=null;afterEdit(true);
+  const id=e.cur&&bIndex(e.cur)>=0?e.cur:(P.blocks[0]&&P.blocks[0].id);const el=id&&document.querySelector('#paper .b[data-id="'+id+'"]');if(el){setCaret(el,el.textContent.length);UI.cur=id;}
+}
+async function saveNow(){if(CLOUD){clearTimeout(flushT);flushT=null;clearTimeout(metaT);metaT=null;await flushBlocks();await saveMeta();toast(CLOUD&&CLOUD.state==='err'?t('st_err'):t('saved_now'));}else{save();toast(t('saved_now'));}}
+document.addEventListener('keydown',e=>{
+  if(!(e.ctrlKey||e.metaKey)||e.altKey)return;if(SITE.includes(UI.view)||UI.view==='projects'||UI.view==='folder')return;
+  const k=e.key.toLowerCase(),inPaper=!!(document.activeElement&&document.activeElement.closest&&document.activeElement.closest('#paper'));
+  if(k==='s'){e.preventDefault();saveNow();return;}
+  if(k==='p'){e.preventDefault();if(UI.view!=='script'){UI.view='script';render();}openPdf();return;}
+  if(k==='/'){e.preventDefault();keysModal();return;}
+  if(UI.view!=='script'||!canWrite())return;
+  if(k==='z'&&inPaper){e.preventDefault();undoRedo(e.shiftKey);return;}
+  if(k==='y'&&inPaper){e.preventDefault();undoRedo(true);return;}
+  if(/^[1-6]$/.test(e.key)&&inPaper){e.preventDefault();const i=bIndex(UI.cur);const el=document.querySelector('#paper .b[data-id="'+UI.cur+'"]');if(i>=0&&el){pushUndo();setType(i,TYPES[Number(e.key)-1],el);}}
+});
+
+/* ---------- sürümler ---------- */
+const VER_EVERY=10*60*1000;
+async function makeVersion(kind){
+  if(!CLOUD||!canWrite())return false;const pid=CLOUD.pid;
+  clearTimeout(flushT);flushT=null;clearTimeout(metaT);metaT=null;await flushBlocks();await saveMeta();
+  if(!CLOUD||CLOUD.pid!==pid)return false;
+  const blocks=P.blocks.map(b=>({id:b.id,pos:b.p,type:b.t,text:b.x,author_id:b.a||null}));
+  const {error}=await SB.from('scn_versions').insert({project_id:pid,kind,title:P.title||'',blocks,meta:JSON.parse(metaString()),block_count:blocks.length,created_by:ME.id});
+  if(!error&&CLOUD&&CLOUD.pid===pid){CLOUD.changed=false;CLOUD.lastVer=Date.now();}
+  return !error;
+}
+async function autoVersion(){
+  if(!CLOUD||!canWrite()||!CLOUD.changed||CLOUD.verBusy)return;if(CLOUD.lastVer&&Date.now()-CLOUD.lastVer<VER_EVERY)return;
+  CLOUD.verBusy=true;
+  try{const {data}=await SB.from('scn_versions').select('created_at').eq('project_id',CLOUD.pid).order('created_at',{ascending:false}).limit(1);
+    const last=data&&data[0]?Date.parse(data[0].created_at):0;
+    if(Date.now()-last<VER_EVERY){if(CLOUD)CLOUD.lastVer=last;}else await makeVersion('auto');}catch(e){}
+  if(CLOUD)CLOUD.verBusy=false;
+}
+setInterval(autoVersion,2*60*1000);
+function openVersions(){
+  if(!CLOUD)return;
+  openModal(`<div class="row" style="justify-content:space-between"><h2>${t('ver_k')}</h2><button class="btn sm" data-act="modalClose">${t('close')}</button></div><p class="muted" style="margin:0">${t('ver_p')}</p>${canWrite()?`<div><button class="btn pri sm" data-act="verSave">${t('ver_save')}</button></div>`:''}<div id="verList" class="stack" style="gap:8px"><p class="muted" style="margin:0">${t('loading')}</p></div>`,t('ver_k'));
+  loadVersions();
+}
+async function loadVersions(){
+  const box=document.getElementById('verList');if(!box||!CLOUD)return;
+  const {data,error}=await SB.from('scn_versions').select('id,kind,title,block_count,created_by,created_at').eq('project_id',CLOUD.pid).order('created_at',{ascending:false}).limit(40);
+  const b2=document.getElementById('verList');if(!b2)return;
+  if(error){b2.innerHTML=`<p class="err" style="margin:0">${t('ver_err')}</p>`;return;}
+  if(!data.length){b2.innerHTML=`<p class="muted" style="margin:0">${t('ver_none')}</p>`;return;}
+  const fmt=d=>{try{return new Date(d).toLocaleString(P.lang==='en'?'en-GB':'tr-TR',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});}catch(e){return d;}};
+  b2.innerHTML=data.map(v=>{const who=(CLOUD.members.find(m=>m.id===v.created_by)||{}).name||'—';
+    return `<div class="inner stack" style="gap:6px"><div class="row" style="justify-content:space-between"><b>${fmt(v.created_at)}</b><span class="badge" style="background:var(--card)">${t('ver_'+v.kind)}</span></div><span class="small muted">${esc(who)} · ${v.block_count} ${t('ver_lines')}</span><div class="row" style="gap:6px"><button class="btn sm line" data-act="verDl" data-id="${v.id}">${t('ver_dl')}</button>${isAdmin()?(UI.verConfirm===String(v.id)?`<button class="btn sm pri" data-act="verRestore" data-id="${v.id}">${t('ver_sure')}</button>`:`<button class="btn sm line" data-act="verAsk" data-id="${v.id}">${t('ver_back')}</button>`):''}</div></div>`;}).join('');
+}
+async function versionDownload(id){
+  const {data,error}=await SB.from('scn_versions').select('title,blocks,created_at').eq('id',Number(id)).single();if(error||!data){toast(t('ver_err'));return;}
+  const keepB=P.blocks,keepT=P.title;try{P.blocks=(data.blocks||[]).map(b=>({id:b.id,t:b.type,x:b.text||'',p:b.pos}));P.title=data.title||keepT;
+    downloadBlob(new Blob([fountain()],{type:'text/plain;charset=utf-8'}),fileName()+' '+String(data.created_at).slice(0,16).replace('T',' ').replace(':','.')+'.fountain');}
+  finally{P.blocks=keepB;P.title=keepT;}
 }
 
 /* ---------- kabuk ---------- */
@@ -679,11 +947,13 @@ function render(){
   document.documentElement.lang=P.lang;
   if(SITE.includes(UI.view)){renderSite();return;}
   if(UI.view==='projects'){renderDash();return;}
+  if(UI.view==='folder'){renderFolder();return;}
   if(UI.view==='team'&&!CLOUD)UI.view='script';
+  if(DEMO_LOCK.includes(UI.view)&&!isAdmin())UI.view='script';
   app.innerHTML=`
   <header class="top">
     <button class="brand" data-act="go" data-v="${ME?'projects':'home'}" aria-label="Scenariotopia">Scenariotopia<i></i></button>
-    <nav class="tabs" aria-label="Scenariotopia">${tabsList().map(([v,k])=>`<button data-act="view" data-v="${v}" aria-current="${UI.view===v}">${t(k)}</button>`).join('')}</nav>
+    <nav class="tabs" aria-label="Scenariotopia">${tabsList().map(([v,k])=>`<button data-act="view" data-v="${v}" aria-current="${UI.view===v}">${t(k)}${DEMO_LOCK.includes(v)&&!isAdmin()?'<svg class="lk" viewBox="0 0 9 10" aria-hidden="true"><rect x="0.5" y="4" width="8" height="5.5" rx="1.2" fill="currentColor"/><path d="M2.3 4V3a2.2 2.2 0 0 1 4.4 0v1" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>':''}</button>`).join('')}</nav>
     <div class="top-r"><span class="avs" id="avs"></span><span class="status" id="st" role="status"></span>${langBtn()}${userBits()}</div>
   </header>
   <main id="view" class="stack" style="gap:28px"></main>
@@ -697,15 +967,15 @@ function renderView(){
 }
 function vTeam(v){
   const adm=ME&&ME.admin;
-  v.innerHTML=`<div class="head"><h1><em>${t('team_k')}</em>${t('team_h')}</h1><p>${t('team_p')}</p></div>
+  v.innerHTML=`<div class="head"><h1><em>${t('team_k')}</em>${t('team_h')}</h1><p>${t('team_p')}</p>${CLOUD.folder?`<p class="note" style="margin:6px 0 0">${t('series_team_note',{s:esc(CLOUD.folder.title)})}</p>`:''}</div>
   <div class="two"><div class="box stack"><h2>${t('members')}</h2>${CLOUD.members.map(m=>`<div class="inner row" style="justify-content:space-between;gap:10px"><span class="row" style="gap:10px;min-width:0"><span class="av" style="--ac:var(--u${m.color});margin:0">${initial(m.name)}</span><b style="overflow-wrap:anywhere">${esc(m.name)}${m.id===ME.id?` <span class="muted small">(${t('you')})</span>`:''}</b>${isOnline(m.id)?`<span class="online" title="${t('online')}"></span>`:''}</span><span class="row" style="gap:8px">${m.id===ME.id?`<span class="row" style="gap:6px" aria-label="${t('your_color')}">${[1,2,3,4,5,6,7,8].filter(c=>c===m.color||!CLOUD.members.some(o=>o.id!==ME.id&&o.color===c)).map(c=>`<button class="sw" style="width:22px;height:22px;background:var(--u${c})" data-act="pcolor" data-c="${c}" aria-pressed="${m.color===c}" aria-label="${t('color')} ${c}"></button>`).join('')}</span>`:''}${adm&&m.id!==ME.id?`<select data-f="mrole" data-id="${m.id}" id="mr-${m.id}" aria-label="${t('role')}"><option value="writer" ${m.role==='writer'?'selected':''}>${t('role_writer')}</option><option value="reader" ${m.role==='reader'?'selected':''}>${t('role_reader')}</option></select><button class="btn sm line" data-act="rmMember" data-id="${m.id}">${t('remove')}</button>`:`<span class="badge">${t('role_'+m.role)}</span>`}</span></div>`).join('')}</div>
-  ${adm?`<div class="stack"><form class="box stack" id="addMemberForm" novalidate><h2>${t('add_member')}</h2><p class="muted" style="margin:0">${t('add_member_p')}</p><div><label class="lab" for="am-email">${t('email')}</label><input class="field" id="am-email" type="email" autocomplete="off" inputmode="email"></div><div><label class="lab" for="am-role">${t('role')}</label><select id="am-role"><option value="writer">${t('role_writer')}</option><option value="reader">${t('role_reader')}</option></select></div><div><button class="btn pri" type="submit">${t('add_btn')}</button></div><div id="am-msg" role="status" class="${UI.amMsg?UI.amMsg[0]:''}">${UI.amMsg?UI.amMsg[1]:''}</div></form>
+  ${adm?`<div class="stack"><form class="box stack" id="addMemberForm" novalidate><h2>${t('add_member')}</h2><p class="muted" style="margin:0">${t(CLOUD.folder?'add_member_series':'add_member_p')}</p><div><label class="lab" for="am-email">${t('email')}</label><input class="field" id="am-email" type="email" autocomplete="off" inputmode="email"></div><div><label class="lab" for="am-role">${t('role')}</label><select id="am-role"><option value="writer">${t('role_writer')}</option><option value="reader">${t('role_reader')}</option></select></div><div><button class="btn pri" type="submit">${t(CLOUD.folder?'add_btn_series':'add_btn')}</button></div><div id="am-msg" role="status" class="${UI.amMsg?UI.amMsg[0]:''}">${UI.amMsg?UI.amMsg[1]:''}</div></form>
   <div class="box stack"><h2>${t('danger')}</h2>${UI.delConfirm?`<p style="margin:0">${t('del_sure')}</p><div class="row"><button class="btn pri" data-act="delYes" style="background:var(--bad);color:#fff">${t('del_yes')}</button><button class="btn" data-act="delNo">${t('cancel')}</button></div>`:`<div><button class="btn line" data-act="delProject">${t('del_project')}</button></div>`}</div></div>`:''}</div>`;
 }
 function renderDash(){
   app.innerHTML=`<div class="stack" style="gap:48px">${siteTop()}
   <div class="head"><h1><em>${t('dash_hi',{n:esc(ME.name)})}</em>${t('dash_h')}</h1><p>${ME.admin?t('dash_p_admin'):t('dash_p')}</p></div>
-  ${ME.admin?`<form class="box row" id="newProjForm" novalidate style="gap:10px"><input class="field" id="np-title" placeholder="${t('np_ph')}" aria-label="${t('np_ph')}" style="flex:1 1 240px;min-width:0"><button class="btn pri" type="submit">${t('np_btn')}</button></form>`:''}
+  ${ME.admin?`<form class="box row" id="newProjForm" novalidate style="gap:10px"><input class="field" id="np-title" placeholder="${t('np_ph2')}" aria-label="${t('np_ph2')}" style="flex:1 1 240px;min-width:0"><button class="btn pri" type="submit" value="series">${t('np_series')}</button><button class="btn" type="submit" value="single">${t('np_single')}</button></form>`:''}
   <div class="stack" style="gap:14px"><div id="dashNote"></div><div class="plist" id="plist"><p class="muted">${t('loading')}</p></div></div>
   <div class="two"><div class="box stack"><h2>${t('your_color')}</h2><p class="muted" style="margin:0">${t('your_color_p')}</p><div class="row">${[1,2,3,4,5,6,7,8].map(c=>`<button class="sw" data-act="color" data-c="${c}" style="background:var(--u${c})" aria-pressed="${ME.color===c}" aria-label="${t('color')} ${c}"></button>`).join('')}</div></div>
   ${ME.admin?`<div class="box stack"><h2>${t('admin_k')}</h2><p class="muted" style="margin:0">${t('admin_on')}</p></div>`:`<details class="box"><summary class="small muted" style="cursor:pointer;font-weight:600">${t('claim_k')}</summary><form id="claimForm" class="stack" novalidate style="margin-top:12px"><input class="field" id="cl-code" autocomplete="off" aria-label="${t('claim_k')}"><div><button class="btn sm" type="submit">${t('claim_btn')}</button></div><div id="cl-msg" role="status"></div></form></details>`}</div>
@@ -714,13 +984,41 @@ function renderDash(){
 }
 async function loadProjects(){
   const box=document.getElementById('plist');if(!box||!SB)return;
-  const {data,error}=await SB.from('scn_projects').select('id,title,created_at').order('created_at',{ascending:false});
+  const [pr,fo]=await Promise.all([SB.from('scn_projects').select('id,title,created_at,folder_id,episode_no,page_count').order('created_at',{ascending:false}),SB.from('scn_folders').select('id,title,created_at').order('created_at',{ascending:false})]);
   const b=document.getElementById('plist');if(!b)return;
-  if(error){b.innerHTML=`<p class="err">${t('err_load')}</p>`;return;}
+  if(pr.error){b.innerHTML=`<p class="err">${t('err_load')}</p>`;return;}
   const fmt=d=>{try{return new Date(d).toLocaleDateString(P.lang==='en'?'en-GB':'tr-TR',{day:'numeric',month:'long',year:'numeric'});}catch(e){return '';}};
-  const g=loadGuest();
-  b.innerHTML=(data||[]).map(p=>`<button class="pcard" data-act="open" data-id="${p.id}"><span class="k">${t('shared')}</span><b>${esc(p.title||t('title_ph'))}</b><span class="muted small">${t('created')}: ${fmt(p.created_at)}</span></button>`).join('')+`<button class="pcard local" data-act="guest"><span class="k">${t('local_k')}</span><b>${esc(g.title||t('title_ph'))}</b><span class="muted small">${t('local_p')}</span></button>`;
-  const n=document.getElementById('dashNote');if(n)n.innerHTML=(!(data||[]).length&&!ME.admin)?`<div class="note">${t('no_projects')}</div>`:'';
+  const projects=pr.data||[],folders=fo.error?[]:(fo.data||[]);const g=loadGuest();
+  const singles=projects.filter(p=>!p.folder_id);
+  const fcard=f=>{const eps=projects.filter(p=>p.folder_id===f.id);const pages=eps.reduce((a,p)=>a+(p.page_count||0),0);
+    return `<button class="pcard" data-act="folder" data-id="${f.id}"><span class="k">${t('series')}</span><b>${esc(f.title||t('title_ph'))}</b><span class="muted small">${t('ep_count',{n:eps.length})} · ${pages} ${t('s_pages2')} · ~${pages} ${t('mins')}</span></button>`;};
+  const pcard=p=>`<button class="pcard" data-act="open" data-id="${p.id}"><span class="k">${t('shared')}</span><b>${esc(p.title||t('title_ph'))}</b><span class="muted small">${p.page_count?p.page_count+' '+t('s_pages2')+' · ':''}${t('created')}: ${fmt(p.created_at)}</span></button>`;
+  b.className='stack';b.style.gap='28px';
+  b.innerHTML=(folders.length?`<div class="stack" style="gap:14px"><h2>${t('series_k')}</h2><div class="plist">${folders.map(fcard).join('')}</div></div>`:'')+
+    `<div class="stack" style="gap:14px">${folders.length?`<h2>${t('single_k')}</h2>`:''}<div class="plist">${singles.map(pcard).join('')}<button class="pcard local" data-act="guest"><span class="k">${t('local_k')}</span><b>${esc(g.title||t('title_ph'))}</b><span class="muted small">${t('local_p')}</span></button></div></div>`;
+  const n=document.getElementById('dashNote');if(n)n.innerHTML=(!projects.length&&!folders.length&&!ME.admin)?`<div class="note">${t('no_projects')}</div>`:'';
+}
+/* ---------- dizi görünümü ---------- */
+function renderFolder(){
+  app.innerHTML=`<div class="stack" style="gap:48px">${siteTop()}<div id="fview" class="stack" style="gap:28px"><p class="muted">${t('loading')}</p></div><footer class="site-foot"><span>${t('foot_site')}</span><span>TR · EN</span></footer></div>`;
+  loadFolder();
+}
+async function loadFolder(){
+  const fid=UI.folderId;if(!fid||!SB)return;
+  const [rf,re,mem,rs]=await Promise.all([SB.from('scn_folders').select('id,title').eq('id',fid).single(),SB.from('scn_projects').select('id,title,episode_no,page_count,folder_id').eq('folder_id',fid).order('episode_no',{ascending:true}),fetchFolderMembers(fid),ME.admin?SB.from('scn_projects').select('id,title,folder_id').order('created_at',{ascending:false}):Promise.resolve({data:[]})]);
+  const v=document.getElementById('fview');if(!v||UI.view!=='folder'||UI.folderId!==fid)return;
+  if(rf.error||re.error||!mem){v.innerHTML=`<p class="err">${t('err_load')}</p>`;return;}
+  const F=rf.data,eps=re.data||[],adm=isAdmin(),me=mem.find(m=>m.id===ME.id);UI.folderTitle=F.title;
+  const pages=eps.reduce((a,p)=>a+(p.page_count||0),0);const singles=(rs.data||[]).filter(p=>!p.folder_id);
+  const used=c=>mem.some(o=>o.id!==ME.id&&o.color===c);
+  v.innerHTML=`<div class="head"><h1><em>${t('series')}</em>${adm?`<input class="title-in" id="ftitle" data-f="ftitle" value="${esc(F.title)}" aria-label="${t('series')}">`:esc(F.title)}</h1><p>${t('series_p')}</p></div>
+  <div class="stats" style="border:0;margin:0;padding:0"><div><b>${eps.length}</b><span>${t('episode').toLocaleLowerCase(P.lang==='en'?'en':'tr')}</span></div><div><b>${pages}</b><span>${t('s_pages2')}</span></div><div><b>~${pages}</b><span>${t('s_min')}</span></div></div>
+  ${adm?`<form class="box row" id="newEpForm" novalidate style="gap:10px"><input class="field" id="ne-title" placeholder="${t('ep_ph')}" aria-label="${t('ep_ph')}" style="flex:1 1 240px;min-width:0"><button class="btn pri" type="submit">${t('ep_new')}</button></form>`:''}
+  ${eps.length?`<div class="plist">${eps.map(e=>`<button class="pcard" data-act="open" data-id="${e.id}"><span class="k">${t('episode')} ${e.episode_no||''}</span><b>${esc(e.title||(t('episode')+' '+(e.episode_no||'')))}</b><span class="muted small">${e.page_count||0} ${t('s_pages2')} · ~${e.page_count||0} ${t('mins')}</span></button>`).join('')}</div>`:`<div class="note">${t('ep_none')}</div>`}
+  <div class="two"><div class="box stack"><h2>${t('series_team')}</h2>${mem.map(m=>`<div class="inner row" style="justify-content:space-between;gap:10px"><span class="row" style="gap:10px;min-width:0"><span class="av" style="--ac:var(--u${m.color});margin:0">${initial(m.name)}</span><b style="overflow-wrap:anywhere">${esc(m.name)}${m.id===ME.id?` <span class="muted small">(${t('you')})</span>`:''}</b></span><span class="row" style="gap:8px">${m.id===ME.id?`<span class="row" style="gap:6px">${[1,2,3,4,5,6,7,8].filter(c=>c===m.color||!used(c)).map(c=>`<button class="sw" style="width:22px;height:22px;background:var(--u${c})" data-act="fcolor" data-c="${c}" aria-pressed="${m.color===c}" aria-label="${t('color')} ${c}"></button>`).join('')}</span>`:''}${adm&&m.id!==ME.id?`<select data-f="frole" data-id="${m.id}" id="fr-${m.id}" aria-label="${t('role')}"><option value="writer" ${m.role==='writer'?'selected':''}>${t('role_writer')}</option><option value="reader" ${m.role==='reader'?'selected':''}>${t('role_reader')}</option></select><button class="btn sm line" data-act="rmFMember" data-id="${m.id}">${t('remove')}</button>`:(m.id!==ME.id||!adm?`<span class="badge">${t('role_'+m.role)}</span>`:'')}</span></div>`).join('')}</div>
+  ${adm?`<div class="stack"><form class="box stack" id="addFMemberForm" novalidate><h2>${t('add_member')}</h2><p class="muted" style="margin:0">${t('add_member_series')}</p><div><label class="lab" for="fm-email">${t('email')}</label><input class="field" id="fm-email" type="email" autocomplete="off" inputmode="email"></div><div><label class="lab" for="fm-role">${t('role')}</label><select id="fm-role"><option value="writer">${t('role_writer')}</option><option value="reader">${t('role_reader')}</option></select></div><div><button class="btn pri" type="submit">${t('add_btn_series')}</button></div><div id="fm-msg" role="status" class="${UI.fmMsg?UI.fmMsg[0]:''}">${UI.fmMsg?UI.fmMsg[1]:''}</div></form>
+    <div class="box stack"><h2>${t('move_k')}</h2>${singles.length?`<div class="row"><select id="mv-proj" aria-label="${t('move_k')}" style="flex:1 1 200px;min-width:0">${singles.map(p=>`<option value="${p.id}">${esc(p.title||t('title_ph'))}</option>`).join('')}</select><button class="btn sm" data-act="moveIn">${t('move_btn')}</button></div>`:`<p class="muted" style="margin:0">${t('move_none')}</p>`}</div>
+    <div class="box stack"><h2>${t('del_series')}</h2>${UI.delFolder?`<p style="margin:0">${t('del_series_sure')}</p><div class="row"><button class="btn pri" data-act="delFolderYes" style="background:var(--bad);color:#fff">${t('del_yes')}</button><button class="btn" data-act="delFolderNo">${t('cancel')}</button></div>`:`<div><button class="btn line" data-act="delFolder">${t('del_series')}</button></div>`}</div></div>`:''}</div>`;
 }
 
 
@@ -796,7 +1094,8 @@ function renderSite(){
 function authErr(m){m=String(m||'').toLowerCase();return m.includes('already')||m.includes('registered')?t('err_exists'):m.includes('invalid login')?t('err_login'):m.includes('not confirmed')?t('err_confirm'):m.includes('rate')||m.includes('too many')?t('err_rate'):m.includes('password')?t('err_pass'):t('err_generic');}
 app.addEventListener('submit',async e=>{
   const id=e.target.id;
-  if(['authForm','newProjForm','claimForm','addMemberForm'].includes(id))e.preventDefault();else return;
+  if(id==='pdfForm'){e.preventDefault();makePdf(e.target);return;}
+  if(['authForm','newProjForm','claimForm','addMemberForm','newEpForm','addFMemberForm'].includes(id))e.preventDefault();else return;
   if(!SB){toast(t('err_nocloud'));return;}
   if(id==='authForm'){
     const su=UI.view==='signup',f=e.target,err=document.getElementById('au-err'),btn=f.querySelector('button[type=submit]');
@@ -820,10 +1119,22 @@ app.addEventListener('submit',async e=>{
     }catch(x){show(t('err_nocloud'));}
     finally{UI.authBusy=false;if(btn.isConnected)btn.disabled=false;}
   }else if(id==='newProjForm'){
-    const ti=document.getElementById('np-title'),btn=e.target.querySelector('button');btn.disabled=true;
+    const ti=document.getElementById('np-title'),kind=(e.submitter&&e.submitter.value)||'single';e.target.querySelectorAll('button').forEach(x=>x.disabled=true);
+    if(kind==='series'){const {data,error}=await SB.rpc('scn_create_folder',{p_title:ti.value.trim()});if(error||!data){toast(t('err_generic'));e.target.querySelectorAll('button').forEach(x=>x.disabled=false);return;}UI.folderId=data;UI.view='folder';render();window.scrollTo(0,0);return;}
     const {data,error}=await SB.rpc('scn_create_project',{p_title:ti.value.trim()});
-    btn.disabled=false;if(error||!data){toast(t('err_generic'));return;}
+    e.target.querySelectorAll('button').forEach(x=>x.disabled=false);if(error||!data){toast(t('err_generic'));return;}
     openProject(data);
+  }else if(id==='newEpForm'){
+    const ti=document.getElementById('ne-title');e.target.querySelector('button').disabled=true;
+    const {data,error}=await SB.rpc('scn_create_episode',{p_folder:UI.folderId,p_title:ti.value.trim()});
+    if(error||!data){toast(t('err_generic'));e.target.querySelector('button').disabled=false;return;}
+    openProject(data);
+  }else if(id==='addFMemberForm'){
+    const em=document.getElementById('fm-email'),role=document.getElementById('fm-role').value,m=document.getElementById('fm-msg');
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim())){m.className='err';m.textContent=t('err_email');em.focus();return;}
+    const {data,error}=await SB.rpc('scn_add_folder_member',{p_folder:UI.folderId,p_email:em.value.trim(),p_role:role});const code=error?'err':data;
+    UI.fmMsg=[code==='ok'?'okmsg':'err',code==='ok'?t('am_ok'):code==='no_user'?t('am_no_user'):code==='no_profile'?t('am_no_profile'):t('err_generic')];
+    if(code==='ok')loadFolder();else{m.className=UI.fmMsg[0];m.textContent=UI.fmMsg[1];}
   }else if(id==='claimForm'){
     const c=document.getElementById('cl-code').value.trim(),m=document.getElementById('cl-msg');
     const {data,error}=await SB.rpc('scn_claim_admin',{code:c});
@@ -832,7 +1143,7 @@ app.addEventListener('submit',async e=>{
   }else if(id==='addMemberForm'){
     const em=document.getElementById('am-email'),role=document.getElementById('am-role').value,m=document.getElementById('am-msg');
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim())){m.className='err';m.textContent=t('err_email');em.focus();return;}
-    const {data,error}=await SB.rpc('scn_add_member',{p_project:CLOUD.pid,p_email:em.value.trim(),p_role:role});
+    const {data,error}=CLOUD.folder?await SB.rpc('scn_add_folder_member',{p_folder:CLOUD.folder.id,p_email:em.value.trim(),p_role:role}):await SB.rpc('scn_add_member',{p_project:CLOUD.pid,p_email:em.value.trim(),p_role:role});
     const code=error?'err':data;
     UI.amMsg=[code==='ok'?'okmsg':'err',code==='ok'?t('am_ok'):code==='no_user'?t('am_no_user'):code==='no_profile'?t('am_no_profile'):t('err_generic')];
     m.className=UI.amMsg[0];m.textContent=UI.amMsg[1];
@@ -845,12 +1156,12 @@ const TYPES=['scene','action','char','dialog','paren','trans'];
 const NEXT={scene:'action',action:'action',char:'dialog',paren:'dialog',dialog:'action',trans:'scene'};
 function vScript(v){
   v.innerHTML=`
-  <div class="head"><h1><em>${t('script_k')}</em><input class="title-in" id="title" data-f="title" value="${esc(P.title)}" placeholder="${t('title_ph')}" aria-label="${t('title_ph')}"></h1></div>
+  <div class="head"><h1><em>${CLOUD&&CLOUD.folder?esc(CLOUD.folder.title)+' · '+t('episode')+' '+(CLOUD.ep||''):t('script_k')}</em><input class="title-in" id="title" data-f="title" value="${esc(P.title)}" placeholder="${CLOUD&&CLOUD.folder?t('episode')+' '+(CLOUD.ep||''):t('title_ph')}" aria-label="${t('title_ph')}"></h1></div>
   <div id="sampleBar"></div>
   <div class="script-grid">
     <aside class="box side" id="side"></aside>
     <div class="stack" style="min-width:0">
-      <div class="toolbar" id="toolbar" role="toolbar">${TYPES.map(k=>`<button data-type="${k}" aria-pressed="false">${t('t_'+k)}</button>`).join('')}<span class="sp"></span><button data-act="copy">${t('copy')}</button><button data-act="export">${t('exp')}</button></div>
+      <div class="toolbar" id="toolbar" role="toolbar">${TYPES.map(k=>`<button data-type="${k}" aria-pressed="false">${t('t_'+k)}</button>`).join('')}<span class="sp"></span><span class="pgnow" id="pgnow" aria-live="polite"></span><button data-act="pdf">${t('pdf')}</button><button data-act="copy">${t('copy')}</button><button data-act="export">${t('exp')}</button><button data-act="keys">${t('keys')}</button></div>
       <div class="small muted" id="expMsg" role="status" hidden></div>
       <div class="box paper-box"><div class="paper" id="paper" lang="${P.lang}"></div><p class="hint">${t('hint')}</p></div>
     </div>
@@ -862,14 +1173,17 @@ function vScript(v){
 }
 function renderSampleBar(){
   const el=document.getElementById('sampleBar');if(!el)return;
-  if(CLOUD){el.innerHTML=`<div class="row" style="justify-content:space-between;gap:10px"><div class="legend" id="legend">${legendHtml()}</div><div class="row" style="gap:8px">${canWrite()?'':`<span class="ro-note">${t('ro')}</span>`}<button class="btn line sm" data-act="toggleColors" aria-pressed="${UI.colors}">${t(UI.colors?'colors_on':'colors_off')}</button><button class="btn sm" data-act="go" data-v="projects">${t('my_projects')}</button></div></div>`;return;}
+  if(CLOUD){el.innerHTML=`<div class="row" style="justify-content:space-between;gap:10px"><div class="legend" id="legend">${legendHtml()}</div><div class="row" style="gap:8px">${canWrite()?'':`<span class="ro-note">${t('ro')}</span>`}<button class="btn line sm" data-act="versions">${t('ver')}</button><button class="btn line sm" data-act="toggleColors" aria-pressed="${UI.colors}">${t(UI.colors?'colors_on':'colors_off')}</button>${CLOUD.folder?`<button class="btn sm" data-act="folder" data-id="${CLOUD.folder.id}">← ${esc(CLOUD.folder.title)}</button>`:`<button class="btn sm" data-act="go" data-v="projects">${t('my_projects')}</button>`}</div></div>`;return;}
   if(UI.confirm){el.innerHTML=`<div class="note row"><span>${t('blank_sure')}</span><button class="btn pri sm" data-act="blankYes">${t('yes_clear')}</button><button class="btn sm" data-act="blankNo">${t('cancel')}</button></div>`;return;}
   el.innerHTML=`<div class="row">${P.sample?`<span class="badge">${t('sample')}</span><span class="muted small">${t('sample_note')}</span>`:''}<button class="btn line sm" data-act="blank">${t('blank')}</button></div>`;
 }
 function renderSide(){
-  const el=document.getElementById('side');if(!el)return;const sc=scenes(),s=stats();
-  el.innerHTML=`<h3>${t('scenes')}</h3>${sc.length?`<ol class="scene-list">${sc.map(x=>`<li><button data-act="jump" data-id="${x.id}">${esc(up(x.title)||t('ph_scene'))}</button></li>`).join('')}</ol>`:`<p class="muted small">${t('no_scenes')}</p>`}
-  <div class="stats"><div><b>${String(s.pages).replace('.',P.lang==='tr'?',':'.')}</b><span>${t('s_pages')}</span></div><div><b>${s.scenes}</b><span>${t('s_scenes')}</span></div><div><b>${s.words}</b><span>${t('s_words')}</span></div></div>`;
+  const el=document.getElementById('side');if(!el)return;const sc=scenes(),s=stats(),L=computeLayout();const mins=L.count?Math.max(1,Math.round(L.frac)):0;
+  el.innerHTML=`<div class="stats" style="margin:0 0 14px;padding:0 0 14px;border-top:0;border-bottom:1px solid var(--line)"><div><b>${L.count}</b><span>${t('s_pages2')}</span></div><div><b>~${mins}</b><span>${t('s_min')}</span></div><div><b>${s.scenes}</b><span>${t('s_scenes')}</span></div><div><b>${s.words}</b><span>${t('s_words')}</span></div></div>
+  <h3>${t('scenes')}</h3>${sc.length?`<ol class="scene-list">${sc.map(x=>`<li><button data-act="jump" data-id="${x.id}">${esc(up(x.title)||t('ph_scene'))}</button></li>`).join('')}</ol>`:`<p class="muted small">${t('no_scenes')}</p>`}
+  <p class="small muted" style="margin:12px 0 0">${t('pg_note',{p:PERS.paper==='letter'?'Letter':'A4'})}</p>`;
+  renderPageMarks();updatePgNow();
+  if(CLOUD&&canWrite()&&L.count!==CLOUD.pageCount){CLOUD.pageCount=L.count;const pid=CLOUD.pid;clearTimeout(window.__pcT);window.__pcT=setTimeout(()=>{SB.from('scn_projects').update({page_count:L.count}).eq('id',pid).then(()=>{},()=>{});},3000);}
 }
 let sideTimer=null;const refreshSide=()=>{clearTimeout(sideTimer);sideTimer=setTimeout(renderSide,250);};
 function blockEl(b){
@@ -889,7 +1203,7 @@ app.addEventListener('keydown',e=>{
   const el=e.target.closest&&e.target.closest('.b');if(!el)return;
   const i=bIndex(el.dataset.id);if(i<0)return;const b=P.blocks[i];const sel=getSelection();
   if(e.key==='Enter'){
-    e.preventDefault();if(e.isComposing)return;
+    e.preventDefault();if(e.isComposing)return;pushUndo();
     if(!sel.isCollapsed)document.execCommand('delete');
     const txt=clean(el),pos=Math.min(caretPos(el),txt.length);
     if(!txt.trim()&&b.t!=='action'){setType(i,'action',el);return;}
@@ -897,9 +1211,9 @@ app.addEventListener('keydown',e=>{
     const nb={id:uid(),t:NEXT[b.t],x:txt.slice(pos)};P.blocks.splice(i+1,0,nb);
     const ne=blockEl(nb);el.after(ne);setCaret(ne,0);markType(nb.t);UI.cur=nb.id;afterEdit(true);
   }else if(e.key==='Tab'&&!e.altKey&&!e.ctrlKey&&!e.metaKey){
-    e.preventDefault();const k=TYPES.indexOf(b.t);setType(i,TYPES[(k+(e.shiftKey?TYPES.length-1:1))%TYPES.length],el);
+    e.preventDefault();pushUndo();const k=TYPES.indexOf(b.t);setType(i,TYPES[(k+(e.shiftKey?TYPES.length-1:1))%TYPES.length],el);
   }else if(e.key==='Backspace'&&sel.isCollapsed&&caretPos(el)===0&&i>0){
-    e.preventDefault();const prev=P.blocks[i-1],pe=el.previousElementSibling,pl=prev.x.length;
+    e.preventDefault();pushUndo();const prev=P.blocks[i-1],pe=el.previousElementSibling,pl=prev.x.length;
     prev.x+=clean(el);pe.textContent=prev.x;P.blocks.splice(i,1);el.remove();setCaret(pe,pl);markType(prev.t);UI.cur=prev.id;afterEdit(true);
   }else if(e.key==='ArrowUp'&&sel.isCollapsed&&caretPos(el)===0&&el.previousElementSibling){
     e.preventDefault();const pe=el.previousElementSibling;setCaret(pe,pe.textContent.length);
@@ -909,7 +1223,7 @@ app.addEventListener('keydown',e=>{
 });
 app.addEventListener('paste',e=>{
   const el=e.target.closest&&e.target.closest('.b');if(!el)return;
-  const text=(e.clipboardData||window.clipboardData).getData('text/plain');if(text==null)return;e.preventDefault();
+  const text=(e.clipboardData||window.clipboardData).getData('text/plain');if(text==null)return;e.preventDefault();pushUndo();
   const lines=text.replace(/\r/g,'').split('\n').map(s=>s.trim()).filter(Boolean);if(!lines.length)return;
   document.execCommand('insertText',false,lines[0]);
   const i=bIndex(el.dataset.id);P.blocks[i].x=clean(el);
@@ -929,7 +1243,7 @@ app.addEventListener('focusout',e=>{
     if(CLOUD.myBlock&&!(a&&a.closest&&a.closest('#paper .b'))){CLOUD.myBlock=null;trackMe();}
     if(CLOUD.pendingView&&!viewBusy()){CLOUD.pendingView=false;if(UI.view!=='script')renderView();}},250);
 });
-app.addEventListener('focusin',e=>{const el=e.target.closest&&e.target.closest('.b');if(!el)return;if(CLOUD)claimBlock(el.dataset.id);UI.cur=el.dataset.id;const b=P.blocks[bIndex(UI.cur)];if(b)markType(b.t);});
+app.addEventListener('focusin',e=>{const el=e.target.closest&&e.target.closest('.b');if(!el)return;setTimeout(updatePgNow,0);if(CLOUD)claimBlock(el.dataset.id);UI.cur=el.dataset.id;const b=P.blocks[bIndex(UI.cur)];if(b)markType(b.t);});
 app.addEventListener('mousedown',e=>{if(e.target.closest('#toolbar [data-type]'))e.preventDefault();});
 
 /* ---------- kart tahtası ---------- */
@@ -966,6 +1280,7 @@ app.addEventListener('dragleave',e=>{const b=e.target.closest&&e.target.closest(
 app.addEventListener('drop',e=>{const b=e.target.closest&&e.target.closest('.beat');if(!b||!dragId)return;e.preventDefault();const c=card(dragId);c.beat=c.beat||{};c.beat[P.structure]=b.dataset.beat||'';dragId=null;touch();renderView();});
 app.addEventListener('dragend',()=>{dragId=null;});
 function moveScene(id,dir){
+  pushUndo();
   const sc=scenes(),k=sc.findIndex(s=>s.id===id),j=k+dir;if(k<0||j<0||j>=sc.length)return;
   const a=sc[Math.min(k,j)],b=sc[Math.max(k,j)];
   const head=P.blocks.slice(0,a.start),A=P.blocks.slice(a.start,a.end),B=P.blocks.slice(b.start,b.end),tail=P.blocks.slice(b.end);
@@ -975,32 +1290,11 @@ function moveScene(id,dir){
 /* ---------- hafıza ---------- */
 function vMemory(v){
   const cs=characters();
+  const fld=(c,d,f,lab)=>{const k=f+'-'+encodeURIComponent(c.name).replace(/%/g,'_');return `<div><label class="lab" for="${k}">${t(lab)}</label><textarea rows="2" id="${k}" data-f="c${f}" data-id="${esc(c.name)}">${esc(d[f])}</textarea></div>`;};
   v.innerHTML=`
-  <div class="head"><h1><em>${t('mem_k')}</em>${t('mem_h')}</h1><p>${t('mem_p')}</p></div>
-  <div class="two">
-    <div class="stack">
-      <div class="box stack"><h2>${t('ask')}</h2>
-        <textarea id="askQ" rows="2" placeholder="${t('ask_ph')}" aria-label="${t('ask')}"></textarea>
-        <div class="row"><button class="btn pri" data-act="ask" id="askBtn">${t('ask_btn')}</button><button class="btn" data-act="stop" id="stopBtn" hidden>${t('stop')}</button></div>
-        <div class="inner a" id="askOut" role="status" ${UI.askOut?'':'hidden'}>${esc(UI.askOut)}</div>
-        <div class="qa" id="qaList">${P.qa.map(x=>`<div class="inner"><div class="q">${esc(x.q)}</div><div class="a">${esc(x.a)}</div></div>`).join('')}</div>
-      </div>
-      <div class="box stack"><h2>${t('check')}</h2><p class="muted" style="margin:0">${t('check_p')}</p>
-        <div class="row"><button class="btn pri" data-act="check" id="checkBtn">${t('check_btn')}</button><span class="muted small" id="checkMsg" role="status"></span></div>
-        <div class="stack" id="checkList">${checksHtml()}</div>
-      </div>
-      <p class="foot">${t('ai_note')}</p>
-    </div>
-    <div class="stack">
-      <div class="box stack"><h2>${t('chars')}</h2>
-        ${cs.length?cs.map(c=>{const d=P.chars[c.name]||{};const k=encodeURIComponent(c.name);return `<div class="inner stack" style="gap:10px"><div class="char-h"><b>${esc(c.name)}</b><span class="muted small">${c.lines} ${t('lines')} · ${t('first')} ${c.first}</span></div>
-          <div><label class="lab" for="w-${k}">${t('want')}</label><textarea rows="1" id="w-${k}" data-f="cwant" data-id="${esc(c.name)}">${esc(d.want)}</textarea></div>
-          <div><label class="lab" for="k-${k}">${t('knows')}</label><textarea rows="1" id="k-${k}" data-f="cknows" data-id="${esc(c.name)}">${esc(d.knows)}</textarea></div>
-          <div><label class="lab" for="n-${k}">${t('cnote')}</label><textarea rows="1" id="n-${k}" data-f="cnote" data-id="${esc(c.name)}">${esc(d.note)}</textarea></div></div>`;}).join(''):`<p class="muted" style="margin:0">${t('no_chars')}</p>`}
-      </div>
-      <div class="box stack"><h2>${t('facts')}</h2><textarea id="facts" rows="4" data-f="facts" placeholder="${t('facts_ph')}" aria-label="${t('facts')}">${esc(P.facts)}</textarea></div>
-    </div>
-  </div>`;
+  <div class="head"><h1><em>${t('chars_k')}</em>${t('chars_h')}</h1><p>${t('chars_p')}</p></div>
+  ${cs.length?`<div class="chargrid">${cs.map(c=>{const d=P.chars[c.name]||{};return `<div class="box"><div class="char-h"><b>${esc(c.name)}</b><span class="muted small">${c.lines} ${t('lines')} · ${t('first')} ${c.first}</span></div><div class="mx2">${fld(c,d,'want','want')}${fld(c,d,'need','need')}</div>${fld(c,d,'knows','knows')}${fld(c,d,'note','cnote')}</div>`;}).join('')}</div>`:`<div class="box"><p class="muted" style="margin:0">${t('no_chars')}</p></div>`}
+  <div class="box stack"><h2>${t('facts')}</h2><textarea id="facts" rows="4" data-f="facts" placeholder="${t('facts_ph')}" aria-label="${t('facts')}">${esc(P.facts)}</textarea></div>`;
 }
 function checksHtml(){
   if(!P.checks)return '';if(!P.checks.length)return `<div class="inner muted">${t('check_none')}</div>`;
@@ -1103,16 +1397,31 @@ function vWeek(v){
 function expMsg(s){const m=document.getElementById('expMsg');if(m){m.hidden=!s;m.textContent=s;}}
 app.addEventListener('click',async e=>{
   const tb=e.target.closest('#toolbar [data-type]');
-  if(tb){const i=bIndex(UI.cur);const el=i>=0&&document.querySelector('.b[data-id="'+UI.cur+'"]');if(el){setType(i,tb.dataset.type,el);el.focus();}return;}
+  if(tb){const i=bIndex(UI.cur);const el=i>=0&&document.querySelector('.b[data-id="'+UI.cur+'"]');if(el){pushUndo();setType(i,tb.dataset.type,el);el.focus();}return;}
   const a=e.target.closest('[data-act]');if(!a)return;const act=a.dataset.act,id=a.dataset.id;
-  if(act==='view'){UI.view=a.dataset.v;UI.delConfirm=false;UI.amMsg=null;render();}
+  if(act==='view'){if(DEMO_LOCK.includes(a.dataset.v)&&!isAdmin()){demoModal();return;}UI.view=a.dataset.v;UI.delConfirm=false;UI.amMsg=null;render();}
+  else if(act==='modalClose'){closeModal();}
+  else if(act==='pdf'){openPdf();}
+  else if(act==='keys'){keysModal();}
+  else if(act==='versions'){openVersions();}
+  else if(act==='verSave'){a.disabled=true;const ok=await makeVersion('manual');toast(ok?t('ver_saved'):t('err_generic'));loadVersions();}
+  else if(act==='verAsk'){UI.verConfirm=id;loadVersions();}
+  else if(act==='verDl'){versionDownload(id);}
+  else if(act==='verRestore'){a.disabled=true;const pid=CLOUD.pid;const {data,error}=await SB.rpc('scn_restore_version',{p_version:Number(id)});if(error||data!=='ok'){toast(t('err_generic'));a.disabled=false;return;}closeModal();await leaveProject(true);await openProject(pid);toast(t('ver_done'));}
   else if(act==='go'){let v=a.dataset.v;if(v==='projects'&&!ME)v='login';if(CLOUD&&(v==='projects'||SITE.includes(v)))await leaveProject();UI.view=v;render();window.scrollTo(0,0);const fi=document.querySelector('#authForm input');if(fi)fi.focus();}
+  else if(act==='folder'){await leaveProject();UI.folderId=id;UI.view='folder';UI.delFolder=false;UI.fmMsg=null;render();window.scrollTo(0,0);}
+  else if(act==='fcolor'){const c=Number(a.dataset.c);const {data,error}=await SB.rpc('scn_set_folder_color',{p_folder:UI.folderId,p_color:c});if(error||data!=='ok'){toast(t('err_generic'));return;}ME.color=c;loadFolder();}
+  else if(act==='rmFMember'){const {error}=await SB.from('scn_folder_members').delete().eq('folder_id',UI.folderId).eq('user_id',id);if(error)toast(t('err_generic'));else loadFolder();}
+  else if(act==='moveIn'){const sel=document.getElementById('mv-proj');if(!sel)return;const {data:ex}=await SB.from('scn_projects').select('episode_no').eq('folder_id',UI.folderId);const n=Math.max(0,...(ex||[]).map(x=>x.episode_no||0))+1;const {error}=await SB.from('scn_projects').update({folder_id:UI.folderId,episode_no:n}).eq('id',sel.value);if(error)toast(t('err_generic'));else loadFolder();}
+  else if(act==='delFolder'){UI.delFolder=true;loadFolder();}
+  else if(act==='delFolderNo'){UI.delFolder=false;loadFolder();}
+  else if(act==='delFolderYes'){UI.delFolder=false;const {error}=await SB.from('scn_folders').delete().eq('id',UI.folderId);if(error){toast(t('err_generic'));return;}UI.view='projects';render();}
   else if(act==='guest'){await leaveProject();UI.view='script';render();window.scrollTo(0,0);}
   else if(act==='open'){a.disabled=true;await openProject(id);if(a.isConnected)a.disabled=false;}
   else if(act==='toggleColors'){UI.colors=!UI.colors;try{localStorage.setItem('scn.colors',UI.colors?'on':'off');}catch(_){}const p=document.getElementById('paper');if(p)p.classList.toggle('colored',UI.colors);a.setAttribute('aria-pressed',String(UI.colors));a.textContent=t(UI.colors?'colors_on':'colors_off');}
   else if(act==='color'){const c=Number(a.dataset.c);const {error}=await SB.from('scn_profiles').update({color:c}).eq('id',ME.id);if(error){toast(t('err_generic'));return;}ME.color=c;render();}
-  else if(act==='pcolor'){const c=Number(a.dataset.c);const {data,error}=await SB.rpc('scn_set_color',{p_project:CLOUD.pid,p_color:c});if(error||data!=='ok'){toast(t('err_generic'));return;}ME.color=c;reloadMembers();}
-  else if(act==='rmMember'){const {error}=await SB.from('scn_members').delete().eq('project_id',CLOUD.pid).eq('user_id',id);if(error)toast(t('err_generic'));else reloadMembers();}
+  else if(act==='pcolor'){const c=Number(a.dataset.c);const mm=CLOUD.members.find(m=>m.id===ME.id);const {data,error}=(CLOUD.folder&&mm&&mm.src==='folder')?await SB.rpc('scn_set_folder_color',{p_folder:CLOUD.folder.id,p_color:c}):await SB.rpc('scn_set_color',{p_project:CLOUD.pid,p_color:c});if(error||data!=='ok'){toast(t('err_generic'));return;}ME.color=c;reloadMembers();}
+  else if(act==='rmMember'){const mm=CLOUD.members.find(m=>m.id===id);const {error}=(CLOUD.folder&&mm&&mm.src==='folder')?await SB.from('scn_folder_members').delete().eq('folder_id',CLOUD.folder.id).eq('user_id',id):await SB.from('scn_members').delete().eq('project_id',CLOUD.pid).eq('user_id',id);if(error)toast(t('err_generic'));else reloadMembers();}
   else if(act==='delProject'){UI.delConfirm=true;renderView();}
   else if(act==='delNo'){UI.delConfirm=false;renderView();}
   else if(act==='delYes'){const pid=CLOUD.pid;UI.delConfirm=false;const {error}=await SB.from('scn_projects').delete().eq('id',pid);if(error){toast(t('err_generic'));return;}await leaveProject(true);UI.view='projects';render();}
@@ -1127,8 +1436,7 @@ app.addEventListener('click',async e=>{
   else if(act==='blankYes'){UI.confirm=false;const l=P.lang;P=normalize({v:1,lang:l,title:'',blocks:[{id:uid(),t:'scene',x:''}],threads:[{id:'th1',name:l==='en'?'Main story':'Ana hikâye',c:1}],structure:P.structure,lessonDone:P.lessonDone,ex:P.ex,weekly:P.weekly});touch();render();const f=document.querySelector('.b');if(f)f.focus();}
   else if(act==='copy'){const txt=fountain();try{await navigator.clipboard.writeText(txt);expMsg(t('copied'));}catch(_){expMsg(t('copy_fail'));}}
   else if(act==='export'){
-    const name=(P.title||t('title_ph')).replace(/[\\/:*?"<>|]+/g,' ').trim().slice(0,80)||'senaryo';
-    try{const blob=new Blob([fountain()],{type:'text/plain;charset=utf-8'});const l=document.createElement('a');l.href=URL.createObjectURL(blob);l.download=name+'.fountain';document.body.appendChild(l);l.click();setTimeout(()=>{URL.revokeObjectURL(l.href);l.remove();},800);expMsg('');}catch(err){expMsg(t('exp_none'));}
+    try{downloadBlob(new Blob([fountain()],{type:'text/plain;charset=utf-8'}),fileName()+'.fountain');expMsg('');}catch(err){expMsg(t('exp_none'));}
   }
   else if(act==='structure'){P.structure=a.dataset.v;touch();renderView();}
   else if(act==='addThread'){const used=P.threads.map(x=>x.c);const c=[1,2,3,4,5].find(n=>!used.includes(n))||5;P.threads.push({id:'th'+uid(),name:t('th_new'),c});touch();renderView();}
@@ -1148,7 +1456,7 @@ app.addEventListener('click',async e=>{
 app.addEventListener('input',e=>{
   const el=e.target;
   if(el.classList&&el.classList.contains('b')){
-    const i=bIndex(el.dataset.id);if(i<0)return;const b=P.blocks[i];if(CLOUD)claimBlock(b.id);
+    const i=bIndex(el.dataset.id);if(i<0)return;const b=P.blocks[i];if(CLOUD)claimBlock(b.id);maybeTypeUndo(b.id);
     if(el.childNodes.length===1&&el.firstChild.nodeName==='BR')el.textContent='';
     b.x=clean(el);
     if(b.t==='action'&&isHeading(b.x)){b.t='scene';el.className='b b-scene';el.dataset.ph=t('ph_scene');markType('scene');const m=b.x.match(/^\s*(int|ext|est)(?=[.\s\/])/i);if(m&&m[1]!==m[1].toUpperCase()){b.x=b.x.replace(m[1],m[1].toUpperCase());el.textContent=b.x;setCaret(el,b.x.length);}}
@@ -1158,7 +1466,7 @@ app.addEventListener('input',e=>{
   if(f==='title')P.title=val;
   else if(f==='sum')card(id).sum=val;
   else if(f==='thname'){const th=P.threads.find(x=>x.id===id);if(th)th.name=val;}
-  else if(f==='cwant'||f==='cknows'||f==='cnote'){const c=P.chars[id]||(P.chars[id]={want:'',knows:'',note:''});c[f.slice(1)]=val;}
+  else if(f==='cwant'||f==='cneed'||f==='cknows'||f==='cnote'){const c=P.chars[id]||(P.chars[id]={});c[f.slice(1)]=val;}
   else if(f==='facts')P.facts=val;
   else if(f==='ex')P.ex[id]=val;
   else if(f==='week'){const w=P.weekly[id]||(P.weekly[id]={text:'',done:false});w.text=val;}
@@ -1167,16 +1475,22 @@ app.addEventListener('input',e=>{
 });
 app.addEventListener('change',async e=>{
   const el=e.target,f=el.dataset&&el.dataset.f;if(!f)return;const id=el.dataset.id;
-  if(f==='mrole'){const {error}=await SB.from('scn_members').update({role:el.value}).eq('project_id',CLOUD.pid).eq('user_id',id);if(error)toast(t('err_generic'));else reloadMembers();return;}
+  if(f==='frole'){const {error}=await SB.from('scn_folder_members').update({role:el.value}).eq('folder_id',UI.folderId).eq('user_id',id);if(error)toast(t('err_generic'));else loadFolder();return;}
+  if(f==='ftitle'){const v2=el.value.trim();if(!v2)return;const {error}=await SB.from('scn_folders').update({title:v2}).eq('id',UI.folderId);if(error)toast(t('err_generic'));else toast(t('saved_now'));return;}
+  if(f==='mrole'){const mm=CLOUD.members.find(m=>m.id===id);const {error}=(CLOUD.folder&&mm&&mm.src==='folder')?await SB.from('scn_folder_members').update({role:el.value}).eq('folder_id',CLOUD.folder.id).eq('user_id',id):await SB.from('scn_members').update({role:el.value}).eq('project_id',CLOUD.pid).eq('user_id',id);if(error)toast(t('err_generic'));else reloadMembers();return;}
   if(f==='th'){card(id).th=el.value;touch();renderView();}
   else if(f==='beat'){const c=card(id);c.beat=c.beat||{};c.beat[P.structure]=el.value;touch();renderView();}
   else if(f==='thname'){renderView();}
 });
-window.addEventListener('beforeunload',()=>{if(!CLOUD){try{localStorage.setItem(LS,JSON.stringify(P));}catch(_){}}else if(flushT||metaT){flushBlocks();saveMeta();}});
+window.addEventListener('beforeunload',e=>{if(!CLOUD){try{localStorage.setItem(LS,JSON.stringify(P));}catch(_){}}else if(flushT||metaT||flushing||CLOUD.state==='err'){flushBlocks();saveMeta();e.preventDefault();e.returnValue='';return '';}});
+const HASH0=location.hash;
+function cleanHash(){if(location.href.indexOf('#')>-1&&(location.hash===''||location.hash==='#'||/access_token|refresh_token|error_description|type=/.test(location.hash))){try{history.replaceState(null,'',location.pathname+location.search);}catch(e){}}}
 (async function boot(){
-  if(!SB)return;
+  if(/error_description=/.test(HASH0)){try{const m=decodeURIComponent((HASH0.match(/error_description=([^&]*)/)||[])[1]||'').replace(/\+/g,' ');toast(/expired|invalid/i.test(m)?t('link_expired'):m);}catch(e){}}
+  if(!SB){cleanHash();return;}
   try{const {data}=await SB.auth.getSession();if(data&&data.session){await loadMe(data.session.user);if(SITE.includes(UI.view)){UI.view='projects';render();}}}catch(e){}
-  SB.auth.onAuthStateChange((ev,session)=>{setTimeout(async()=>{
+  cleanHash();
+  SB.auth.onAuthStateChange((ev,session)=>{setTimeout(async()=>{cleanHash();
     if(ev==='SIGNED_OUT'&&ME){ME=null;await leaveProject(true);UI.view='home';render();}
     else if(ev==='SIGNED_IN'&&session&&!ME&&!UI.authBusy){try{await loadMe(session.user);UI.view='projects';render();}catch(e){}}
   },0);});
