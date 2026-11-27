@@ -296,6 +296,55 @@ input.field{font-size:16px;padding:12px 14px}
 .sec-t h2{font-size:24px;letter-spacing:-.03em}
 @media (max-width:860px){.tiles .tile.wide{grid-column:1/-1}.hello{grid-template-columns:minmax(0,1fr)}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.tile{min-height:150px;padding:18px;border-radius:24px}.tile b{font-size:18px}.resume{border-radius:26px;padding:20px}}
 @media (max-width:420px){.tile p{display:none}}
+
+/* sosyal ana ekran */
+.social{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:28px;align-items:start}
+.feedcol{display:flex;flex-direction:column;gap:18px;min-width:0}
+.aside{display:flex;flex-direction:column;gap:14px;position:sticky;top:20px;min-width:0}
+.pav{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:15px;background:var(--u1)}
+.pav.lg{width:64px;height:64px;font-size:24px}
+.pav.sys{background:var(--ink);color:var(--bg);position:relative}.post.dark .pav.sys{background:var(--bg)}.pav.sys::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--dot);position:absolute;right:9px;bottom:9px}
+.compose{background:var(--tone);border-radius:30px;padding:22px;display:flex;flex-direction:column;gap:16px}
+.compose .top1{display:flex;gap:14px;align-items:center}
+.compose .ask{flex:1;min-width:0;text-align:left;border:0;background:var(--bg);border-radius:999px;padding:14px 20px;font:inherit;font-size:16px;color:var(--mute);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.compose .ask b{color:var(--ink);font-weight:600}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:0;background:var(--bg);border-radius:999px;padding:8px 14px;font:inherit;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chip:hover{background:var(--tone2)}
+.chip.pri{background:var(--ink);color:var(--bg)}
+.feedhead{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-top:6px}
+.feedhead h2{font-size:22px;letter-spacing:-.03em}
+.post{background:var(--bg);box-shadow:inset 0 0 0 1px var(--line);border-radius:28px;padding:20px 22px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.post.dark{background:var(--ink);color:var(--bg);box-shadow:none}.post.dark .ph small,.post.dark .pbody p{color:var(--bg);opacity:.7}
+.post.dark .btn{background:var(--bg);color:var(--ink)}
+.ph{display:flex;gap:12px;align-items:center;min-width:0}
+.ph div{min-width:0;display:flex;flex-direction:column}
+.ph b{font-size:15px;font-weight:600;line-height:1.35}
+.ph small{font-size:12.5px;color:var(--mute);font-weight:600}
+.pbody{display:flex;flex-direction:column;gap:10px;min-width:0}
+.pbody h3{margin:0;font-size:21px;letter-spacing:-.02em;line-height:1.25;font-weight:600}
+.pbody p{margin:0;color:var(--mute);line-height:1.55;font-size:15px}
+.pbody p.cl{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.snip{font-family:var(--mono);font-size:14.5px;line-height:1.5;background:var(--tone);border-radius:18px;padding:14px 16px;border-left:4px solid var(--u1);white-space:pre-wrap;word-break:break-word;color:var(--ink)}
+.snip .who{display:block;font-weight:700;margin-bottom:2px}
+.pact{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.post.locked .pbody{filter:blur(5px);user-select:none;pointer-events:none}
+.lockbar{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--tone);border-radius:18px;padding:12px 16px;font-size:13.5px;font-weight:600;color:var(--mute)}
+.lockbar svg{width:11px;height:12px;margin-right:6px;vertical-align:-1px}
+.side-card{background:var(--tone);border-radius:28px;padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.side-card h3{margin:0;font-size:15px;font-weight:700;letter-spacing:-.01em}
+.me-card{align-items:flex-start}
+.me-card .nm{font-size:20px;font-weight:600;letter-spacing:-.02em}
+.aside .kpis{grid-template-columns:repeat(2,minmax(0,1fr));width:100%}
+.aside .kpi{background:var(--bg);border-radius:18px;padding:12px 14px}.aside .kpi b{font-size:24px}
+.people{display:flex;flex-direction:column;gap:10px}
+.person{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;min-width:0}
+.person .pav{width:32px;height:32px;font-size:13px}
+.person span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.side-card .sw{width:28px;height:28px}
+.empty{color:var(--mute);font-size:15px;line-height:1.55;background:var(--tone);border-radius:24px;padding:20px}
+@media (max-width:980px){.social{grid-template-columns:minmax(0,1fr)}.aside{position:static}}
+@media (max-width:560px){.compose{padding:16px;border-radius:24px}.compose .ask{font-size:14.5px;padding:12px 16px}.post{padding:16px;border-radius:22px}.pbody h3{font-size:18px}.pav{width:36px;height:36px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -434,6 +483,13 @@ const L={
   t_draft:['Kişisel taslak','Personal draft'],t_draft_p:['Yalnızca bu cihazda, kimseyle paylaşılmaz.','Only on this device, never shared.'],
   t_locked:['Demo: yalnızca yönetici','Demo: admins only'],t_open:['Açın','Open'],lessons_done:['{a}/{b} ders','{a}/{b} lessons'],
   settings:['Ayarlar','Settings'],
+
+  compose_q:['Bugün ne yazıyorsunuz?','What are you writing today?'],compose_resume:['Devam edin: ','Continue: '],compose_none:['Bir proje seçin ve yazmaya başlayın','Pick a project and start writing'],
+  feed_h:['Akış','Feed'],feed_p:['Ekibinizden son hareketler','Latest from your team'],feed_empty:['Ekipten henüz hareket yok. İlk satırı siz yazın.','No activity from your team yet. Write the first line.'],
+  feed_worked:['{p} üzerinde çalıştı','worked on {p}'],feed_lines:['{n} satır','{n} lines'],you:['Siz','You'],
+  post_week:['Haftanın görevi','Task of the week'],post_week_go:['Yazmaya başlayın','Start writing'],post_aca:['Günün dersi','Lesson of the day'],post_aca_go:['Dersi okuyun','Read the lesson'],
+  post_lock:['Demo: yalnızca yöneticiler kullanabilir','Demo: admins only'],role_admin:['Yönetici','Admin'],role_member:['Yazar','Writer'],
+  people_h:['Yazarlar','Writers'],aca_side:['Akademi ilerlemesi','Academy progress'],new_k:['Yeni proje','New project'],open_proj:['Açın','Open'],all_proj:['Tümü','All'],
   foot_cloud:['Bu proje ekibinizle eş zamanlı kaydedilir. Renkler, satırı en son kimin düzenlediğini gösterir.','This project is saved live with your team. Colours show who last edited each line.'],
   foot:['Senaryonuz hesabınıza özel alana, o kullanılamıyorsa bu tarayıcıya kaydedilir. Sayfa aralıkları 110 sayfalık bir senaryoya göre verilmiştir. Bu bir MVP1 prototipidir.','Your script is saved to a space private to your account, or to this browser when that is unavailable. Page ranges assume a 110-page script. This is an MVP1 prototype.']
 };
@@ -984,7 +1040,7 @@ async function versionDownload(id){
 }
 
 /* ---------- kabuk ---------- */
-const TABS=[['script','tab_script'],['board','tab_board'],['memory','tab_memory'],['academy','tab_academy'],['week','tab_week']];
+const TABS=[['script','tab_script'],['board','tab_board'],['memory','tab_memory']];
 const tabsList=()=>CLOUD?TABS.concat([['team','tab_team']]):TABS;
 function userBits(){return ME?`<span class="userchip"><i style="background:var(--u${ME.color})" title="${esc(ME.name)}">${initial(ME.name)}</i></span><button class="linkbtn" data-act="logout">${t('logout')}</button>`:`<button class="btn pri sm" data-act="go" data-v="signup">${t('start')}</button>`;}
 function render(){
@@ -992,6 +1048,7 @@ function render(){
   if(SITE.includes(UI.view)){renderSite();return;}
   if(UI.view==='projects'){renderDash();return;}
   if(UI.view==='folder'){renderFolder();return;}
+  if((UI.view==='academy'||UI.view==='week')&&ME&&CLOUD){const v=UI.view;leaveProject().then(()=>{UI.view=v;render();});return;}
   if((UI.view==='academy'||UI.view==='week')&&ME&&!CLOUD){if(!isAdmin()){UI.view='projects';renderDash();demoModal();return;}app.innerHTML=`<div class="stack" style="gap:40px">${siteTop()}<main id="view" class="stack" style="gap:28px"></main><footer class="site-foot"><span>${t('foot_site')}</span><span>TR · EN</span></footer></div>`;renderView();return;}
   if(UI.view==='team'&&!CLOUD)UI.view='script';
   if(DEMO_LOCK.includes(UI.view)&&!isAdmin())UI.view='script';
@@ -1021,27 +1078,68 @@ function renderDash(){
   const h=new Date().getHours(),greet=t(h<12?'gm':h<18?'gd':'ge');
   const date=new Date().toLocaleDateString(P.lang==='en'?'en-GB':'tr-TR',{weekday:'long',day:'numeric',month:'long'});
   let last=null;try{last=JSON.parse(localStorage.getItem('scn.last.'+ME.id));}catch(e){}
-  const adm=isAdmin(),done=LESSONS.filter(x=>P.lessonDone[x.id]).length,wk=isoWeek(new Date()),task=TASKS[wk.w%TASKS.length],g=loadGuest();
-  const lock=`<span class="lock" title="${t('t_locked')}"><svg viewBox="0 0 9 10" aria-hidden="true"><rect x="0.5" y="4" width="8" height="5.5" rx="1.2" fill="currentColor"/><path d="M2.3 4V3a2.2 2.2 0 0 1 4.4 0v1" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></span>`;
-  app.innerHTML=`<div class="stack" style="gap:40px">${siteTop()}
-  <div class="home">
-    <section class="hello"><div><span class="k">${esc(date)}</span><h1><em>${greet}, ${esc(ME.name)}.</em>${t('home_h')}</h1></div>
-      <div class="kpis" id="kpis">${['kp_series','kp_scripts','kp_pages','kp_min'].map(k=>`<div class="kpi"><b>–</b><span>${t(k)}</span></div>`).join('')}</div></section>
-    ${last&&last.id?`<section class="resume"><div style="min-width:0"><span class="k">${t('resume_k')}</span><b>${esc(last.series?last.series+' · '+t('episode')+' '+(last.ep||''):(last.title||t('title_ph')))}</b>${last.series&&last.title?`<span style="opacity:.7;font-size:14px">${esc(last.title)}</span>`:''}</div><button class="btn" data-act="open" data-id="${esc(last.id)}">${t('resume_btn')}</button></section>`:''}
-    <section class="tiles">
-      <button class="tile dark${adm?'':' wide'}" data-act="scroll" data-to="projects"><span class="k">${t('t_proj')}</span><b id="tileProj">${t('t_proj')}</b><p>${t('t_proj_p')}</p><span class="foot2"><span id="tileProjN"></span><span>→</span></span></button>
-      ${adm?`<button class="tile" data-act="newFocus"><span class="k">${t('t_new')}</span><b>${t('t_new_b')}</b><p>${t('t_new_p')}</p><span class="foot2"><span></span><span>+</span></span></button>`:''}
-      <button class="tile${adm?'':' locked'}" data-act="go" data-v="academy"><span class="k">${t('tab_academy')}</span>${adm?'':lock}<b>${t('aca_h')}</b><p>${t('t_aca_p')}</p><span class="foot2" style="flex-direction:column;align-items:stretch;gap:8px">${adm?`<span>${t('lessons_done',{a:done,b:LESSONS.length})}</span><span class="prog"><i style="width:${Math.round(done/LESSONS.length*100)}%"></i></span>`:`<span>${t('t_locked')}</span>`}</span></button>
-      <button class="tile${adm?'':' locked'}" data-act="go" data-v="week"><span class="k">${t('tab_week')} · ${wk.w}. ${t('week_n')}</span>${adm?'':lock}<b class="clamp">${adm?esc(tx(task)):t('week_h')}</b>${adm?'':`<p>${t('t_week_p')}</p>`}<span class="foot2"><span>${adm?((P.weekly[wk.key]||{}).done?t('done'):t('t_open')):t('t_locked')}</span><span>→</span></span></button>
-    </section>
-    ${adm?`<form class="box row" id="newProjForm" novalidate style="gap:10px"><input class="field" id="np-title" placeholder="${t('np_ph2')}" aria-label="${t('np_ph2')}" style="flex:1 1 240px;min-width:0"><button class="btn pri" type="submit" value="series">${t('np_series')}</button><button class="btn" type="submit" value="single">${t('np_single')}</button></form>`:''}
-    <section class="stack" id="projects" style="gap:14px;scroll-margin-top:24px"><div id="dashNote"></div><div class="plist" id="plist"><p class="muted">${t('loading')}</p></div></section>
-    <section class="stack" style="gap:14px"><div class="sec-t"><h2>${t('settings')}</h2></div>
-    <div class="two"><div class="box stack"><h2>${t('your_color')}</h2><p class="muted" style="margin:0">${t('your_color_p')}</p><div class="row">${[1,2,3,4,5,6,7,8].map(c=>`<button class="sw" data-act="color" data-c="${c}" style="background:var(--u${c})" aria-pressed="${ME.color===c}" aria-label="${t('color')} ${c}"></button>`).join('')}</div></div>
-    ${adm?`<div class="box stack"><h2>${t('admin_k')}</h2><p class="muted" style="margin:0">${t('admin_on')}</p></div>`:`<details class="box"><summary class="small muted" style="cursor:pointer;font-weight:600">${t('claim_k')}</summary><form id="claimForm" class="stack" novalidate style="margin-top:12px"><input class="field" id="cl-code" autocomplete="off" aria-label="${t('claim_k')}"><div><button class="btn sm" type="submit">${t('claim_btn')}</button></div><div id="cl-msg" role="status"></div></form></details>`}</div></section>
+  const adm=isAdmin(),done=LESSONS.filter(x=>P.lessonDone[x.id]).length,wk=isoWeek(new Date()),task=TASKS[wk.w%TASKS.length];
+  const ls=LESSONS.find(x=>!P.lessonDone[x.id])||LESSONS[wk.w%LESSONS.length];
+  const lockbar=v=>`<div class="lockbar"><span><svg viewBox="0 0 9 10" aria-hidden="true"><rect x="0.5" y="4" width="8" height="5.5" rx="1.2" fill="currentColor"/><path d="M2.3 4V3a2.2 2.2 0 0 1 4.4 0v1" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>${t('post_lock')}</span><button class="btn sm" data-act="go" data-v="${v}">${t('t_open')}</button></div>`;
+  const lastLabel=last&&last.id?(last.series?last.series+' · '+t('episode')+' '+(last.ep||''):(last.title||t('title_ph'))):'';
+  const weekDone=(P.weekly[wk.key]||{}).done;
+  const weekPost=`<article class="post dark${adm?'':' locked'}"><div class="ph"><span class="pav sys" aria-hidden="true"></span><div><b>${t('post_week')}</b><small>Scenariotopia · ${wk.w}. ${t('week_n')}</small></div></div>
+    <div class="pbody"><h3>${adm?esc(tx(task)):t('week_h')}</h3>${adm?'':`<p>${t('t_week_p')}</p>`}</div>
+    ${adm?`<div class="pact"><button class="btn sm" data-act="go" data-v="week">${weekDone?t('done'):t('post_week_go')}</button></div>`:lockbar('week')}</article>`;
+  const acaPost=`<article class="post${adm?'':' locked'}"><div class="ph"><span class="pav sys" aria-hidden="true"></span><div><b>${t('post_aca')}</b><small>${t('tab_academy')} · ${t('lessons_done',{a:done,b:LESSONS.length})}</small></div></div>
+    <div class="pbody"><h3>${esc(tx(ls.t))}</h3><p class="cl">${esc(tx(ls.b)[0])}</p></div>
+    ${adm?`<div class="pact"><button class="btn sm" data-act="lesson" data-id="${ls.id}" data-go="1">${t('post_aca_go')}</button></div>`:lockbar('academy')}</article>`;
+  app.innerHTML=`<div class="stack" style="gap:32px">${siteTop()}
+  <div class="social">
+    <div class="feedcol">
+      <section class="hello" style="grid-template-columns:minmax(0,1fr)"><div><span class="k">${esc(date)}</span><h1 style="font-size:clamp(30px,4.4vw,48px)"><em>${greet}, ${esc(ME.name)}.</em>${t('home_h')}</h1></div></section>
+      <section class="compose" aria-label="${t('compose_q')}">
+        <div class="top1"><span class="pav" style="background:var(--u${ME.color})" aria-hidden="true">${initial(ME.name)}</span>
+          ${last&&last.id?`<button class="ask" data-act="open" data-id="${esc(last.id)}">${t('compose_resume')}<b>${esc(lastLabel)}</b></button>`:`<button class="ask" data-act="scroll" data-to="projects">${t('compose_none')}</button>`}</div>
+        <div class="chips" id="recent"></div>
+        ${adm?`<form class="row" id="newProjForm" novalidate style="gap:8px"><input class="field" id="np-title" placeholder="${t('np_ph2')}" aria-label="${t('np_ph2')}" style="flex:1 1 220px;min-width:0;background:var(--bg)"><button class="btn pri sm" type="submit" value="series">${t('np_series')}</button><button class="btn sm" type="submit" value="single" style="background:var(--bg)">${t('np_single')}</button></form>`:''}
+      </section>
+      ${weekPost}
+      <div class="feedhead"><h2>${t('feed_h')}</h2><span class="small muted">${t('feed_p')}</span></div>
+      <div class="feedcol" id="feed"><p class="muted">${t('loading')}</p></div>
+      <div data-aca-slot hidden>${acaPost}</div>
+      <section class="stack" id="projects" style="gap:14px;scroll-margin-top:24px;margin-top:18px"><div class="feedhead"><h2>${t('t_proj')}</h2></div><div id="dashNote"></div><div class="plist" id="plist"><p class="muted">${t('loading')}</p></div></section>
+    </div>
+    <aside class="aside">
+      <div class="side-card me-card"><span class="pav lg" style="background:var(--u${ME.color})" aria-hidden="true">${initial(ME.name)}</span><div><div class="nm">${esc(ME.name)}</div><span class="small muted" style="font-weight:600">${t(adm?'role_admin':'role_member')}</span></div>
+        <div class="kpis" id="kpis">${['kp_series','kp_scripts','kp_pages','kp_min'].map(k=>`<div class="kpi"><b>–</b><span>${t(k)}</span></div>`).join('')}</div></div>
+      <button class="side-card" data-act="go" data-v="academy" style="border:0;font:inherit;color:inherit;text-align:left;cursor:pointer"><h3>${t('aca_side')}${adm?'':` <span class="muted" style="font-weight:600">· ${t('t_locked')}</span>`}</h3>${adm?`<span class="small muted" style="font-weight:600">${t('lessons_done',{a:done,b:LESSONS.length})}</span><span class="prog"><i style="width:${Math.round(done/LESSONS.length*100)}%"></i></span>`:`<span class="small muted">${t('t_aca_p')}</span>`}</button>
+      <div class="side-card"><h3>${t('people_h')}</h3><div class="people" id="people"><span class="small muted">${t('loading')}</span></div></div>
+      <div class="side-card"><h3>${t('your_color')}</h3><div class="row" style="gap:8px">${[1,2,3,4,5,6,7,8].map(c=>`<button class="sw" data-act="color" data-c="${c}" style="background:var(--u${c})" aria-pressed="${ME.color===c}" aria-label="${t('color')} ${c}"></button>`).join('')}</div>
+        ${adm?`<span class="small muted">${t('admin_on')}</span>`:`<details><summary class="small muted" style="cursor:pointer;font-weight:600">${t('claim_k')}</summary><form id="claimForm" class="stack" novalidate style="margin-top:10px"><input class="field" id="cl-code" autocomplete="off" aria-label="${t('claim_k')}" style="background:var(--bg)"><div><button class="btn sm" type="submit">${t('claim_btn')}</button></div><div id="cl-msg" role="status"></div></form></details>`}</div>
+    </aside>
   </div>
   <footer class="site-foot"><span>${t('foot_site')}</span><span>TR · EN</span></footer></div>`;
   loadProjects();
+}
+function relTime(d){const s=(new Date(d).getTime()-Date.now())/1000;const rtf=new Intl.RelativeTimeFormat(P.lang==='en'?'en':'tr',{numeric:'auto'});
+  const a=Math.abs(s);if(a<60)return rtf.format(Math.round(s),'second');if(a<3600)return rtf.format(Math.round(s/60),'minute');if(a<86400)return rtf.format(Math.round(s/3600),'hour');if(a<86400*30)return rtf.format(Math.round(s/86400),'day');return new Date(d).toLocaleDateString(P.lang==='en'?'en-GB':'tr-TR',{day:'numeric',month:'long'});}
+async function loadFeed(projects,folders){
+  const box=document.getElementById('feed');if(!box||!SB)return;
+  const [rb,rp]=await Promise.all([SB.from('scn_blocks').select('project_id,author_id,updated_at,text,type').order('updated_at',{ascending:false}).limit(400),SB.from('scn_profiles').select('id,display_name,color').limit(80)]);
+  const f=document.getElementById('feed');if(!f||UI.view!=='projects')return;
+  const people=rp.error?[]:(rp.data||[]);const pm={};people.forEach(p=>pm[p.id]=p);
+  const prj={};projects.forEach(p=>prj[p.id]=p);const fm={};folders.forEach(x=>fm[x.id]=x);
+  const groups=[];const GAP=2*3600e3;
+  (rb.error?[]:(rb.data||[])).forEach(b=>{if(!b.author_id||!prj[b.project_id])return;const tm=new Date(b.updated_at).getTime();
+    let g=groups.find(g=>g.a===b.author_id&&g.p===b.project_id&&g.oldest-tm<GAP);
+    if(!g){g={a:b.author_id,p:b.project_id,at:b.updated_at,oldest:tm,n:0,snip:null};groups.push(g);}
+    g.n++;g.oldest=Math.min(g.oldest,tm);if(b.text&&b.text.trim()&&b.type!=='trans'&&(!g.snip||(g.snip.type==='scene'&&b.type!=='scene')))g.snip=b;});
+  const pname=p=>{const fo=p.folder_id&&fm[p.folder_id];return fo?fo.title+' · '+t('episode')+' '+(p.episode_no||''):(p.title||t('title_ph'));};
+  const items=groups.slice(0,14).map(g=>{const u=pm[g.a]||{display_name:'?',color:1};const mine=g.a===ME.id;const c=mine?ME.color:(u.color||1);const p=prj[g.p];
+    const sn=g.snip?`<div class="snip" style="border-left-color:var(--u${c})">${esc(g.snip.text.length>220?g.snip.text.slice(0,220)+'…':g.snip.text)}</div>`:'';
+    return `<article class="post"><div class="ph"><span class="pav" style="background:var(--u${c})" aria-hidden="true">${initial(mine?ME.name:u.display_name)}</span><div><b>${esc(mine?t('you'):u.display_name)}</b><small>${esc(t('feed_worked',{p:pname(p)}))} · ${t('feed_lines',{n:g.n})} · ${esc(relTime(g.at))}</small></div></div>${sn}<div class="pact"><button class="btn sm" data-act="open" data-id="${p.id}">${t('open_proj')}</button></div></article>`;});
+  const aca=document.querySelector('[data-aca-slot]');const acaHtml=aca?aca.innerHTML:'';if(aca)aca.remove();
+  if(!items.length)f.innerHTML=`<div class="empty">${t('feed_empty')}</div>`+acaHtml;
+  else{items.splice(Math.min(2,items.length),0,acaHtml);f.innerHTML=items.join('');}
+  const pe=document.getElementById('people');
+  if(pe){const list=people.slice().sort((a,b)=>(a.id===ME.id?-1:b.id===ME.id?1:String(a.display_name).localeCompare(String(b.display_name))));
+    pe.innerHTML=list.length?list.slice(0,24).map(p=>`<div class="person"><span class="pav" style="background:var(--u${p.id===ME.id?ME.color:(p.color||1)})" aria-hidden="true">${initial(p.display_name)}</span><span>${esc(p.display_name)}${p.id===ME.id?` <span class="muted">· ${t('you')}</span>`:''}</span></div>`).join(''):`<span class="small muted">—</span>`;}
 }
 async function loadProjects(){
   const box=document.getElementById('plist');if(!box||!SB)return;
@@ -1061,6 +1159,8 @@ async function loadProjects(){
   const pages=projects.reduce((a,p)=>a+(p.page_count||0),0);const kp=document.getElementById('kpis');
   if(kp)kp.innerHTML=[[folders.length,'kp_series'],[projects.length,'kp_scripts'],[pages,'kp_pages'],['~'+pages,'kp_min']].map(([v,k])=>`<div class="kpi"><b>${v}</b><span>${t(k)}</span></div>`).join('');
   const tn=document.getElementById('tileProjN');if(tn)tn.textContent=folders.length+' '+t('kp_series')+' · '+singles.length+' '+t('kp_proj');
+  const rc=document.getElementById('recent');if(rc){const fmap={};folders.forEach(x=>fmap[x.id]=x);rc.innerHTML=projects.slice(0,5).map(p=>{const fo=p.folder_id&&fmap[p.folder_id];return `<button class="chip" data-act="open" data-id="${p.id}">${esc(fo?fo.title+' · '+t('episode')+' '+(p.episode_no||''):(p.title||t('title_ph')))}</button>`;}).join('')+(projects.length>5?`<button class="chip" data-act="scroll" data-to="projects">${t('all_proj')} →</button>`:'');}
+  loadFeed(projects,folders);
 }
 /* ---------- dizi görünümü ---------- */
 function renderFolder(){
