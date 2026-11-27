@@ -263,6 +263,39 @@ input.field{font-size:16px;padding:12px 14px}
 .kbd{font-family:var(--mono);font-size:12px;background:var(--tone);border-radius:6px;padding:2px 7px;white-space:nowrap}
 .keys{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;align-items:center;font-size:14px}
 @media (max-width:860px){.chargrid,.chargrid .mx2{grid-template-columns:minmax(0,1fr)}}
+
+/* ana ekran */
+.home{display:flex;flex-direction:column;gap:40px}
+.hello{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:24px;align-items:end}
+.hello .k{font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.hello h1{margin:8px 0 0;font-size:clamp(32px,5vw,56px);line-height:1.04;letter-spacing:-.045em;font-weight:600;text-wrap:balance}
+.hello h1 em{font-style:normal;color:var(--faint);display:block}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.kpi{background:var(--tone);border-radius:22px;padding:16px 16px 14px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.kpi b{font-size:30px;font-weight:600;letter-spacing:-.04em;line-height:1.05;font-variant-numeric:tabular-nums}
+.kpi span{font-size:12px;color:var(--mute);font-weight:600}
+.resume{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--ink);color:var(--bg);border-radius:32px;padding:24px 28px;flex-wrap:wrap}
+.resume .k{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;opacity:.65}
+.resume b{display:block;font-size:clamp(20px,2.6vw,28px);font-weight:600;letter-spacing:-.03em;margin-top:4px}
+.resume .btn{background:var(--bg);color:var(--ink)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.tile b.clamp{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.tile{position:relative;text-align:left;border:0;background:var(--tone);border-radius:30px;padding:22px;cursor:pointer;display:flex;flex-direction:column;gap:10px;font:inherit;color:inherit;min-height:168px;transition:transform .15s ease}
+.tile:hover{transform:translateY(-2px)}
+.tile .k{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.tile b{font-size:21px;font-weight:600;letter-spacing:-.02em;line-height:1.2}
+.tile p{margin:0;color:var(--mute);font-size:14px;line-height:1.5}
+.tile .foot2{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;font-weight:600;color:var(--mute)}
+.tile.dark{background:var(--ink);color:var(--bg)}.tile.dark .k,.tile.dark p,.tile.dark .foot2{color:var(--bg);opacity:.72}
+.tile.locked{background:transparent;box-shadow:inset 0 0 0 1px var(--line)}
+.tile.locked b,.tile.locked p{color:var(--faint)}
+.tile .lock{position:absolute;top:20px;right:20px;width:30px;height:30px;border-radius:50%;background:var(--tone);display:grid;place-items:center;color:var(--mute)}
+.tile .lock svg{width:12px;height:13px}
+.prog{height:6px;border-radius:999px;background:var(--tone2);overflow:hidden}.prog i{display:block;height:100%;background:var(--ink);border-radius:999px}
+.sec-t{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sec-t h2{font-size:24px;letter-spacing:-.03em}
+@media (max-width:860px){.tiles .tile.wide{grid-column:1/-1}.hello{grid-template-columns:minmax(0,1fr)}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.tile{min-height:150px;padding:18px;border-radius:24px}.tile b{font-size:18px}.resume{border-radius:26px;padding:20px}}
+@media (max-width:420px){.tile p{display:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -330,7 +363,7 @@ const L={
   err_name:['Adınızı yazın.','Enter your name.'],err_email:['Geçerli bir e-posta adresi yazın.','Enter a valid email address.'],err_pass:['Şifre en az 8 karakter olmalı.','The password needs at least 8 characters.'],
   proto:['Bu bir tasarım prototipidir: gerçek hesap açılmaz, şifreniz hiçbir yere kaydedilmez ve gönderilmez.','This is a design prototype: no real account is created, and your password is not saved or sent anywhere.'],back:['Ana sayfa','Home'],
 
-  hero_try:['Kayıt olmadan deneyin','Try it without signing up'],my_projects:['Projelerim','My projects'],
+  hero_try:['Kayıt olmadan deneyin','Try it without signing up'],my_projects:['Ana ekran','Home'],
   st_err:['Kaydedilemedi, yeniden deneniyor','Not saved, retrying'],st_offline:['Bağlantı bekleniyor','Waiting for connection'],
   tab_team:['Ekip','Team'],
   ai_none:['Yapay zekâ özellikleri yakında: bağlantısı kurulunca burada açılacak.','AI features are coming: they will open here once connected.'],
@@ -391,6 +424,16 @@ const L={
   series_team:['Dizinin ekibi','Series team'],series_team_note:['Bu ekip “{s}” dizisinin ekibidir; buradaki değişiklikler tüm bölümleri etkiler.','This is the team of “{s}”; changes here apply to every episode.'],
   add_btn_series:['Diziye ekleyin','Add to series'],
   add_member_series:['Önce kişinin siteye kaydolup bir kez giriş yapması gerekir. Diziye eklenen kişi tüm bölümleri görür.','The person needs to sign up and log in once first. Anyone added to the series sees every episode.'],
+
+  gm:['Günaydın','Good morning'],gd:['İyi günler','Good afternoon'],ge:['İyi akşamlar','Good evening'],home_h:['Bugün ne yazıyoruz?','What are we writing today?'],
+  kp_proj:['tek proje','single projects'],kp_scripts:['senaryo','scripts'],kp_series:['dizi','series'],kp_pages:['sayfa','pages'],kp_min:['dakika','minutes'],
+  resume_k:['Kaldığınız yerden','Pick up where you left off'],resume_btn:['Devam edin','Continue'],
+  t_proj:['Projelerim','My projects'],t_proj_p:['Diziler, bölümler ve tek projeler.','Series, episodes and single projects.'],
+  t_new:['Yeni','New'],t_new_b:['Dizi ya da proje açın','Start a series or project'],t_new_p:['Bölümleri ve ekibi sonra eklersiniz.','Add episodes and people later.'],
+  t_aca_p:['Altı kısa ders, her biri bir alıştırmayla.','Six short lessons, each with an exercise.'],t_week_p:['Her pazartesi yeni bir yazma görevi.','A new writing task every Monday.'],
+  t_draft:['Kişisel taslak','Personal draft'],t_draft_p:['Yalnızca bu cihazda, kimseyle paylaşılmaz.','Only on this device, never shared.'],
+  t_locked:['Demo: yalnızca yönetici','Demo: admins only'],t_open:['Açın','Open'],lessons_done:['{a}/{b} ders','{a}/{b} lessons'],
+  settings:['Ayarlar','Settings'],
   foot_cloud:['Bu proje ekibinizle eş zamanlı kaydedilir. Renkler, satırı en son kimin düzenlediğini gösterir.','This project is saved live with your team. Colours show who last edited each line.'],
   foot:['Senaryonuz hesabınıza özel alana, o kullanılamıyorsa bu tarayıcıya kaydedilir. Sayfa aralıkları 110 sayfalık bir senaryoya göre verilmiştir. Bu bir MVP1 prototipidir.','Your script is saved to a space private to your account, or to this browser when that is unavailable. Page ranges assume a 110-page script. This is an MVP1 prototype.']
 };
@@ -586,6 +629,7 @@ async function openProject(pid){
   P=bindPers(normalize(Object.assign({},meta,{title:r1.data.title||'',blocks})));UNDO.length=0;REDO.length=0;
   CLOUD={pid,role,members,synced:new Map(rows.map(r=>[r.id,{t:r.type,x:r.text,p:r.pos,a:r.author_id}])),metaStr:'',title:r1.data.title||'',presence:{},channel:null,state:'ok',live:null,myBlock:null,myAt:0,folder:fid?{id:fid,title:(rf.data&&rf.data.title)||''}:null,ep:r1.data.episode_no||null,pageCount:r1.data.page_count||0};
   CLOUD.metaStr=metaString();
+  try{localStorage.setItem('scn.last.'+ME.id,JSON.stringify({id:pid,title:P.title||'',ep:CLOUD.ep||null,series:CLOUD.folder?CLOUD.folder.title:'',at:Date.now()}));}catch(e){}
   if(!rows.length)normalizePos();
   subscribe(pid);
   UI.view='script';render();window.scrollTo(0,0);
@@ -948,6 +992,7 @@ function render(){
   if(SITE.includes(UI.view)){renderSite();return;}
   if(UI.view==='projects'){renderDash();return;}
   if(UI.view==='folder'){renderFolder();return;}
+  if((UI.view==='academy'||UI.view==='week')&&ME&&!CLOUD){if(!isAdmin()){UI.view='projects';renderDash();demoModal();return;}app.innerHTML=`<div class="stack" style="gap:40px">${siteTop()}<main id="view" class="stack" style="gap:28px"></main><footer class="site-foot"><span>${t('foot_site')}</span><span>TR · EN</span></footer></div>`;renderView();return;}
   if(UI.view==='team'&&!CLOUD)UI.view='script';
   if(DEMO_LOCK.includes(UI.view)&&!isAdmin())UI.view='script';
   app.innerHTML=`
@@ -973,12 +1018,28 @@ function vTeam(v){
   <div class="box stack"><h2>${t('danger')}</h2>${UI.delConfirm?`<p style="margin:0">${t('del_sure')}</p><div class="row"><button class="btn pri" data-act="delYes" style="background:var(--bad);color:#fff">${t('del_yes')}</button><button class="btn" data-act="delNo">${t('cancel')}</button></div>`:`<div><button class="btn line" data-act="delProject">${t('del_project')}</button></div>`}</div></div>`:''}</div>`;
 }
 function renderDash(){
-  app.innerHTML=`<div class="stack" style="gap:48px">${siteTop()}
-  <div class="head"><h1><em>${t('dash_hi',{n:esc(ME.name)})}</em>${t('dash_h')}</h1><p>${ME.admin?t('dash_p_admin'):t('dash_p')}</p></div>
-  ${ME.admin?`<form class="box row" id="newProjForm" novalidate style="gap:10px"><input class="field" id="np-title" placeholder="${t('np_ph2')}" aria-label="${t('np_ph2')}" style="flex:1 1 240px;min-width:0"><button class="btn pri" type="submit" value="series">${t('np_series')}</button><button class="btn" type="submit" value="single">${t('np_single')}</button></form>`:''}
-  <div class="stack" style="gap:14px"><div id="dashNote"></div><div class="plist" id="plist"><p class="muted">${t('loading')}</p></div></div>
-  <div class="two"><div class="box stack"><h2>${t('your_color')}</h2><p class="muted" style="margin:0">${t('your_color_p')}</p><div class="row">${[1,2,3,4,5,6,7,8].map(c=>`<button class="sw" data-act="color" data-c="${c}" style="background:var(--u${c})" aria-pressed="${ME.color===c}" aria-label="${t('color')} ${c}"></button>`).join('')}</div></div>
-  ${ME.admin?`<div class="box stack"><h2>${t('admin_k')}</h2><p class="muted" style="margin:0">${t('admin_on')}</p></div>`:`<details class="box"><summary class="small muted" style="cursor:pointer;font-weight:600">${t('claim_k')}</summary><form id="claimForm" class="stack" novalidate style="margin-top:12px"><input class="field" id="cl-code" autocomplete="off" aria-label="${t('claim_k')}"><div><button class="btn sm" type="submit">${t('claim_btn')}</button></div><div id="cl-msg" role="status"></div></form></details>`}</div>
+  const h=new Date().getHours(),greet=t(h<12?'gm':h<18?'gd':'ge');
+  const date=new Date().toLocaleDateString(P.lang==='en'?'en-GB':'tr-TR',{weekday:'long',day:'numeric',month:'long'});
+  let last=null;try{last=JSON.parse(localStorage.getItem('scn.last.'+ME.id));}catch(e){}
+  const adm=isAdmin(),done=LESSONS.filter(x=>P.lessonDone[x.id]).length,wk=isoWeek(new Date()),task=TASKS[wk.w%TASKS.length],g=loadGuest();
+  const lock=`<span class="lock" title="${t('t_locked')}"><svg viewBox="0 0 9 10" aria-hidden="true"><rect x="0.5" y="4" width="8" height="5.5" rx="1.2" fill="currentColor"/><path d="M2.3 4V3a2.2 2.2 0 0 1 4.4 0v1" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></span>`;
+  app.innerHTML=`<div class="stack" style="gap:40px">${siteTop()}
+  <div class="home">
+    <section class="hello"><div><span class="k">${esc(date)}</span><h1><em>${greet}, ${esc(ME.name)}.</em>${t('home_h')}</h1></div>
+      <div class="kpis" id="kpis">${['kp_series','kp_scripts','kp_pages','kp_min'].map(k=>`<div class="kpi"><b>–</b><span>${t(k)}</span></div>`).join('')}</div></section>
+    ${last&&last.id?`<section class="resume"><div style="min-width:0"><span class="k">${t('resume_k')}</span><b>${esc(last.series?last.series+' · '+t('episode')+' '+(last.ep||''):(last.title||t('title_ph')))}</b>${last.series&&last.title?`<span style="opacity:.7;font-size:14px">${esc(last.title)}</span>`:''}</div><button class="btn" data-act="open" data-id="${esc(last.id)}">${t('resume_btn')}</button></section>`:''}
+    <section class="tiles">
+      <button class="tile dark${adm?'':' wide'}" data-act="scroll" data-to="projects"><span class="k">${t('t_proj')}</span><b id="tileProj">${t('t_proj')}</b><p>${t('t_proj_p')}</p><span class="foot2"><span id="tileProjN"></span><span>→</span></span></button>
+      ${adm?`<button class="tile" data-act="newFocus"><span class="k">${t('t_new')}</span><b>${t('t_new_b')}</b><p>${t('t_new_p')}</p><span class="foot2"><span></span><span>+</span></span></button>`:''}
+      <button class="tile${adm?'':' locked'}" data-act="go" data-v="academy"><span class="k">${t('tab_academy')}</span>${adm?'':lock}<b>${t('aca_h')}</b><p>${t('t_aca_p')}</p><span class="foot2" style="flex-direction:column;align-items:stretch;gap:8px">${adm?`<span>${t('lessons_done',{a:done,b:LESSONS.length})}</span><span class="prog"><i style="width:${Math.round(done/LESSONS.length*100)}%"></i></span>`:`<span>${t('t_locked')}</span>`}</span></button>
+      <button class="tile${adm?'':' locked'}" data-act="go" data-v="week"><span class="k">${t('tab_week')} · ${wk.w}. ${t('week_n')}</span>${adm?'':lock}<b class="clamp">${adm?esc(tx(task)):t('week_h')}</b>${adm?'':`<p>${t('t_week_p')}</p>`}<span class="foot2"><span>${adm?((P.weekly[wk.key]||{}).done?t('done'):t('t_open')):t('t_locked')}</span><span>→</span></span></button>
+    </section>
+    ${adm?`<form class="box row" id="newProjForm" novalidate style="gap:10px"><input class="field" id="np-title" placeholder="${t('np_ph2')}" aria-label="${t('np_ph2')}" style="flex:1 1 240px;min-width:0"><button class="btn pri" type="submit" value="series">${t('np_series')}</button><button class="btn" type="submit" value="single">${t('np_single')}</button></form>`:''}
+    <section class="stack" id="projects" style="gap:14px;scroll-margin-top:24px"><div id="dashNote"></div><div class="plist" id="plist"><p class="muted">${t('loading')}</p></div></section>
+    <section class="stack" style="gap:14px"><div class="sec-t"><h2>${t('settings')}</h2></div>
+    <div class="two"><div class="box stack"><h2>${t('your_color')}</h2><p class="muted" style="margin:0">${t('your_color_p')}</p><div class="row">${[1,2,3,4,5,6,7,8].map(c=>`<button class="sw" data-act="color" data-c="${c}" style="background:var(--u${c})" aria-pressed="${ME.color===c}" aria-label="${t('color')} ${c}"></button>`).join('')}</div></div>
+    ${adm?`<div class="box stack"><h2>${t('admin_k')}</h2><p class="muted" style="margin:0">${t('admin_on')}</p></div>`:`<details class="box"><summary class="small muted" style="cursor:pointer;font-weight:600">${t('claim_k')}</summary><form id="claimForm" class="stack" novalidate style="margin-top:12px"><input class="field" id="cl-code" autocomplete="off" aria-label="${t('claim_k')}"><div><button class="btn sm" type="submit">${t('claim_btn')}</button></div><div id="cl-msg" role="status"></div></form></details>`}</div></section>
+  </div>
   <footer class="site-foot"><span>${t('foot_site')}</span><span>TR · EN</span></footer></div>`;
   loadProjects();
 }
@@ -997,6 +1058,9 @@ async function loadProjects(){
   b.innerHTML=(folders.length?`<div class="stack" style="gap:14px"><h2>${t('series_k')}</h2><div class="plist">${folders.map(fcard).join('')}</div></div>`:'')+
     `<div class="stack" style="gap:14px">${folders.length?`<h2>${t('single_k')}</h2>`:''}<div class="plist">${singles.map(pcard).join('')}<button class="pcard local" data-act="guest"><span class="k">${t('local_k')}</span><b>${esc(g.title||t('title_ph'))}</b><span class="muted small">${t('local_p')}</span></button></div></div>`;
   const n=document.getElementById('dashNote');if(n)n.innerHTML=(!projects.length&&!folders.length&&!ME.admin)?`<div class="note">${t('no_projects')}</div>`:'';
+  const pages=projects.reduce((a,p)=>a+(p.page_count||0),0);const kp=document.getElementById('kpis');
+  if(kp)kp.innerHTML=[[folders.length,'kp_series'],[projects.length,'kp_scripts'],[pages,'kp_pages'],['~'+pages,'kp_min']].map(([v,k])=>`<div class="kpi"><b>${v}</b><span>${t(k)}</span></div>`).join('');
+  const tn=document.getElementById('tileProjN');if(tn)tn.textContent=folders.length+' '+t('kp_series')+' · '+singles.length+' '+t('kp_proj');
 }
 /* ---------- dizi görünümü ---------- */
 function renderFolder(){
@@ -1059,7 +1123,7 @@ function illuAcademy(){const row=(y,ok,cur)=>`${cur?`<rect x="30" y="${y}" width
   ${R(300,188,196,140,'card',18)}${R(320,208,90,10,'ink')}${[0,1,2,3,4,5,6].map(i=>`<rect x="${320+i*23}" y="238" width="17" height="46" rx="8.5" fill="var(--${i<4?'ink':i===4?'dot':'tone2'})"/>`).join('')}${R(320,300,120,8,'line')}
 </svg>`;}
 function siteTop(){return `<header class="site-top"><button class="brand" data-act="go" data-v="${ME?'projects':'home'}" aria-label="Scenariotopia">Scenariotopia<i></i></button>
-  <div class="links">${UI.view==='home'?`<button class="linkbtn" data-act="scroll" data-to="features">${t('nav_features')}</button><button class="linkbtn" data-act="scroll" data-to="principles">${t('nav_principles')}</button>`:(UI.view!=='projects'?`<button class="linkbtn" data-act="go" data-v="home">${t('back')}</button>`:'')}
+  <div class="links">${UI.view==='home'?`<button class="linkbtn" data-act="scroll" data-to="features">${t('nav_features')}</button><button class="linkbtn" data-act="scroll" data-to="principles">${t('nav_principles')}</button>`:(UI.view!=='projects'&&!ME?`<button class="linkbtn" data-act="go" data-v="home">${t('back')}</button>`:'')}
   ${langBtn()}${ME?`${UI.view!=='projects'?`<button class="btn pri sm" data-act="go" data-v="projects">${t('my_projects')}</button>`:''}${userBits()}`:`${UI.view!=='login'?`<button class="linkbtn" data-act="go" data-v="login">${t('login')}</button>`:''}${UI.view!=='signup'?`<button class="btn pri sm" data-act="go" data-v="signup">${t('start')}</button>`:''}`}</div></header>`;}
 function renderSite(){
   if(UI.view==='home'){
@@ -1408,7 +1472,8 @@ app.addEventListener('click',async e=>{
   else if(act==='verAsk'){UI.verConfirm=id;loadVersions();}
   else if(act==='verDl'){versionDownload(id);}
   else if(act==='verRestore'){a.disabled=true;const pid=CLOUD.pid;const {data,error}=await SB.rpc('scn_restore_version',{p_version:Number(id)});if(error||data!=='ok'){toast(t('err_generic'));a.disabled=false;return;}closeModal();await leaveProject(true);await openProject(pid);toast(t('ver_done'));}
-  else if(act==='go'){let v=a.dataset.v;if(v==='projects'&&!ME)v='login';if(CLOUD&&(v==='projects'||SITE.includes(v)))await leaveProject();UI.view=v;render();window.scrollTo(0,0);const fi=document.querySelector('#authForm input');if(fi)fi.focus();}
+  else if(act==='newFocus'){const f=document.getElementById('np-title');if(f){f.scrollIntoView({block:'center'});f.focus();}}
+  else if(act==='go'){let v=a.dataset.v;if(DEMO_LOCK.includes(v)&&!isAdmin()){demoModal();return;}if(v==='projects'&&!ME)v='login';if(CLOUD&&(v==='projects'||SITE.includes(v)))await leaveProject();UI.view=v;render();window.scrollTo(0,0);const fi=document.querySelector('#authForm input');if(fi)fi.focus();}
   else if(act==='folder'){await leaveProject();UI.folderId=id;UI.view='folder';UI.delFolder=false;UI.fmMsg=null;render();window.scrollTo(0,0);}
   else if(act==='fcolor'){const c=Number(a.dataset.c);const {data,error}=await SB.rpc('scn_set_folder_color',{p_folder:UI.folderId,p_color:c});if(error||data!=='ok'){toast(t('err_generic'));return;}ME.color=c;loadFolder();}
   else if(act==='rmFMember'){const {error}=await SB.from('scn_folder_members').delete().eq('folder_id',UI.folderId).eq('user_id',id);if(error)toast(t('err_generic'));else loadFolder();}
